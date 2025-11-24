@@ -118,7 +118,7 @@ jobs:
           NODE_ENV: staging
         run: |
          npx --yes tdpw ./playwright-report \
-           --token="trx_staging_d5cbde1e397124d2430522f2e2a64e17c436dc9527f45b547dd5e56793f34e8e" \
+           --token="${{ secrets.TESTDINO_TOKEN }}" \
            --upload-html \
            --upload-traces \
            --verbose
