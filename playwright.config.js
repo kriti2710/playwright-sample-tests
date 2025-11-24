@@ -19,8 +19,6 @@ export default defineConfig({
     }],
     ['blob', { outputDir: 'blob-report' }], // Blob reporter for merging
     ['json', { outputFile: './playwright-report/report.json' }],
-    ['monocart-reporter', { outputFile: 'monocart-report.html' }]
-
   ],
 
   use: {
