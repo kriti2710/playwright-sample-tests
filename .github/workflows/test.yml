@@ -96,7 +96,6 @@ jobs:
           npm ci
           npx playwright install --with-deps
 
-          
       - name: Download all blob reports
         uses: actions/download-artifact@v4
         with:
