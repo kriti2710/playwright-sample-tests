@@ -223,6 +223,7 @@ test('Verify that a New User Can Successfully Complete the Journey from Registra
     await expect(allPages.allProductsPage.getNthProductWishlistIconCount(1)).toContainText('1');
   })
 
+  
   await test.step('Add product to cart, add new address and checkout', async () => {
     await allPages.productDetailsPage.clickAddToCartButton();
 
