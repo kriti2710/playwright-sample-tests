@@ -8,7 +8,12 @@ on:
   push:          # runs on every push
   pull_request:  # runs on new PRs or PR updates
   schedule:
-    - cron: '30 3 * * 1-5'
+      # Original time: 06:30 UTC (11:00 AM IST)
+      - cron: '30 3 * * 1-5'
+      # Second run: +2 hours → 08:30 UTC (01:00 PM IST)
+      - cron: '30 5 * * 1-5'
+      # Third run: +2 more hours → 10:30 UTC (03:00 PM IST)
+      - cron: '30 7 * * 1-5'
   workflow_dispatch:
 
 jobs:
@@ -19,9 +24,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: [1,2,3,4,5]
-        shardTotal: [5]
-
+        shardIndex: [1,2,3]
+        shardTotal: [3]
     steps:
       - uses: actions/checkout@v4
 
@@ -126,4 +130,5 @@ jobs:
            --token="${{ secrets.TESTDINO_TOKEN }}" \
            --upload-html \
            --upload-traces \
+           --verbose
            --verbose
