@@ -27,7 +27,6 @@ async function logout() {
   await allPages.loginPage.clickOnUserProfileIcon();
   await allPages.loginPage.clickOnLogoutButton();
 }
-
 test('Verify that all the navbar are working properly @firefox', async () => {
     await login();
     await allPages.homePage.clickBackToHomeButton();
