@@ -28,12 +28,12 @@ async function logout() {
   await allPages.loginPage.clickOnLogoutButton();
 }
 
-test('Verify that user can login and logout successfully', async () => {
+test('Verify that user can login and logout successfully @chromium', async () => {
   await login();
   await logout();
 });
 
-test('Verify that all the navbar are working properly', async () => {
+test('Verify that all the navbar are working properly @webkit', async () => {
     await login();
     await allPages.homePage.clickBackToHomeButton();
     // await allPages.homePage.assertHomePage();
@@ -63,7 +63,7 @@ test('Verify that all the navbar are working properly', async () => {
 //     await allPages.allProductsPage.assertAllProductsTitle();
 // });
 
-test('Verify that user can edit and delete a product review', async () => {
+test('Verify that user can edit and delete a product review @chromium', async () => {
   await test.step('Login as existing user and navigate to a product', async () => {
     await login();
   })
@@ -101,7 +101,7 @@ test('Verify that user can edit and delete a product review', async () => {
   })
 });
 
-test('Verify that User Can Complete the Journey from Login to Order Placement', async () => {
+test('Verify that User Can Complete the Journey from Login to Order Placement @webkit', async () => {
   const productName = 'GoPro HERO10 Black';
   await login();
   await allPages.inventoryPage.clickOnShopNowButton();
@@ -179,7 +179,7 @@ test('Verify that User Can Complete the Journey from Login to Order Placement', 
 //   })
 // });
 
-test('Verify that a New User Can Successfully Complete the Journey from Registration to a Single Order Placement', async () => {
+test('Verify that a New User Can Successfully Complete the Journey from Registration to a Single Order Placement @firefox', async () => {
   // fresh test data
   const email = `test+${Date.now()}@test.com`;
   const firstName = 'Test';
@@ -223,7 +223,7 @@ test('Verify that a New User Can Successfully Complete the Journey from Registra
     await expect(allPages.allProductsPage.getNthProductWishlistIconCount(1)).toContainText('1');
   })
 
-  
+
   await test.step('Add product to cart, add new address and checkout', async () => {
     await allPages.productDetailsPage.clickAddToCartButton();
 
@@ -292,7 +292,7 @@ test('Verify that a New User Can Successfully Complete the Journey from Registra
   });
 });
 
-test('Verify that user add product to cart before logging in and then complete order after logging in', async () => {
+test('Verify that user add product to cart before logging in and then complete order after logging in @firefox', async () => {
   await test.step('Navigate and add product to cart before logging in', async () => {
     await allPages.homePage.clickOnShopNowButton();
     await allPages.homePage.clickProductImage();
@@ -312,7 +312,7 @@ test('Verify that user add product to cart before logging in and then complete o
 })
 });
 
-test('Verify that user can filter products by price range', async () => {
+test('Verify that user can filter products by price range @firefox', async () => {
     await login();
     await allPages.homePage.clickOnShopNowButton();
     await allPages.homePage.clickOnFilterButton();
@@ -320,7 +320,7 @@ test('Verify that user can filter products by price range', async () => {
     await allPages.homePage.clickOnFilterButton();
 });
 
-test('Verify if user can add product to wishlist, moves it to card and then checks out', async () => {
+test('Verify if user can add product to wishlist, moves it to card and then checks out @webkit', async () => {
     await login();
   
     await test.step('Add product to wishlistand then add to cart', async () => {
@@ -344,7 +344,7 @@ test('Verify if user can add product to wishlist, moves it to card and then chec
   
 });
 
-test('Verify new user views and cancels an order in my orders', async () => {
+test('Verify new user views and cancels an order in my orders @webkit', async () => {
     const email = `test+${Date.now()}@test.com`;
     const firstName = 'Test';
     const lastName = 'User';
@@ -468,7 +468,7 @@ test('Verify new user views and cancels an order in my orders', async () => {
 //   })
 // });
 
-test('Verify that the new user is able to Sign Up, Log In, and Navigate to the Home Page Successfully', async () => {
+test('Verify that the new user is able to Sign Up, Log In, and Navigate to the Home Page Successfully @firefox', async () => {
     const email = `test+${Date.now()}@test.com`;
     const firstName = 'Test';
     const lastName = 'User';
@@ -490,7 +490,7 @@ test('Verify that the new user is able to Sign Up, Log In, and Navigate to the H
   })
 })
 
-test('Verify that user is able to fill Contact Us page successfully', async () => {
+test('Verify that user is able to fill Contact Us page successfully @chromium', async () => {
     await login();
     await allPages.homePage.clickOnContactUsLink();
     await allPages.contactUsPage.assertContactUsTitle();
@@ -498,7 +498,7 @@ test('Verify that user is able to fill Contact Us page successfully', async () =
     await allPages.contactUsPage.verifySuccessContactUsFormSubmission();
 });
 
-test('Verify that user is able to submit a product review', async () => {
+test('Verify that user is able to submit a product review @firefox', async () => {
   await test.step('Login as existing user and navigate to a product', async () => {
     await login();
   })
