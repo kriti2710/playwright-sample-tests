@@ -28,19 +28,19 @@ async function logout() {
   await allPages.loginPage.clickOnLogoutButton();
 }
 
-test('Verify that user can login and logout successfully', async () => {
+test('Verify that user can login and logout successfully @chromium', async () => {
   await login();
   await logout();
 });
 
-test('Verify that user can update personal information', async () => {
+test('Verify that user can update personal information @chromium', async () => {
   await login();
   await allPages.userPage.clickOnUserProfileIcon();
   await allPages.userPage.updatePersonalInfo();
   await allPages.userPage.verifyPersonalInfoUpdated();
 });
 
-test('Verify that User Can Add, Edit, and Delete Addresses after Logging In', async () => {
+test('Verify that User Can Add, Edit, and Delete Addresses after Logging In @chromium', async () => {
     await login();
 
   await test.step('Verify that user is able to add address successfully', async () => {
@@ -62,7 +62,7 @@ test('Verify that User Can Add, Edit, and Delete Addresses after Logging In', as
   });
 });
 
-test('Verify that user can change password successfully', async () => {
+test('Verify that user can change password successfully @chromium', async () => {
   await test.step('Login with existing password', async () => {
     await login1();
   });
@@ -88,7 +88,7 @@ test('Verify that user can change password successfully', async () => {
   })
 });
 
-test('Verify that the New User is able to add Addresses in the Address section', async () => {
+test('Verify that the New User is able to add Addresses in the Address section @chromium', async () => {
   await login();
   await allPages.userPage.clickOnUserProfileIcon();
   await allPages.userPage.clickOnAddressTab();
@@ -97,7 +97,7 @@ test('Verify that the New User is able to add Addresses in the Address section',
   await allPages.userPage.fillAddressForm();
 });
 
-test('Verify that User Can Complete the Journey from Login to Order Placement', async () => {
+test('Verify that User Can Complete the Journey from Login to Order Placement @firefox', async () => {
   const productName = 'GoPro HERO10 Black';
   await login();
   await allPages.inventoryPage.clickOnShopNowButton();
@@ -118,7 +118,7 @@ test('Verify that User Can Complete the Journey from Login to Order Placement', 
   await allPages.checkoutPage.verifyOrderPlacedSuccessfully();
 });
 
-test('Verify user can place and cancel an order', async () => {
+test('Verify user can place and cancel an order @firefox', async () => {
   const productName = 'GoPro HERO10 Black';
   const productPriceAndQuantity = '₹49,999 × 1';
   const productQuantity = '1';
@@ -176,7 +176,7 @@ test('Verify user can place and cancel an order', async () => {
   })
 });
 
-test('Verify that user add product to cart before logging in and then complete order after logging in', async () => {
+
   await test.step('Navigate and add product to cart before logging in', async () => {
     await allPages.homePage.clickOnShopNowButton();
     await allPages.homePage.clickProductImage();
@@ -198,7 +198,7 @@ test('Verify that user add product to cart before logging in and then complete o
 })
 });
 
-test('Verify that user can filter products by price range', async () => {
+test('Verify that user can filter products by price range @firefox', async () => {
     await login();
     await allPages.homePage.clickOnShopNowButton();
     await allPages.homePage.clickOnFilterButton();
@@ -207,7 +207,7 @@ test('Verify that user can filter products by price range', async () => {
     await allPages.homePage.clickOnFilterButton();
 });
 
-test('Verify if user can add product to wishlist, moves it to card and then checks out', async () => {
+test('Verify if user can add product to wishlist, moves it to card and then checks out @webkit', async () => {
     await login();
   
     await test.step('Add product to wishlistand then add to cart', async () => {
@@ -232,7 +232,7 @@ test('Verify if user can add product to wishlist, moves it to card and then chec
   
 });
 
-test('Verify That a New User Can Successfully Complete the Journey from Registration to a Multiple Order Placement', async () => {
+
     const email = `test+${Date.now()}@test.com`;
     const firstName = 'Test';
     const lastName = 'User';
