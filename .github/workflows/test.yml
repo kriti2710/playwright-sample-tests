@@ -57,6 +57,9 @@ jobs:
           CURRENTS_RECORD_KEY: ${{ secrets.CURRENTS_RECORD_KEY }}
           CI: true
         run: |
-          npx playwright test \
-            --project=chromium \
-            --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+          npx pwc \
+            --project-id $CURRENTS_PROJECT_ID \
+            -- \
+            npx playwright test \
+              --project=chromium \
+              --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}

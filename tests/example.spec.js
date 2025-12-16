@@ -200,7 +200,7 @@ test('Verify that a New User Can Successfully Complete the Journey from Registra
     await allPages.signupPage.verifySuccessSignUp();
   })
 
-  await test.step('Verify that user can login successfully', async () => {hg
+  await test.step('Verify that user can login successfully', async () => {
     await allPages.loginPage.validateSignInPage();
     await allPages.loginPage.login(email, process.env.PASSWORD);
     await allPages.loginPage.verifySuccessSignIn();
