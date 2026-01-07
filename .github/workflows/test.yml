@@ -4,7 +4,7 @@ on:
 
 jobs:
   playwright-run-e2es:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -73,7 +73,7 @@ jobs:
     needs: [playwright-run-e2es]
     if: ${{ !cancelled() && needs.playwright-run-e2es.result != 'skipped' }}
 
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
