@@ -58,7 +58,7 @@ jobs:
             if [[ -n "$FAILED_FLAGS" ]]; then
               echo "Running only failed tests:"
               echo "$FAILED_FLAGS"
-              eval "pnpm exec playwright test $FAILED_FLAGS"
+              eval "pnpm exec playwright test --reporter=blob --output=e2e-tests/blob-report $FAILED_FLAGS"
               exit 0
             fi
 
@@ -66,7 +66,11 @@ jobs:
           fi
 
           # ▶️ First run → full shard
-          pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+          pnpm exec playwright test \
+            --reporter=blob \
+            --output=e2e-tests/blob-report \
+            --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+
 
 
       # 7️⃣ Upload blob report
