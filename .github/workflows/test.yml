@@ -1,10 +1,15 @@
-name: Playwright Tests
+name: Run Playwright tests
 
 on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '30 3 * * 1-5' # 11:42 AM IST
   workflow_dispatch:
 
 jobs:
-  playwright-run-e2es:
+  run-tests:
+    name: Run shard ${{ matrix.shardIndex }}/5
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -18,25 +23,25 @@ jobs:
       # 1️⃣ Checkout repository
       - uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node.js (same idea as old YML)
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 3️⃣ Install pnpm (🔥 missing step that caused failure)
+      # 3️⃣ Install pnpm
       - name: Install pnpm
         run: npm install -g pnpm
 
-      # 4️⃣ Install dependencies (similar to npm ci in old YML)
+      # 4️⃣ Install dependencies (FIXED)
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       # 5️⃣ Install Playwright browsers
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
 
-      # 6️⃣ Run tests with TestDino smart rerun logic
+      # 6️⃣ Run Playwright tests with TestDino smart rerun logic
       - name: Run Playwright tests
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
@@ -57,7 +62,7 @@ jobs:
               exit 0
             fi
 
-            echo "No failed tests found, running full shard."
+            echo "No failed tests found. Running full shard."
           fi
 
           # ▶️ FIRST RUN → full shard execution
@@ -80,7 +85,7 @@ jobs:
         run: npx tdpw cache --verbose
 
   playwright-merge-reports:
-    needs: playwright-run-e2es
+    needs: run-tests
     runs-on: ubuntu-latest
     if: always()
 
@@ -96,7 +101,7 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Download blob reports
         uses: actions/download-artifact@v4
@@ -126,6 +131,7 @@ jobs:
             --upload-html \
             --upload-traces \
             --verbose
+
 
 
 
