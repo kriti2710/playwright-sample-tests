@@ -15,41 +15,40 @@ jobs:
         shardTotal: [5]
 
     steps:
-      # 1️⃣ Checkout code
+      # 1️⃣ Checkout repository
       - uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node.js
-      - name: Setup Node.js
+      # 2️⃣ Setup Node.js (same idea as old YML)
+      - name: Setup Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'pnpm'
 
-      # 3️⃣ Install pnpm
+      # 3️⃣ Install pnpm (🔥 missing step that caused failure)
       - name: Install pnpm
         run: npm install -g pnpm
 
-      # 4️⃣ Install dependencies
+      # 4️⃣ Install dependencies (similar to npm ci in old YML)
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       # 5️⃣ Install Playwright browsers
-      - name: Install Playwright
+      - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
 
-      # 6️⃣ Run Playwright tests (with TestDino smart rerun)
-      - name: Run tests
+      # 6️⃣ Run tests with TestDino smart rerun logic
+      - name: Run Playwright tests
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
         run: |
           echo "GitHub run attempt: ${{ github.run_attempt }}"
 
-          # 🔁 RERUN CASE — only failed tests
+          # 🔁 SECOND RUN → only failed tests
           if [[ "${{ github.run_attempt }}" -gt 1 ]]; then
             echo "Re-run detected. Fetching failed tests from TestDino..."
 
-            npx tdpw last-failed --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} > last-failed.txt
-            FAILED_FLAGS=$(cat last-failed.txt)
+            npx tdpw last-failed --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} > failed-tests.txt
+            FAILED_FLAGS=$(cat failed-tests.txt)
 
             if [[ -n "$FAILED_FLAGS" ]]; then
               echo "Running only failed tests:"
@@ -58,10 +57,10 @@ jobs:
               exit 0
             fi
 
-            echo "No failed tests found. Running full shard."
+            echo "No failed tests found, running full shard."
           fi
 
-          # ▶️ FIRST RUN — full shard execution
+          # ▶️ FIRST RUN → full shard execution
           pnpm test:playwright --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       # 7️⃣ Upload blob report
@@ -88,7 +87,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: 18
