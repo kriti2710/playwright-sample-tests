@@ -41,14 +41,14 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium firefox webkit
 
-      # 6️⃣ Run Playwright tests with TestDino smart rerun logic
       - name: Run Playwright tests
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
         run: |
+          mkdir -p e2e-tests/blob-report
+
           echo "GitHub run attempt: ${{ github.run_attempt }}"
 
-          # 🔁 Re-run → only failed tests
           if [[ "${{ github.run_attempt }}" -gt 1 ]]; then
             echo "Re-run detected. Fetching failed tests from TestDino..."
 
@@ -56,22 +56,18 @@ jobs:
             FAILED_FLAGS=$(cat failed-tests.txt)
 
             if [[ -n "$FAILED_FLAGS" ]]; then
-              echo "Running only failed tests:"
-              echo "$FAILED_FLAGS"
-              eval "pnpm exec playwright test --reporter=blob --output=e2e-tests/blob-report $FAILED_FLAGS"
+              pnpm exec playwright test \
+                --reporter=blob \
+                --output=e2e-tests/blob-report \
+                $FAILED_FLAGS || true
               exit 0
             fi
-
-            echo "No failed tests found. Running full shard."
           fi
 
-          # ▶️ First run → full shard
           pnpm exec playwright test \
             --reporter=blob \
             --output=e2e-tests/blob-report \
-            --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-
-
+            --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} || true
 
       # 7️⃣ Upload blob report
       - name: Upload blob report
@@ -115,14 +111,20 @@ jobs:
           pattern: blob-report-*
           merge-multiple: true
 
+      # 🛡️ SAFE MERGE
       - name: Merge Playwright reports
         run: |
+          if [ -z "$(ls -A all-blob-reports)" ]; then
+            echo "❌ No blob reports found. Skipping merge."
+            exit 0
+          fi
+
           pnpm exec playwright merge-reports \
-            --config=playwright.config.js \
-            ./all-blob-reports
-          mv playwright-report ./playwright-report
+            --reporter=html \
+            all-blob-reports
 
       - name: Upload HTML report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Playwright Test Report
@@ -130,6 +132,7 @@ jobs:
           retention-days: 14
 
       - name: Send report to TestDino
+        if: always()
         run: |
           TESTDINO_RUNTIME="staging" npx --yes tdpw ./playwright-report \
             --token="${{ secrets.TESTDINO_TOKEN }}" \

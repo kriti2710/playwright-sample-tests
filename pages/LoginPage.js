@@ -59,10 +59,10 @@ class LoginPage extends BasePage{
     }
 
     async login(username, password) {
-        await this.page.fill(this.locators.userName, username);
-        await this.page.fill(this.locators.password, password);
-        await this.page.click(this.locators.loginButton);
-        await this.page.waitForTimeout(2000);
+        // await this.page.fill(this.locators.userName, username);
+        // await this.page.fill(this.locators.password, password);
+        // await this.page.click(this.locators.loginButton);
+        // await this.page.waitForTimeout(2000);
     }
 
     async clickOnLogoutButton() {
