@@ -118,7 +118,7 @@ jobs:
       - name: Merge Playwright reports
         run: |
           pnpm exec playwright merge-reports \
-            --config=playwright.config.ts \
+            --config=playwright.config.js \
             ./all-blob-reports
           mv playwright-report ./playwright-report
 
