@@ -4,7 +4,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '30 3 * * 1-5' # 11:42 AM IST
+    - cron: '30 3 * * 1-5' # 11:00 AM IST
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
         shardTotal: [5]
 
     steps:
-      # 1️⃣ Checkout repository
+      # 1️⃣ Checkout repo
       - uses: actions/checkout@v4
 
       # 2️⃣ Setup Node.js
@@ -33,7 +33,7 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      # 4️⃣ Install dependencies (FIXED)
+      # 4️⃣ Install dependencies
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
@@ -41,41 +41,48 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium firefox webkit
 
+      # 6️⃣ Run Playwright tests (with rerun logic)
       - name: Run Playwright tests
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
         run: |
-          mkdir -p e2e-tests/blob-report
+          mkdir -p blob-report
 
           echo "GitHub run attempt: ${{ github.run_attempt }}"
 
+          # 🔁 Re-run → only failed tests
           if [[ "${{ github.run_attempt }}" -gt 1 ]]; then
             echo "Re-run detected. Fetching failed tests from TestDino..."
 
-            npx tdpw last-failed --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} > failed-tests.txt
-            FAILED_FLAGS=$(cat failed-tests.txt)
+            npx tdpw last-failed --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} > failed-tests.txt || true
+            FAILED_FLAGS=$(cat failed-tests.txt || true)
 
             if [[ -n "$FAILED_FLAGS" ]]; then
+              echo "Running only failed tests:"
+              echo "$FAILED_FLAGS"
+
               pnpm exec playwright test \
                 --reporter=blob \
-                --output=e2e-tests/blob-report \
+                --output=blob-report \
                 $FAILED_FLAGS || true
+
               exit 0
             fi
           fi
 
+          # ▶️ First run → full shard
           pnpm exec playwright test \
             --reporter=blob \
-            --output=e2e-tests/blob-report \
+            --output=blob-report \
             --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} || true
 
-      # 7️⃣ Upload blob report
+      # 7️⃣ Upload blob reports
       - name: Upload blob report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: blob-report-${{ matrix.shardIndex }}
-          path: e2e-tests/blob-report
+          path: blob-report
           retention-days: 1
 
       # 8️⃣ Cache TestDino metadata
@@ -83,9 +90,10 @@ jobs:
         if: always()
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
-        run: npx tdpw cache --verbose
+        run: npx tdpw cache --verbose || true
 
   playwright-merge-reports:
+    name: Merge Playwright reports
     needs: run-tests
     runs-on: ubuntu-latest
     if: always()
@@ -104,6 +112,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      # ⬇️ Download all shard blob reports
       - name: Download blob reports
         uses: actions/download-artifact@v4
         with:
@@ -111,7 +120,7 @@ jobs:
           pattern: blob-report-*
           merge-multiple: true
 
-      # 🛡️ SAFE MERGE
+      # 🛡️ Merge safely (HTML + JSON)
       - name: Merge Playwright reports
         run: |
           if [ -z "$(ls -A all-blob-reports)" ]; then
@@ -120,9 +129,14 @@ jobs:
           fi
 
           pnpm exec playwright merge-reports \
-            --reporter=html \
+            --reporter=html,json \
             all-blob-reports
 
+      # 🔍 Debug (optional but useful)
+      - name: Verify merged report
+        run: ls -la playwright-report || true
+
+      # 📤 Upload HTML report
       - name: Upload HTML report
         if: always()
         uses: actions/upload-artifact@v4
@@ -131,6 +145,7 @@ jobs:
           path: playwright-report
           retention-days: 14
 
+      # 🚀 Send report to TestDino
       - name: Send report to TestDino
         if: always()
         run: |
@@ -139,6 +154,7 @@ jobs:
             --upload-html \
             --upload-traces \
             --verbose
+
 
 
 
