@@ -97,14 +97,12 @@ jobs:
           path: ./blob-report
           retention-days: 1
 
-      - name: Cache failed test metadata (TestDino)
+      - name: Cache tdpw last failed metadata
         if: always()
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
-        run: |
-          npx tdpw cache \
-            --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} \
-            --verbose
+        run: npx tdpw cache --verbose
+
 
   merge-reports:
     name: Merge Reports
