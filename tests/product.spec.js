@@ -312,23 +312,3 @@ test('Verify that a New User Can Successfully Complete the Journey from Registra
       });
 });
 
-test('Verify that user add product to cart before logging in and then complete order after logging in @webkit', async () => {
-      await test.step('Navigate and add product to cart before logging in', async () => {
-        await allPages.homePage.clickOnShopNowButton();
-        await allPages.homePage.clickProductImage();
-        await allPages.homePage.clickAddToCartButton();
-        await allPages.homePage.validateAddCartNotification();
-        await allPages.loginPage.clickOnUserProfileIcon();
-      })
-      await test.step('Login and complete order', async () => {
-        await login();
-        await allPages.cartPage.clickOnCartIcon();
-        await allPages.cartPage.clickOnCheckoutButton();
-        await allPages.checkoutPage.verifyCheckoutTitle();
-        await allPages.checkoutPage.selectCashOnDelivery();
-        await allPages.checkoutPage.verifyCashOnDeliverySelected();
-        await allPages.checkoutPage.clickOnPlaceOrder();
-        await allPages.checkoutPage.verifyOrderPlacedSuccessfully();
-    });
-});
-

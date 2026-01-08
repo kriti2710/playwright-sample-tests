@@ -56,10 +56,6 @@ jobs:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
         run: |
           echo "GitHub run attempt: ${{ github.run_attempt }}"
-
-          # ============================
-          # Case 1: Re-run failed jobs
-          # ============================
           if [[ "${{ github.run_attempt }}" -gt 1 ]]; then
             echo "Detected re-run. Checking failed test metadata from TestDino."
 
@@ -80,10 +76,6 @@ jobs:
 
             echo "No failed test metadata found. Falling back to full shard."
           fi
-
-          # ============================
-          # Case 2: First run
-          # ============================
           npx playwright test \
             --grep="@chromium|@firefox|@webkit|@android|@ios" \
             --reporter=blob \
@@ -105,8 +97,6 @@ jobs:
           npx tdpw cache \
             --json-report=playwright-report/test-results.json \
             --verbose
-
-
 
   merge-reports:
     name: Merge Reports
