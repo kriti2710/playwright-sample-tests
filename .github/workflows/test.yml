@@ -20,63 +20,49 @@ jobs:
         shardTotal: [5]
 
     steps:
-      # 1️⃣ Checkout repo
       - uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node.js
       - name: Setup Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 3️⃣ Install pnpm
       - name: Install pnpm
         run: npm install -g pnpm
 
-      # 4️⃣ Install dependencies
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      # 5️⃣ Install Playwright browsers
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium firefox webkit
 
-      # 6️⃣ Run Playwright tests (with rerun logic)
-      - name: Run Playwright tests
+      - name: Run Playwright tests (always produce blobs)
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
         run: |
           mkdir -p blob-report
-
           echo "GitHub run attempt: ${{ github.run_attempt }}"
 
-          # 🔁 Re-run → only failed tests
+          # 🔁 Re-run only failed tests
           if [[ "${{ github.run_attempt }}" -gt 1 ]]; then
-            echo "Re-run detected. Fetching failed tests from TestDino..."
-
             npx tdpw last-failed --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} > failed-tests.txt || true
             FAILED_FLAGS=$(cat failed-tests.txt || true)
 
             if [[ -n "$FAILED_FLAGS" ]]; then
-              echo "Running only failed tests:"
-              echo "$FAILED_FLAGS"
-
               pnpm exec playwright test \
                 --reporter=blob \
                 --output=blob-report \
                 $FAILED_FLAGS || true
-
               exit 0
             fi
           fi
 
-          # ▶️ First run → full shard
+          # ▶️ First run (full shard)
           pnpm exec playwright test \
             --reporter=blob \
             --output=blob-report \
             --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} || true
 
-      # 7️⃣ Upload blob reports
       - name: Upload blob report
         if: always()
         uses: actions/upload-artifact@v4
@@ -85,7 +71,6 @@ jobs:
           path: blob-report
           retention-days: 1
 
-      # 8️⃣ Cache TestDino metadata
       - name: Cache TestDino metadata
         if: always()
         env:
@@ -93,7 +78,7 @@ jobs:
         run: npx tdpw cache --verbose || true
 
   playwright-merge-reports:
-    name: Merge Playwright reports
+    name: Merge & Publish Reports
     needs: run-tests
     runs-on: ubuntu-latest
     if: always()
@@ -112,7 +97,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      # ⬇️ Download all shard blob reports
       - name: Download blob reports
         uses: actions/download-artifact@v4
         with:
@@ -120,11 +104,10 @@ jobs:
           pattern: blob-report-*
           merge-multiple: true
 
-      # 🛡️ Merge safely (HTML + JSON)
-      - name: Merge Playwright reports
+      - name: Merge Playwright reports (HTML + JSON)
         run: |
           if [ -z "$(ls -A all-blob-reports)" ]; then
-            echo "❌ No blob reports found. Skipping merge."
+            echo "No blob reports found. Skipping merge."
             exit 0
           fi
 
@@ -132,11 +115,6 @@ jobs:
             --reporter=html,json \
             all-blob-reports
 
-      # 🔍 Debug (optional but useful)
-      - name: Verify merged report
-        run: ls -la playwright-report || true
-
-      # 📤 Upload HTML report
       - name: Upload HTML report
         if: always()
         uses: actions/upload-artifact@v4
@@ -145,11 +123,23 @@ jobs:
           path: playwright-report
           retention-days: 14
 
-      - name: Send TestDino report
-        env:
-          NODE_ENV: 'production'
+      - name: Send report to TestDino
+        if: always()
         run: |
-          npx --yes tdpw ./playwright-report --token="${{ secrets.TESTDINO_TOKEN }}" --upload-html --upload-traces --verbose
+          TESTDINO_RUNTIME="staging" npx --yes tdpw ./playwright-report \
+            --token="${{ secrets.TESTDINO_TOKEN }}" \
+            --upload-html \
+            --upload-traces \
+            --verbose
+
+      # 🔴 FINAL GATE — FAIL PIPELINE IF TESTS FAILED
+      - name: Fail pipeline if tests failed
+        run: |
+          FAILED=$(node -e "
+            const r = require('./playwright-report/report.json');
+            process.exit(r.stats.unexpected > 0 ? 1 : 0);
+          ")
+
 
 
 
