@@ -104,16 +104,12 @@ jobs:
           pattern: blob-report-*
           merge-multiple: true
 
-      - name: Merge Playwright reports (HTML + JSON)
+      - name: Merge HTML & JSON reports
         run: |
-          if [ -z "$(ls -A all-blob-reports)" ]; then
-            echo "No blob reports found. Skipping merge."
-            exit 0
-          fi
-
           pnpm exec playwright merge-reports \
             --reporter=html,json \
             all-blob-reports
+
 
       - name: Upload HTML report
         if: always()
@@ -136,8 +132,6 @@ jobs:
             const r = require('./playwright-report/report.json');
             process.exit(r.stats.unexpected > 0 ? 1 : 0);
           ")
-
-
 
 
 
