@@ -101,7 +101,11 @@ jobs:
         if: always()
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
-        run: npx tdpw cache --verbose
+        run: |
+          npx tdpw cache \
+            --json-report=playwright-report/test-results.json \
+            --verbose
+
 
 
   merge-reports:
