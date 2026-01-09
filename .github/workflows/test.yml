@@ -4,7 +4,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '30 3 * * 1-5'
+    - cron: '30 3 * * 1-5' # 11:00 AM IST
   workflow_dispatch:
 
 jobs:
@@ -21,10 +21,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js 18.x
+      # ✅ REQUIRED: Node 20
+      - name: Setup Node.js 20.x
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Create .env file
         run: |
@@ -51,6 +52,7 @@ jobs:
           npm ci
           npx playwright install --with-deps chromium firefox webkit
 
+      # ✅ FULL + RERUN LOGIC
       - name: Run Playwright (rerun failed tests if applicable)
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
@@ -70,6 +72,7 @@ jobs:
               echo "Running only failed tests for this shard:"
               echo "$EXTRA_PW_FLAGS"
 
+              # IMPORTANT: JSON + BLOB BOTH REQUIRED
               eval "npx playwright test $EXTRA_PW_FLAGS --reporter=blob,json"
               exit 0
             fi
@@ -77,11 +80,11 @@ jobs:
             echo "No failed test metadata found. Falling back to full shard."
           fi
 
+          # First run (full shard)
           npx playwright test \
             --grep="@chromium|@firefox|@webkit|@android|@ios" \
             --reporter=blob,json \
             --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-
 
       - name: Upload blob report
         if: ${{ !cancelled() }}
@@ -91,6 +94,7 @@ jobs:
           path: ./blob-report
           retention-days: 1
 
+      # ✅ THIS WILL SHOW "Metadata cached successfully ✔" WHEN JSON EXISTS
       - name: Cache tdpw last failed metadata
         if: always()
         env:
@@ -107,10 +111,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js 18.x
+      # ✅ Node 20 here as well
+      - name: Setup Node.js 20.x
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Cache npm dependencies
         uses: actions/cache@v3
