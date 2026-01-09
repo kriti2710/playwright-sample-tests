@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
 
+dotenv.config({ quiet: true });
 const isCI = !!process.env.CI;
 
 export default defineConfig({
