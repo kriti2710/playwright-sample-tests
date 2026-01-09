@@ -56,6 +56,7 @@ jobs:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
         run: |
           echo "GitHub run attempt: ${{ github.run_attempt }}"
+
           if [[ "${{ github.run_attempt }}" -gt 1 ]]; then
             echo "Detected re-run. Checking failed test metadata from TestDino."
 
@@ -69,17 +70,18 @@ jobs:
               echo "Running only failed tests for this shard:"
               echo "$EXTRA_PW_FLAGS"
 
-              # IMPORTANT: preserve quoted -g filters
-              eval "npx playwright test $EXTRA_PW_FLAGS --reporter=blob"
+              eval "npx playwright test $EXTRA_PW_FLAGS --reporter=blob,json"
               exit 0
             fi
 
             echo "No failed test metadata found. Falling back to full shard."
           fi
+
           npx playwright test \
             --grep="@chromium|@firefox|@webkit|@android|@ios" \
-            --reporter=blob \
+            --reporter=blob,json \
             --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+
 
       - name: Upload blob report
         if: ${{ !cancelled() }}
