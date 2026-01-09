@@ -9,7 +9,7 @@ on:
 
 jobs:
   run-tests:
-    name: Run shard ${{ matrix.shardIndex }}/5
+    name: Run shard ${{ matrix.shardIndex }}/3
     runs-on: ubuntu-latest
 
     strategy:
