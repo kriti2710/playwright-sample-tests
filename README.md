@@ -9,8 +9,7 @@ Automated end-to-end tests for Ecommerce demo store using [Playwright](https://p
 - `pages/` — Page Object Models
 - `tests/` — Test specifications
 - `playwright.config.js` — Playwright configuration
-- `playwright-report/` — HTML and JSON test reports
-- `.github/workflows/test.yml` — CI/CD pipeline
+- `playwright-report/` — HTML test reports
 
 ---
 
@@ -26,7 +25,6 @@ Automated end-to-end tests for Ecommerce demo store using [Playwright](https://p
 ```sh
 npm install
 ```
-
 If you haven't installed browsers yet:
 ```sh
 npx playwright install
@@ -61,8 +59,6 @@ reporter: [
 ```
 
 ---
-
-## Testdino Integration
 
 [Testdino](https://testdino.com/) enables cloud-based Playwright reporting.
 
