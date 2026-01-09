@@ -56,6 +56,8 @@ jobs:
       - name: Run Playwright (rerun failed tests if applicable)
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
+          SHARD_INDEX: ${{ matrix.shardIndex }}
+          SHARD_TOTAL: ${{ matrix.shardTotal }}
         run: |
           echo "GitHub run attempt: ${{ github.run_attempt }}"
 
@@ -73,7 +75,9 @@ jobs:
               echo "$EXTRA_PW_FLAGS"
 
               # IMPORTANT: JSON + BLOB BOTH REQUIRED
-              eval "npx playwright test $EXTRA_PW_FLAGS --reporter=blob,json"
+              # Ensure playwright-report directory exists
+              mkdir -p ./playwright-report
+              eval "npx playwright test $EXTRA_PW_FLAGS"
               exit 0
             fi
 
@@ -81,9 +85,10 @@ jobs:
           fi
 
           # First run (full shard)
+          # Ensure playwright-report directory exists
+          mkdir -p ./playwright-report
           npx playwright test \
             --grep="@chromium|@firefox|@webkit|@android|@ios" \
-            --reporter=blob,json \
             --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Upload blob report
@@ -99,6 +104,8 @@ jobs:
         if: always()
         env:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
+          SHARD_INDEX: ${{ matrix.shardIndex }}
+          SHARD_TOTAL: ${{ matrix.shardTotal }}
         run: |
           npx tdpw cache --verbose
 
