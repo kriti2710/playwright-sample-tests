@@ -22,10 +22,6 @@ async function login(
 }
 
 test.describe('Application E2E Tests', () => {
-
-  /* =============================================
-     Nested Describe
-  ============================================= */
   test.describe('Product Reviews', () => {
 
     test('User can submit a product review @firefox', async () => {
