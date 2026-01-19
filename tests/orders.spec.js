@@ -44,7 +44,7 @@ test.describe('Orders', () => {
     test.describe('Existing User Address CRUD', () => {
 
       test(
-        'Verify that user can add, edit, and delete addresses after login @ios',
+        'Verify that user can add, edit, and delete addresses after login @ios @regression',
         async () => {
           await login();
 
@@ -76,7 +76,7 @@ test.describe('Orders', () => {
     test.describe('New User Address Creation', () => {
 
       test(
-        'Verify that new user can add address from Address section @android',
+        'Verify that new user can add address from Address section @android @regression',
         async () => {
           await login();
 
@@ -105,7 +105,7 @@ test.describe('Orders', () => {
     test.describe('Multiple Quantity Purchase', () => {
 
       test(
-        'Verify that user can purchase multiple quantities in a single order @android',
+        'Verify that user can purchase multiple quantities in a single order @android @smoke',
         async () => {
           const productName = 'GoPro HERO10 Black';
 
