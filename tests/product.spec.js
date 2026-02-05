@@ -119,7 +119,6 @@ test.describe('Wishlist Flow', () => {
 });
 
 test.describe('Order Placement', () => {
-
   test.describe('Login to Order Completion', () => {
     test('Verify that User Can Complete the Journey from Login to Order Placement', { tag: '@webkit' }, async () => {
       const productName = 'GoPro HERO10 Black';
