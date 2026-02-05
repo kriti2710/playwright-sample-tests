@@ -206,9 +206,7 @@ test.describe('New User Journey', () => {
 
   test.describe('Registration to Order Placement', () => {
     test('Verify that a New User Can Successfully Complete the Journey from Registration to a Single Order Placement', { tag: '@chromium' }, async () => {
-      // 🔹 Original logic unchanged (steps kept exactly as provided)
-      // Full flow retained
-      // Only wrapped for reporting structure
+ 
     });
   });
 
@@ -233,7 +231,7 @@ test.describe('Guest to Login Checkout', () => {
         await allPages.checkoutPage.selectCashOnDelivery();
         await allPages.checkoutPage.verifyCashOnDeliverySelected();
         await allPages.checkoutPage.clickOnPlaceOrder();
-        
+
         await allPages.checkoutPage.verifyOrderPlacedSuccessfully();
       });
 
