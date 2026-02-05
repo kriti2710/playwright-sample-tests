@@ -117,7 +117,6 @@ test.describe('GET Users API', () => {
     const users = body.users || body;
     const usersArray = Array.isArray(users) ? users : [];
     
-    // If search is supported, should return filtered results
     if (usersArray.length > 0) {
       // At least verify the response structure is valid
       expect(Array.isArray(usersArray)).toBe(true);
