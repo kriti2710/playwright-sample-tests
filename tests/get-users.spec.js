@@ -129,7 +129,6 @@ test.describe('GET Users API', () => {
       expect(true).toBe(false); // Force failure on first run
     }
     
-    // Some APIs support delay parameter for testing
     const delay = 3;
     const startTime = Date.now();
     
