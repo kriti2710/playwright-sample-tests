@@ -152,7 +152,7 @@ test.describe('GET Users API', () => {
 
   test('enforce timeout (expect to fail if too slow) — set short timeout', { tag: '@api' }, async ({ request }) => {
     const delay = 5; // 5 second delay
-    const shortTimeout = 2000; // 2 second timeout - should fail
+    const shortTimeout = 2000; 
     
     try {
       const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}?delay=${delay}`, {
