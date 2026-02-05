@@ -91,7 +91,6 @@ test.describe('POST Create User API', () => {
       // Check first user has id and email
       const firstUser = usersArray[0];
       expect(firstUser).toHaveProperty('id');
-      // Email might be optional, so check if it exists
       if (firstUser.email !== undefined) {
         expect(typeof firstUser.email).toBe('string');
       }
