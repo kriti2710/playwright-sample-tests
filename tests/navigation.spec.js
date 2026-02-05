@@ -40,7 +40,7 @@ test.describe('User Settings', () => {
   test.describe('Change Password Flow', () => {
     test('Verify that user can change password successfully', { tag: '@ios' }, async () => {
 
-      await test.step('Change password and verify notification', async () => {
+      await test.step('Change password and verify notification ', async () => {
         await allPages.userPage.clickOnUserProfileIcon();
         await allPages.userPage.clickOnSecurityButton();
         await allPages.userPage.enterNewPassword();
