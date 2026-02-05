@@ -159,7 +159,7 @@ test.describe('GET Users API', () => {
         timeout: shortTimeout
       });
       
-      // If it doesn't timeout, the API might not support delay or it's faster
+
       expect(response.status()).toBe(200);
     } catch (error) {
       // Expected to timeout - verify it's a timeout error
