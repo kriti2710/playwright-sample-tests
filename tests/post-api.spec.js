@@ -79,7 +79,7 @@ test.describe('POST Create User API', () => {
     });
   });
 
-  test('users list contains objects with id and email', { tag: '@api' }, async ({ request }) => {
+  test('users list contains objects with id and email', { tag: '@api' },async ({ request }) => {
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}`);
     
     expect(response.status()).toBe(200);
