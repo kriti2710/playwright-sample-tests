@@ -143,7 +143,6 @@ test.describe('GET Users API', () => {
     const duration = (endTime - startTime) / 1000;
     
     expect(response.status()).toBe(200);
-    // Should take at least close to the delay time
     expect(duration).toBeGreaterThanOrEqual(delay - 0.5);
     
     const body = await response.json();
