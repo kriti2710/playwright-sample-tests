@@ -118,7 +118,7 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toBeInstanceOf(Object);
   });
 
-  test('Login missing fields returns 400', { tag: '@api' }, async ({ request }) => {
+  test('Login missing fields returns 400', { tag: '@api' },  async ({ request }) => {
     // Missing password field
     const loginData = {
       username: 'kminchelle'
