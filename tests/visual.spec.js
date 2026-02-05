@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Visual', () => {
   test.describe('Screenshot Tests', () => {
-    test('test @chromium', async ({ page }) => {
+    test('test @chromium @flaky', async ({ page }) => {
       await page.goto('https://github.com/login');
       await expect(page).toHaveScreenshot('github-login-initial.png');
       await page.getByRole('textbox', { name: 'Username or email address' }).click();

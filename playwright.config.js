@@ -43,6 +43,7 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
       grep: /@chromium/, // only run tests tagged @chromium
     },
+
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
