@@ -1,4 +1,3 @@
-// @ts-check
 import { expect, test } from '@playwright/test';
 import AllPages from '../pages/AllPages.js';
 
