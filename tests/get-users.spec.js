@@ -124,7 +124,6 @@ test.describe('GET Users API', () => {
   });
 
   test('delayed response (3s) should return 200', { tag: '@api' }, async ({ request }) => {
-    // Flaky test: fail on first run, pass on retry
     const isRetry = test.info().retry > 0;
     if (!isRetry) {
       expect(true).toBe(false); // Force failure on first run
