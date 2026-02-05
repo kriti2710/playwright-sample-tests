@@ -126,7 +126,7 @@ test.describe('GET Users API', () => {
   test('delayed response (3s) should return 200', { tag: '@api' }, async ({ request }) => {
     const isRetry = test.info().retry > 0;
     if (!isRetry) {
-      expect(true).toBe(false); // Force failure on first run
+      expect(true).toBe(false); 
     }
     
     const delay = 3;
