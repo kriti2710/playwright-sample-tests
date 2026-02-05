@@ -162,7 +162,6 @@ test.describe('GET Users API', () => {
 
       expect(response.status()).toBe(200);
     } catch (error) {
-      // Expected to timeout - verify it's a timeout error
       expect(error.message).toMatch(/timeout|Timeout/i);
     }
   });
