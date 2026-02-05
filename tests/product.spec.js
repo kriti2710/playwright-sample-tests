@@ -213,7 +213,6 @@ test.describe('New User Journey', () => {
 });
 
 test.describe('Guest to Login Checkout', () => {
-
   test.describe('Add to Cart before Login', () => {
     test('Verify that user add product to cart before logging in and then complete order after logging in', { tag: '@webkit' }, async () => {
 
