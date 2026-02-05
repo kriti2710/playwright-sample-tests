@@ -27,7 +27,7 @@ test.describe('Navigation Module', () => {
 
 test.describe('Contact Us Module', () => {
   test.describe('Contact Form Submission', () => {
-    test('Verify that user is able to fill Contact Us page successfully', { tag: '@firefox' }, async () => {
+    test('Verify that user is able to fill Contact Us page successfully',{ tag: '@firefox' }, async () => {
       await allPages.homePage.clickOnContactUsLink();
       await allPages.contactUsPage.assertContactUsTitle();
       await allPages.contactUsPage.fillContactUsForm();
