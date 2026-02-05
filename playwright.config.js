@@ -43,7 +43,7 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
-      grep: /@firefox/, // only run tests tagged @firefox
+      grep: /@firefox/, // only run tests tagged  @firefox
     },
     {
       name: 'webkit',
