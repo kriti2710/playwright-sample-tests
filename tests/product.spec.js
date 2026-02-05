@@ -233,6 +233,7 @@ test.describe('Guest to Login Checkout', () => {
         await allPages.checkoutPage.selectCashOnDelivery();
         await allPages.checkoutPage.verifyCashOnDeliverySelected();
         await allPages.checkoutPage.clickOnPlaceOrder();
+        
         await allPages.checkoutPage.verifyOrderPlacedSuccessfully();
       });
 
