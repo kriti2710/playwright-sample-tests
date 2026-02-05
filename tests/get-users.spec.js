@@ -150,7 +150,7 @@ test.describe('GET Users API', () => {
   });
 
   test('enforce timeout (expect to fail if too slow) — set short timeout', { tag: '@api' }, async ({ request }) => {
-    const delay = 5; // 5 second delay
+    const delay = 5; 
     const shortTimeout = 2000; 
     
     try {
