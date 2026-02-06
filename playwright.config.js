@@ -36,7 +36,7 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'kriti',
+      name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
       grep: /@chromium/, // only run tests tagged @chromium
     },
