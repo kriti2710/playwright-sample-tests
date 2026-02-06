@@ -119,7 +119,6 @@ test.describe('PUT / PATCH Update User API', () => {
   });
 
   test('Login missing fields returns 400', { tag: '@api' },  async ({ request }) => {
-    // Missing password field
     const loginData = {
       username: 'kminchelle'
     };
