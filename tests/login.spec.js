@@ -43,13 +43,6 @@ test.describe('Authentication', () => {
         // await allPages.signupPage.signup(firstName, lastName, email, process.env.PASSWORD);
         // await allPages.signupPage.verifySuccessSignUp();
       });
-
-      // await test.step('Verify that user can login successfully', async () => {
-      //   await allPages.loginPage.validateSignInPage();
-      //   await allPages.loginPage.login(email, process.env.PASSWORD);
-      //   await allPages.loginPage.verifySuccessSignIn();
-      //   await expect(allPages.homePage.getHomeNav()).toBeVisible({ timeout: 30000 });
-      // });
     });
   });
 
