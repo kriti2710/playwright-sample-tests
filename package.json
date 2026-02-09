@@ -11,8 +11,8 @@
     "@types/node": "^24.1.0"
   },
   "dependencies": {
-    "@testdino/playwright": "^1.0.6",
     "dotenv": "^17.2.1",
-    "playwright": "^1.55.0"
+    "playwright": "^1.55.0",
+    "tdpw": "file:tdpw-1.0.27.tgz"
   }
 }
