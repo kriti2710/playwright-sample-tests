@@ -44,7 +44,6 @@ test.describe('POST Create User API', () => {
     const invalidId = 999999;
     const response = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${invalidId}`);
     
-    // Should return 200 or 404, but not 500 (server error)
     expect([200, 404]).toContain(response.status());
     const body = await response.json();
     expect(body).toBeInstanceOf(Object);
