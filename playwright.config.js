@@ -18,11 +18,11 @@ export default defineConfig({
     }],
     ['blob', { outputDir: 'blob-report' }], 
     ['json', { outputFile: './playwright-report/report.json' }],
-    // ['@testdino/playwright', {
-    //   token: process.env.TESTDINO_TOKEN,
-    //   debug: true,
-    //   serverUrl: 'https://staging-api.testdino.com',
-    // }],
+    ['@testdino/playwright', {
+      token: process.env.TESTDINO_TOKEN,
+      debug: true,
+      serverUrl: 'https://staging-api.testdino.com',
+    }],
   ],
 
   use: {
