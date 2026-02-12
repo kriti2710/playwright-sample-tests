@@ -1,5 +1,5 @@
 // @ts-check
-import { expect, test } from '@playwright/test';
+import { test, expect } from '@testdino/playwright';
 import AllPages from '../pages/AllPages.js';
 
 let allPages;

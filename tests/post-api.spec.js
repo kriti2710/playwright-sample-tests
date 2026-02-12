@@ -1,5 +1,5 @@
 // @ts-check
-import { expect, test } from '@playwright/test';
+import { test, expect } from '@testdino/playwright';
 
 // Base API URL - adjust this to match your actual API endpoint
 const API_BASE_URL = process.env.API_BASE_URL || 'https://dummyjson.com';
