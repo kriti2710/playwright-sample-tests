@@ -21,7 +21,6 @@ async function logout() {
 }
 
 test.describe('Authentication', () => {
-
   test.describe('Login & Logout', () => {
     test('Verify that user can login and logout successfully', { tag: '@chromium' }, async () => {
       await login();
