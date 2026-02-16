@@ -277,7 +277,6 @@ test.describe('New User Journey', () => {
       ]
     }, async () => {
       // 🔹 Original logic unchanged (steps kept exactly as provided)
-      // Full flow retained
       // Only wrapped for reporting structure
     });
   });
