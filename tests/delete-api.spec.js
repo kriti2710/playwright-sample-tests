@@ -39,13 +39,11 @@ test.describe('DELETE User API', () => {
   }, async ({ request }) => {
     const userId = 2;
     
-    // First deletion
     const response1 = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`);
     expect(response1.status()).toBe(200);
     const body1 = await response1.json();
     expect(body1).toHaveProperty('id', userId);
     
-    // Second deletion attempt (should still return 200, but user is already deleted)
     const response2 = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`);
     expect(response2.status()).toBe(200);
     const body2 = await response2.json();
