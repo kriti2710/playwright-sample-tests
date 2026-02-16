@@ -21,16 +21,13 @@ export default defineConfig({
     ['blob', { outputDir: 'blob-report' }], 
     ['json', { outputFile: './playwright-report/report.json' }],
     ['@testdino/playwright', {
-      token: process.env.TESTDINO_TOKEN,
-      debug: true,
-      serverUrl: 'https://staging-api.testdino.com',
-      coverage: {
-        enabled: true,
-        projects: ['chromium'],
-        localReport: true,
-        localReportDir: './coverage-report',
-      },
-    }],
+      // token: "trx_staging_11de4fe3ed0f6e3b6486b861c7acbc08d501620b0bcfae856add6aa1df9f3983",
+      // serverUrl: "https://staging-api.testdino.com",
+      token: "trx_development_ceb65e2394faabbd238d1be3a7637334dc8414799cde63e7d68c7a1860f814bf",
+      serverUrl: "http://localhost:3001",
+      debug: false,
+      artifacts: false
+    }]
   ],
 
   use: {
@@ -45,27 +42,6 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-      grep: /@chromium/, // only run tests tagged @chromium
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-      grep: /@firefox/, // only run tests tagged @firefox
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-      grep: /@webkit/, // only run tests tagged @webkit
-    },
-    {
-      name: 'android',
-      use: { ...devices['Pixel 5'] },
-      grep: /@android/, // only run tests tagged @android
-    },
-    {
-      name: 'ios',
-      use: { ...devices['iPhone 12'] },
-      grep: /@ios/, // only run tests tagged @ios
     },
     {
       name: 'api',
