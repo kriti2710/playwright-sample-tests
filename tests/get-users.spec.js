@@ -207,7 +207,6 @@ test.describe('GET Users API', () => {
       { type: 'testdino:context', description: 'API search and filtering functionality validation' }
     ]
   }, async ({ request }) => {
-    // Try search query parameter (common patterns: q, search, query)
     const searchTerm = 'john';
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}/search?q=${searchTerm}`);
     
