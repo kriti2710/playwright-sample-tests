@@ -21,6 +21,13 @@ export default defineConfig({
     }],
     ['blob', { outputDir: 'blob-report' }], // Blob reporter for merging
     ['json', { outputFile: './playwright-report/report.json' }],
+
+    ['@testdino/playwright', {
+      token: "trx_staging_d9901dc5d7a8c67dabb825ba7f7d4bc4c7c7207a583cdfa3748dc0f26d53c132",
+      serverUrl: 'https://staging-api.testdino.com',
+      // token: "trx_development_ceb65e2394faabbd238d1be3a7637334dc8414799cde63e7d68c7a1860f814bf",
+      // serverUrl: 'http://localhost:3001',
+    }],
   ],
 
   use: {
