@@ -43,7 +43,7 @@ test.describe('Navigation', () => {
     ========================================= */
     test.describe('Verify Navbar Links', () => {
 
-      test('Verify that all the navbar links work correctly @firefox', async () => {
+      test('Verify that all the navbar links work correctly', {tag: '@firefox'}, async () => {
 
         await test.step('Login as existing user', async () => {
           await login();
@@ -77,7 +77,7 @@ test.describe('Navigation', () => {
     ========================================= */
     test.describe('Submit Contact Us Form', () => {
 
-      test('Verify that user can submit Contact Us form successfully @firefox', async () => {
+      test('Verify that user can submit Contact Us form successfully', {tag: '@firefox'}, async () => {
         await login();
 
         await allPages.homePage.clickOnContactUsLink();

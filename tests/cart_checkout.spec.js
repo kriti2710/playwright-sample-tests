@@ -36,7 +36,7 @@ test.describe('Application E2E Tests', () => {
     ========================================= */
     test.describe('Delete Product from Cart', () => {
 
-      test('User can delete selected product from cart @ios', async () => {
+      test('User can delete selected product from cart',{tag: '@ios'}, async () => {
         const productName = 'GoPro HERO10 Black';
 
         await login();
@@ -65,7 +65,7 @@ test.describe('Application E2E Tests', () => {
     ========================================= */
     test.describe('Single Order and Cancellation', () => {
 
-      test('New user can place and cancel order @chromium', async () => {
+      test('New user can place and cancel order @chromium', {tag: '@chromium'}, async () => {
         const email = `test+${Date.now()}@test.com`;
 
         await test.step('Register user', async () => {
@@ -112,7 +112,7 @@ test.describe('Application E2E Tests', () => {
     ========================================= */
     test.describe('Update Personal Information', () => {
 
-      test('User can update personal info @firefox', async () => {
+      test('User can update personal info @firefox', {tag: '@firefox'}, async () => {
         await login();
         await allPages.userPage.clickOnUserProfileIcon();
         await allPages.userPage.updatePersonalInfo();

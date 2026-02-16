@@ -28,7 +28,7 @@ test.describe('Application E2E Tests', () => {
   ============================================= */
   test.describe('Product Reviews', () => {
 
-    test('User can submit a product review @firefox', async () => {
+    test('User can submit a product review', {tag: '@firefox'}, async () => {
 
       await test.step('Login and open product', async () => {
         await login();
@@ -48,7 +48,7 @@ test.describe('Application E2E Tests', () => {
       });
     });
 
-    test('User can edit and delete a product review @firefox', async () => {
+    test('User can edit and delete a product review', {tag: '@firefox'}, async () => {
 
       await test.step('Submit review first', async () => {
         await login();
@@ -79,7 +79,7 @@ test.describe('Application E2E Tests', () => {
   test.describe('Product Filtering', () => {
 
     /* ------------ Test ------------ */
-    test('User can filter products by price range @webkit', async () => {
+    test('User can filter products by price range', {tag: '@webkit'}, async () => {
       await login();
       await allPages.homePage.clickOnShopNowButton();
       await allPages.homePage.clickOnFilterButton();
@@ -92,7 +92,7 @@ test.describe('Application E2E Tests', () => {
   test.describe('Wishlist to Checkout', () => {
 
     /* ------------ Test ------------ */
-    test('User can wishlist product and checkout @webkit', async () => {
+    test('User can wishlist product and checkout', {tag: '@webkit'}, async () => {
       await login();
 
       await test.step('Wishlist flow', async () => {
@@ -116,7 +116,7 @@ test.describe('Application E2E Tests', () => {
   test.describe('Order Journey', () => {
 
     /* ------------ Test ------------ */
-    test('User can place and cancel order @webkit', async () => {
+    test('User can place and cancel order', {tag: '@webkit'}, async () => {
       const productName = 'GoPro HERO10 Black';
 
       await login();
@@ -137,7 +137,7 @@ test.describe('Application E2E Tests', () => {
   test.describe('Registration to Order', () => {
 
     /* ------------ Test ------------ */
-    test('New user can register and place order @chromium', async () => {
+    test('New user can register and place order', {tag: '@chromium'}, async () => {
 
       const email = `test+${Date.now()}@test.com`;
 
