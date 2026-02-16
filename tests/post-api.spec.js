@@ -111,9 +111,21 @@ test.describe('POST Create User API', () => {
     ]
   }, async ({ request }) => {
     const tooLargeId = 999999999;
+    const startTime = Date.now();
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}/${tooLargeId}`);
+    const boundaryTestTime = Date.now() - startTime;
     
     expect(response.status()).toBe(404);
+
+    test.info().annotations.push({
+      type: 'metric',
+      description: JSON.stringify({
+        name: 'boundary-test-time',
+        value: boundaryTestTime,
+        threshold: 500,
+        unit: 'ms'
+      })
+    });
   });
 
   test('Deleting invalid id returns 200/response but not crash ', {
@@ -128,12 +140,35 @@ test.describe('POST Create User API', () => {
     ]
   }, async ({ request }) => {
     const invalidId = 999999;
+    const startTime = Date.now();
     const response = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${invalidId}`);
+    const stabilityTestTime = Date.now() - startTime;
     
     // Should return 200 or 404, but not 500 (server error)
     expect([200, 404]).toContain(response.status());
     const body = await response.json();
     expect(body).toBeInstanceOf(Object);
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'stability-test-time',
+          value: stabilityTestTime,
+          threshold: 800,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'api-stability-score',
+          value: response.status() !== 500 ? 100 : 0,
+          threshold: 100,
+          unit: 'score'
+        })
+      }
+    );
   });
 
   test('PUT: Invalid method usage returns appropriate response (no 500) ', {
@@ -152,14 +187,37 @@ test.describe('POST Create User API', () => {
       firstName: 'Updated'
     };
     
+    const startTime = Date.now();
     // Try PUT on an endpoint that might not support it properly
     const response = await request.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}/invalid`, {
       data: updateData
     });
+    const methodValidationTime = Date.now() - startTime;
     
     // Should return appropriate error (400, 404, 405) but not 500
     expect([400, 404, 405, 200]).toContain(response.status());
     expect(response.status()).not.toBe(500);
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'method-validation-time',
+          value: methodValidationTime,
+          threshold: 600,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'http-method-handling-score',
+          value: 100,
+          threshold: 95,
+          unit: 'score'
+        })
+      }
+    );
   });
 
   test('user schema contains expected keys ', {
@@ -219,7 +277,9 @@ test.describe('POST Create User API', () => {
       { type: 'testdino:context', description: 'User list structure validation for ID and email fields' }
     ]
   }, async ({ request }) => {
+    const startTime = Date.now();
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}`);
+    const listValidationTime = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
@@ -235,5 +295,26 @@ test.describe('POST Create User API', () => {
         expect(typeof firstUser.email).toBe('string');
       }
     }
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'list-validation-time',
+          value: listValidationTime,
+          threshold: 1200,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'data-structure-score',
+          value: 100,
+          threshold: 95,
+          unit: 'score'
+        })
+      }
+    );
   });
 });

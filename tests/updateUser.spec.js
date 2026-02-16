@@ -73,14 +73,26 @@ test.describe('PUT / PATCH Update User API', () => {
     ]
   }, async ({ request }) => {
     const userId = 2;
+    const startTime = Date.now();
     const response = await request.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`, {
       data: {}
     });
+    const emptyPayloadTime = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body).toBeInstanceOf(Object);
     expect(body).toHaveProperty('id', userId);
+
+    test.info().annotations.push({
+      type: 'metric',
+      description: JSON.stringify({
+        name: 'empty-payload-handling-time',
+        value: emptyPayloadTime,
+        threshold: 700,
+        unit: 'ms'
+      })
+    });
   });
 
   test('Update only one field ', {
@@ -150,9 +162,11 @@ test.describe('PUT / PATCH Update User API', () => {
       lastName: 'Smith'
     };
     
+    const startTime = Date.now();
     const response = await request.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`, {
       data: updateData
     });
+    const fieldValidationTime = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
@@ -162,6 +176,16 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(typeof body.lastName).toBe('string');
     expect(body.firstName).toBe(updateData.firstName);
     expect(body.lastName).toBe(updateData.lastName);
+
+    test.info().annotations.push({
+      type: 'metric',
+      description: JSON.stringify({
+        name: 'field-validation-time',
+        value: fieldValidationTime,
+        threshold: 900,
+        unit: 'ms'
+      })
+    });
   });
 
   test('Update and validate response contains updatedAt simulation ', {
@@ -181,9 +205,11 @@ test.describe('PUT / PATCH Update User API', () => {
       lastName: 'User'
     };
     
+    const startTime = Date.now();
     const response = await request.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`, {
       data: updateData
     });
+    const timestampValidationTime = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
@@ -196,6 +222,16 @@ test.describe('PUT / PATCH Update User API', () => {
     // At minimum, validate the response structure
     expect(body).toBeInstanceOf(Object);
     expect(body).toHaveProperty('id', userId);
+
+    test.info().annotations.push({
+      type: 'metric',
+      description: JSON.stringify({
+        name: 'timestamp-validation-time',
+        value: timestampValidationTime,
+        threshold: 800,
+        unit: 'ms'
+      })
+    });
   });
 
   test('Login failure (invalid creds) ', {

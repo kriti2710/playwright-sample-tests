@@ -91,12 +91,35 @@ test.describe('GET Users API', () => {
       { type: 'testdino:context', description: 'Validation that API returns users count greater than zero' }
     ]
   }, async ({ request }) => {
+    const startTime = Date.now();
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}`);
+    const apiLatency = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body).toHaveProperty('total');
     expect(body.total).toBeGreaterThan(0);
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'api-latency',
+          value: apiLatency,
+          threshold: 1000,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'data-validation-score',
+          value: 100,
+          threshold: 95,
+          unit: 'score'
+        })
+      }
+    );
   });
 
   test('Validate user image exists ', {
@@ -110,13 +133,25 @@ test.describe('GET Users API', () => {
       { type: 'testdino:context', description: 'Validation that user profile contains image field' }
     ]
   }, async ({ request }) => {
+    const startTime = Date.now();
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}/1`);
+    const apiLatency = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body).toHaveProperty('image');
     expect(body.image).toBeTruthy();
     expect(typeof body.image).toBe('string');
+
+    test.info().annotations.push({
+      type: 'metric',
+      description: JSON.stringify({
+        name: 'api-latency',
+        value: apiLatency,
+        threshold: 800,
+        unit: 'ms'
+      })
+    });
   });
 
   test('Validate user 1 has firstName field ', {
@@ -130,13 +165,25 @@ test.describe('GET Users API', () => {
       { type: 'testdino:context', description: 'Validation that user object contains required firstName field' }
     ]
   }, async ({ request }) => {
+    const startTime = Date.now();
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}/1`);
+    const apiLatency = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body).toHaveProperty('firstName');
     expect(typeof body.firstName).toBe('string');
     expect(body.firstName.length).toBeGreaterThan(0);
+
+    test.info().annotations.push({
+      type: 'metric',
+      description: JSON.stringify({
+        name: 'api-latency',
+        value: apiLatency,
+        threshold: 800,
+        unit: 'ms'
+      })
+    });
   });
 
   test('Invalid user ID returns 404 ', {
@@ -189,13 +236,25 @@ test.describe('GET Users API', () => {
       { type: 'testdino:context', description: 'Default API response structure validation' }
     ]
   }, async ({ request }) => {
+    const startTime = Date.now();
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}`);
+    const apiLatency = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body).toBeInstanceOf(Object);
     // Should have either 'users' array or be an array itself
     expect(body.users || Array.isArray(body)).toBeTruthy();
+
+    test.info().annotations.push({
+      type: 'metric',
+      description: JSON.stringify({
+        name: 'api-latency',
+        value: apiLatency,
+        threshold: 1000,
+        unit: 'ms'
+      })
+    });
   });
 
   test('limit param returns limited results ', {
@@ -255,6 +314,7 @@ test.describe('GET Users API', () => {
   }, async ({ request }) => {
     const skip = 5;
     const limit = 10;
+    const startTime = Date.now();
     
     // Get first page
     const response1 = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}?limit=${limit}&skip=0`);
@@ -268,6 +328,8 @@ test.describe('GET Users API', () => {
     const users2 = body2.users || body2;
     const firstUser2 = Array.isArray(users2) ? users2[0] : null;
     
+    const totalTime = Date.now() - startTime;
+    
     expect(response1.status()).toBe(200);
     expect(response2.status()).toBe(200);
     
@@ -275,6 +337,27 @@ test.describe('GET Users API', () => {
     if (firstUser1 && firstUser2) {
       expect(firstUser1.id).not.toBe(firstUser2.id);
     }
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'pagination-operation-time',
+          value: totalTime,
+          threshold: 2000,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'api-calls',
+          value: 2,
+          threshold: 5,
+          unit: 'count'
+        })
+      }
+    );
   });
 
   test('sorting / search query (if supported) returns filtered results ', {
@@ -289,7 +372,9 @@ test.describe('GET Users API', () => {
     ]
   }, async ({ request }) => {
     const searchTerm = 'john';
+    const startTime = Date.now();
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}/search?q=${searchTerm}`);
+    const searchTime = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
@@ -300,6 +385,27 @@ test.describe('GET Users API', () => {
       // At least verify the response structure is valid
       expect(Array.isArray(usersArray)).toBe(true);
     }
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'search-time',
+          value: searchTime,
+          threshold: 1500,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'search-results-count',
+          value: usersArray.length,
+          threshold: 100,
+          unit: 'count'
+        })
+      }
+    );
   });
 
   test('delayed response (3s) should return 200 ', {
@@ -375,6 +481,8 @@ test.describe('GET Users API', () => {
   }, async ({ request }) => {
     const delay = 5; // 5 second delay
     const shortTimeout = 2000; // 2 second timeout - should fail
+    const startTime = Date.now();
+    let didTimeout = false;
     
     try {
       const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}?delay=${delay}`, {
@@ -386,6 +494,30 @@ test.describe('GET Users API', () => {
     } catch (error) {
       // Expected to timeout - verify it's a timeout error
       expect(error.message).toMatch(/timeout|Timeout/i);
+      didTimeout = true;
     }
+
+    const timeoutTestDuration = Date.now() - startTime;
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'timeout-test-duration',
+          value: timeoutTestDuration,
+          threshold: 3000,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'timeout-enforcement-score',
+          value: didTimeout ? 100 : 50,
+          threshold: 90,
+          unit: 'score'
+        })
+      }
+    );
   });
 });

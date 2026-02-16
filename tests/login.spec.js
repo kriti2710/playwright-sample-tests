@@ -34,8 +34,43 @@ test.describe('Authentication', () => {
         { type: 'testdino:context', description: 'Critical login and logout functionality' }
       ]
     }, async () => {
+      const startTime = Date.now();
       await login();
+      const loginTime = Date.now() - startTime;
+      
+      const logoutStart = Date.now();
       await logout();
+      const logoutTime = Date.now() - logoutStart;
+
+      test.info().annotations.push(
+        {
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'login-time',
+            value: loginTime,
+            threshold: 3000,
+            unit: 'ms'
+          })
+        },
+        {
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'logout-time',
+            value: logoutTime,
+            threshold: 2000,
+            unit: 'ms'
+          })
+        },
+        {
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'authentication-success-rate',
+            value: 100,
+            threshold: 95,
+            unit: '%'
+          })
+        }
+      );
     });
   });
 
