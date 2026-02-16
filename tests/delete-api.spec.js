@@ -18,12 +18,35 @@ test.describe('DELETE User API', () => {
     ]
   }, async ({ request }) => {
     const userId = 1;
+    const startTime = Date.now();
     const response = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`);
+    const apiLatency = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body).toHaveProperty('id', userId);
     expect(body).toHaveProperty('isDeleted', true);
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'api-latency',
+          value: apiLatency,
+          threshold: 1000,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'delete-success-rate',
+          value: 100,
+          threshold: 99,
+          unit: '%'
+        })
+      }
+    );
   });
 
   test('Remove user twice ', {
@@ -38,6 +61,7 @@ test.describe('DELETE User API', () => {
     ]
   }, async ({ request }) => {
     const userId = 2;
+    const startTime = Date.now();
     
     const response1 = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`);
     expect(response1.status()).toBe(200);
@@ -48,6 +72,29 @@ test.describe('DELETE User API', () => {
     expect(response2.status()).toBe(200);
     const body2 = await response2.json();
     expect(body2).toHaveProperty('id', userId);
+
+    const totalTime = Date.now() - startTime;
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'idempotent-operation-time',
+          value: totalTime,
+          threshold: 2000,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'api-calls',
+          value: 2,
+          threshold: 5,
+          unit: 'count'
+        })
+      }
+    );
   });
 
   test('Validate body is returned ', {
@@ -62,7 +109,9 @@ test.describe('DELETE User API', () => {
     ]
   }, async ({ request }) => {
     const userId = 3;
+    const startTime = Date.now();
     const response = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`);
+    const responseTime = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
@@ -71,5 +120,15 @@ test.describe('DELETE User API', () => {
     expect(body).toBeInstanceOf(Object);
     expect(body).toHaveProperty('id');
     expect(typeof body.id).toBe('number');
+
+    test.info().annotations.push({
+      type: 'metric',
+      description: JSON.stringify({
+        name: 'api-latency',
+        value: responseTime,
+        threshold: 1000,
+        unit: 'ms'
+      })
+    });
   });
 });

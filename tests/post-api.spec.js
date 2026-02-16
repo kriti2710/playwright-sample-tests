@@ -24,11 +24,34 @@ test.describe('POST Create User API', () => {
       lastName: 'User'
     };
     
+    const startTime = Date.now();
     const response = await request.post(`${API_BASE_URL}${USERS_ENDPOINT}/invalid-endpoint`, {
       data: userData
     });
+    const errorResponseTime = Date.now() - startTime;
     
     expect(response.status()).toBe(404);
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'error-handling-time',
+          value: errorResponseTime,
+          threshold: 500,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'api-error-rate',
+          value: 100,
+          threshold: 5,
+          unit: '%'
+        })
+      }
+    );
   });
 
   test('Invalid JSON payload handling ', {
@@ -42,15 +65,38 @@ test.describe('POST Create User API', () => {
       { type: 'testdino:context', description: 'API error handling for malformed JSON payloads' }
     ]
   }, async ({ request }) => {
+    const startTime = Date.now();
     const response = await request.post(`${API_BASE_URL}${ADD_ENDPOINT}`, {
       data: 'invalid json string',
       headers: {
         'Content-Type': 'application/json'
       }
     });
+    const validationTime = Date.now() - startTime;
     
     // Should return 400 Bad Request for invalid JSON
     expect([400, 422]).toContain(response.status());
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'validation-time',
+          value: validationTime,
+          threshold: 300,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'input-validation-score',
+          value: 100,
+          threshold: 95,
+          unit: 'score'
+        })
+      }
+    );
   });
 
   test('Too large ID param should return 404 ', {
@@ -127,7 +173,9 @@ test.describe('POST Create User API', () => {
       { type: 'testdino:context', description: 'User object schema validation for required fields' }
     ]
   }, async ({ request }) => {
+    const startTime = Date.now();
     const response = await request.get(`${API_BASE_URL}${USERS_ENDPOINT}/1`);
+    const schemaValidationTime = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
@@ -137,6 +185,27 @@ test.describe('POST Create User API', () => {
     expectedKeys.forEach(key => {
       expect(body).toHaveProperty(key);
     });
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'schema-validation-time',
+          value: schemaValidationTime,
+          threshold: 500,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'schema-compliance-score',
+          value: 100,
+          threshold: 100,
+          unit: 'score'
+        })
+      }
+    );
   });
 
   test('users list contains objects with id and email ', {

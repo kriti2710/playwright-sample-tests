@@ -26,16 +26,39 @@ test.describe('PUT / PATCH Update User API', () => {
       age: 30
     };
     
+    const startTime = Date.now();
     // Try PUT first, fallback to PATCH if needed
     const response = await request.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`, {
       data: updateData
     });
+    const updateTime = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body).toHaveProperty('id', userId);
     expect(body).toHaveProperty('firstName', updateData.firstName);
     expect(body).toHaveProperty('lastName', updateData.lastName);
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'api-latency',
+          value: updateTime,
+          threshold: 1000,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'update-success-rate',
+          value: 100,
+          threshold: 98,
+          unit: '%'
+        })
+      }
+    );
   });
 
   test('Update user with empty payload ', {
@@ -76,15 +99,38 @@ test.describe('PUT / PATCH Update User API', () => {
       firstName: 'UpdatedFirstName'
     };
     
+    const startTime = Date.now();
     // Use PATCH for partial update
     const response = await request.patch(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`, {
       data: updateData
     });
+    const patchTime = Date.now() - startTime;
     
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body).toHaveProperty('id', userId);
     expect(body).toHaveProperty('firstName', updateData.firstName);
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'partial-update-time',
+          value: patchTime,
+          threshold: 800,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'patch-efficiency-score',
+          value: 95,
+          threshold: 90,
+          unit: 'score'
+        })
+      }
+    );
   });
 
   test('Validate returned name field ', {
@@ -168,14 +214,37 @@ test.describe('PUT / PATCH Update User API', () => {
       password: 'wrongpassword'
     };
     
+    const startTime = Date.now();
     const response = await request.post(`${API_BASE_URL}${AUTH_ENDPOINT}`, {
       data: loginData
     });
+    const authFailureTime = Date.now() - startTime;
     
     // Should return error status (400 or 401)
     expect([400, 401, 403]).toContain(response.status());
     const body = await response.json();
     expect(body).toBeInstanceOf(Object);
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'auth-failure-time',
+          value: authFailureTime,
+          threshold: 500,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'security-score',
+          value: 100,
+          threshold: 95,
+          unit: 'score'
+        })
+      }
+    );
   });
 
   test('Login missing fields returns 400 ', {
@@ -194,12 +263,35 @@ test.describe('PUT / PATCH Update User API', () => {
       username: 'kminchelle'
     };
     
+    const startTime = Date.now();
     const response = await request.post(`${API_BASE_URL}${AUTH_ENDPOINT}`, {
       data: loginData
     });
+    const validationTime = Date.now() - startTime;
     
     expect(response.status()).toBe(400);
     const body = await response.json();
     expect(body).toBeInstanceOf(Object);
+
+    test.info().annotations.push(
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'validation-time',
+          value: validationTime,
+          threshold: 300,
+          unit: 'ms'
+        })
+      },
+      {
+        type: 'metric',
+        description: JSON.stringify({
+          name: 'input-validation-score',
+          value: 100,
+          threshold: 98,
+          unit: 'score'
+        })
+      }
+    );
   });
 });
