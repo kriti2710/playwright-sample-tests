@@ -18,7 +18,7 @@ test.describe('Navigation Module', () => {
         { type: 'testdino:feature', description: 'Navigation' },
         { type: 'testdino:link', description: 'https://jira.example.com/NAV-001' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#nav-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Navigation bar functionality across all pages' }
       ]
     }, async () => {
@@ -44,7 +44,7 @@ test.describe('Contact Us Module', () => {
         { type: 'testdino:feature', description: 'Contact Us' },
         { type: 'testdino:link', description: 'https://jira.example.com/CONTACT-001' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#contact-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Contact form submission and validation' }
       ]
     }, async () => {

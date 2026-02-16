@@ -185,7 +185,7 @@ test.describe('Authentication', () => {
         { type: 'testdino:feature', description: 'Authentication' },
         { type: 'testdino:link', description: 'https://jira.example.com/AUTH-001' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#auth-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Critical authentication flow for new user registration and login' }
       ]
     }, async () => {
@@ -217,7 +217,7 @@ test.describe('User Profile', () => {
         { type: 'testdino:feature', description: 'User Profile' },
         { type: 'testdino:link', description: 'https://jira.example.com/PROFILE-001' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#profile-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'User profile information update functionality' }
       ]
     }, async () => {

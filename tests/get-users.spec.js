@@ -52,7 +52,7 @@ test.describe('GET Users API', () => {
       { type: 'testdino:feature', description: 'GET Users API' },
       { type: 'testdino:link', description: 'https://jira.example.com/API-003' },
       { type: 'testdino:owner', description: 'api-team' },
-      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:notify-slack', description: '#e2e-alerts' },
       { type: 'testdino:context', description: 'Validation that API returns users count greater than zero' }
     ]
   }, async ({ request }) => {

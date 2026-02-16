@@ -19,7 +19,7 @@ test.describe('Product Reviews', () => {
         { type: 'testdino:feature', description: 'Product Reviews' },
         { type: 'testdino:link', description: 'https://jira.example.com/REVIEW-001' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#review-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Product review submission functionality' }
       ]
     }, async () => {
@@ -54,7 +54,7 @@ test.describe('Product Reviews', () => {
         { type: 'testdino:feature', description: 'Product Reviews' },
         { type: 'testdino:link', description: 'https://jira.example.com/REVIEW-002' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#review-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Product review edit and delete functionality' }
       ]
     }, async () => {
@@ -106,7 +106,7 @@ test.describe('Product Filters', () => {
         { type: 'testdino:feature', description: 'Product Filters' },
         { type: 'testdino:link', description: 'https://jira.example.com/FILTER-001' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#filter-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Price range filtering functionality on WebKit browsers' }
       ]
     }, async () => {
@@ -129,7 +129,7 @@ test.describe('Wishlist Flow', () => {
         { type: 'testdino:feature', description: 'Wishlist Flow' },
         { type: 'testdino:link', description: 'https://jira.example.com/WISHLIST-001' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#wishlist-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Complete wishlist to cart checkout flow on WebKit browsers' }
       ]
     }, async () => {
@@ -272,7 +272,7 @@ test.describe('New User Journey', () => {
         { type: 'testdino:feature', description: 'New User Journey' },
         { type: 'testdino:link', description: 'https://jira.example.com/JOURNEY-002' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#journey-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Complete new user journey from registration to single order placement' }
       ]
     }, async () => {
@@ -294,7 +294,7 @@ test.describe('Guest to Login Checkout', () => {
         { type: 'testdino:feature', description: 'Guest to Login Checkout' },
         { type: 'testdino:link', description: 'https://jira.example.com/GUEST-001' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#checkout-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Guest user cart persistence through login and checkout process' }
       ]
     }, async () => {

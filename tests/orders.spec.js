@@ -19,7 +19,7 @@ test.describe('Address Module', () => {
         { type: 'testdino:feature', description: 'Address Management' },
         { type: 'testdino:link', description: 'https://jira.example.com/ADDRESS-001' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#address-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Complete address management flow including add, edit, and delete operations' }
       ]
     }, async () => {
@@ -52,7 +52,7 @@ test.describe('Address Module', () => {
         { type: 'testdino:feature', description: 'Address Management' },
         { type: 'testdino:link', description: 'https://jira.example.com/ADDRESS-002' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#address-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'New user address addition functionality on Android devices' }
       ]
     }, async () => {
@@ -76,7 +76,7 @@ test.describe('Order Placement', () => {
         { type: 'testdino:feature', description: 'Order Placement' },
         { type: 'testdino:link', description: 'https://jira.example.com/ORDER-003' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#order-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Multiple quantity purchase flow on Android devices' }
       ]
     }, async () => {

@@ -26,7 +26,7 @@ test.describe('Visual Comparison – GitHub Username Change', () => {
       { type: 'testdino:feature', description: 'Visual Comparison' },
       { type: 'testdino:link', description: 'https://jira.example.com/VISUAL-001' },
       { type: 'testdino:owner', description: 'qa-team' },
-      { type: 'testdino:notify-slack', description: '#visual-alerts' },
+      { type: 'testdino:notify-slack', description: '#e2e-alerts' },
       { type: 'testdino:context', description: 'Visual regression testing for GitHub login form changes' },
       { type: 'testdino:flaky-reason', description: 'Visual comparisons may fail due to rendering differences or timing issues' }
     ]

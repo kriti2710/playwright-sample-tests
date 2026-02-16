@@ -47,7 +47,7 @@ test.describe('Authentication', () => {
         { type: 'testdino:feature', description: 'Authentication' },
         { type: 'testdino:link', description: 'https://jira.example.com/AUTH-003' },
         { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#auth-alerts' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
         { type: 'testdino:context', description: 'Complete signup and login flow for new users' }
       ]
     }, async () => {
