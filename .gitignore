@@ -10,3 +10,5 @@ node_modules/
 
 # Playwright
 /playwright/.auth/
+
+package-lock.json
