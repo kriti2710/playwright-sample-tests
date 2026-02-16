@@ -38,6 +38,7 @@ test.describe('Application E2E Tests', () => {
 
       test('User can delete selected product from cart',{tag: '@ios'}, async () => {
         const productName = 'GoPro HERO10 Black';
+        const startTime = Date.now();
 
         await login();
         await allPages.inventoryPage.clickOnShopNowButton();
@@ -49,6 +50,17 @@ test.describe('Application E2E Tests', () => {
         await allPages.cartPage.verifyCartItemVisible(productName);
         await allPages.cartPage.clickOnDeleteProductIcon();
         await allPages.cartPage.verifyEmptyCartMessage();
+
+        const cartOperationTime = Date.now() - startTime;
+        test.info().annotations.push({
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'cart-operation-time',
+            value: cartOperationTime,
+            threshold: 5000,
+            unit: 'ms'
+          })
+        });
       });
 
     });
@@ -67,8 +79,11 @@ test.describe('Application E2E Tests', () => {
 
       test('New user can place and cancel order @chromium', {tag: '@chromium'}, async () => {
         const email = `test+${Date.now()}@test.com`;
+        const startTime = Date.now();
+        let registrationTime, checkoutTime;
 
         await test.step('Register user', async () => {
+          const regStart = Date.now();
           await allPages.loginPage.clickOnUserProfileIcon();
           await allPages.loginPage.clickOnSignupLink();
           await allPages.signupPage.signup(
@@ -77,9 +92,11 @@ test.describe('Application E2E Tests', () => {
             email,
             process.env.PASSWORD
           );
+          registrationTime = Date.now() - regStart;
         });
 
         await test.step('Login and place order', async () => {
+          const checkoutStart = Date.now();
           await allPages.loginPage.login(email, process.env.PASSWORD);
           await expect(allPages.homePage.getHomeNav()).toBeVisible();
 
@@ -89,6 +106,7 @@ test.describe('Application E2E Tests', () => {
           await allPages.cartPage.clickOnCheckoutButton();
           await allPages.checkoutPage.selectCashOnDelivery();
           await allPages.checkoutPage.clickOnPlaceOrder();
+          checkoutTime = Date.now() - checkoutStart;
         });
 
         await test.step('Cancel order', async () => {
@@ -96,6 +114,47 @@ test.describe('Application E2E Tests', () => {
           await allPages.orderPage.clickCancelOrderButton();
           await allPages.orderPage.confirmCancellation();
         });
+
+        const totalFlowTime = Date.now() - startTime;
+        
+        test.info().annotations.push(
+          {
+            type: 'metric',
+            description: JSON.stringify({
+              name: 'registration-time',
+              value: registrationTime,
+              threshold: 3000,
+              unit: 'ms'
+            })
+          },
+          {
+            type: 'metric',
+            description: JSON.stringify({
+              name: 'checkout-time',
+              value: checkoutTime,
+              threshold: 5000,
+              unit: 'ms'
+            })
+          },
+          {
+            type: 'metric',
+            description: JSON.stringify({
+              name: 'order-cancellation-rate',
+              value: 100,
+              threshold: 20,
+              unit: '%'
+            })
+          },
+          {
+            type: 'metric',
+            description: JSON.stringify({
+              name: 'end-to-end-flow-time',
+              value: totalFlowTime,
+              threshold: 15000,
+              unit: 'ms'
+            })
+          }
+        );
       });
 
     });
@@ -113,10 +172,22 @@ test.describe('Application E2E Tests', () => {
     test.describe('Update Personal Information', () => {
 
       test('User can update personal info @firefox', {tag: '@firefox'}, async () => {
+        const startTime = Date.now();
         await login();
         await allPages.userPage.clickOnUserProfileIcon();
         await allPages.userPage.updatePersonalInfo();
         await allPages.userPage.verifyPersonalInfoUpdated();
+        const profileUpdateTime = Date.now() - startTime;
+
+        test.info().annotations.push({
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'profile-update-time',
+            value: profileUpdateTime,
+            threshold: 4000,
+            unit: 'ms'
+          })
+        });
       });
 
     });
