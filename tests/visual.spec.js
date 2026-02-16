@@ -6,7 +6,6 @@ test.describe('Visual Comparison – GitHub Username Change', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('https://github.com/login');
 
-    // Disable animations &  caret
     await page.addStyleTag({
       content: `
         * {
