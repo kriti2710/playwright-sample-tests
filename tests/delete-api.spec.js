@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect } from '@testdino/playwright';
+import { expect, test } from '@playwright/test';
 
 // Base API URL - adjust this to match your actual API endpoint
 const API_BASE_URL = process.env.API_BASE_URL || 'https://dummyjson.com';
@@ -7,7 +7,17 @@ const USERS_ENDPOINT = '/users';
 
 test.describe('DELETE User API', () => {
   
-  test('Remove user 1', { tag: '@api' }, async ({ request }) => {
+  test('Remove user 1 ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p1' },
+      { type: 'testdino:feature', description: 'DELETE User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-020' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Basic user deletion functionality' }
+    ]
+  }, async ({ request }) => {
     const userId = 1;
     const response = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`);
     
@@ -17,7 +27,17 @@ test.describe('DELETE User API', () => {
     expect(body).toHaveProperty('isDeleted', true);
   });
 
-  test('Remove user twice', { tag: '@api' }, async ({ request }) => {
+  test('Remove user twice ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p2' },
+      { type: 'testdino:feature', description: 'DELETE User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-021' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Idempotent delete operation validation' }
+    ]
+  }, async ({ request }) => {
     const userId = 2;
     
     // First deletion
@@ -26,13 +46,24 @@ test.describe('DELETE User API', () => {
     const body1 = await response1.json();
     expect(body1).toHaveProperty('id', userId);
     
+    // Second deletion attempt (should still return 200, but user is already deleted)
     const response2 = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`);
     expect(response2.status()).toBe(200);
     const body2 = await response2.json();
     expect(body2).toHaveProperty('id', userId);
   });
 
-  test('Validate body is returned', { tag: '@api' }, async ({ request }) => {
+  test('Validate body is returned ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p2' },
+      { type: 'testdino:feature', description: 'DELETE User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-022' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Delete operation response body validation' }
+    ]
+  }, async ({ request }) => {
     const userId = 3;
     const response = await request.delete(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`);
     

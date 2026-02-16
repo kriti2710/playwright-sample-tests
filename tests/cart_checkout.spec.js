@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect } from '@testdino/playwright';
+import { expect, test } from '@playwright/test';
 import AllPages from '../pages/AllPages.js';
 
 let allPages;
@@ -11,7 +11,17 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Cart Module', () => {
   test.describe('Product Removal', () => {
-    test('Verify that user is able to delete selected product from cart', { tag: '@ios' }, async () => {
+    test('Verify that user is able to delete selected product from cart ', {
+      tag: '@ios',
+      annotation: [
+        { type: 'testdino:priority', description: 'p1' },
+        { type: 'testdino:feature', description: 'Cart' },
+        { type: 'testdino:link', description: 'https://jira.example.com/CART-001' },
+        { type: 'testdino:owner', description: 'qa-team' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
+        { type: 'testdino:context', description: 'Tests cart product removal functionality on iOS devices' }
+      ]
+    }, async () => {
       const productName = 'GoPro HERO10 Black';
       await allPages.inventoryPage.clickOnAllProductsLink();
       await allPages.inventoryPage.searchProduct(productName);
@@ -31,7 +41,17 @@ test.describe('Cart Module', () => {
 
 test.describe('Orders Module', () => {
   test.describe('Order Cancellation', () => {
-    test('Verify new user views and cancels an order in my orders', { tag: '@chromium' }, async () => {
+    test('Verify new user views and cancels an order in my orders ', {
+      tag: '@chromium',
+      annotation: [
+        { type: 'testdino:priority', description: 'p0' },
+        { type: 'testdino:feature', description: 'Orders' },
+        { type: 'testdino:link', description: 'https://jira.example.com/ORDER-002' },
+        { type: 'testdino:owner', description: '@Kriti Verma' },
+        { type: 'testdino:notify-slack', description: '@Kriti Verma' },
+        { type: 'testdino:context', description: 'Critical order cancellation flow for new users' }
+      ]
+    }, async () => {
       const email = `test+${Date.now()}@test.com`;
       const firstName = 'Test';
       const lastName = 'User';
@@ -84,7 +104,17 @@ test.describe('Orders Module', () => {
 
 test.describe('User Journey', () => {
   test.describe('Multiple Order Placement', () => {
-    test('Verify That a New User Can Successfully Complete the Journey from Registration to a Multiple Order Placement', { tag: '@chromium' }, async () => {
+    test('Verify That a New User Can Successfully Complete the Journey from Registration to a Multiple Order Placement ', {
+      tag: '@chromium',
+      annotation: [
+        { type: 'testdino:priority', description: 'p0' },
+        { type: 'testdino:feature', description: 'User Journey' },
+        { type: 'testdino:link', description: 'https://jira.example.com/JOURNEY-001' },
+        { type: 'testdino:owner', description: 'qa-team' },
+        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
+        { type: 'testdino:context', description: 'End-to-end user journey from registration to multiple orders' }
+      ]
+    }, async () => {
       const email = `test+${Date.now()}@test.com`;
       const firstName = 'Test';
       const lastName = 'User';
@@ -148,7 +178,17 @@ test.describe('User Journey', () => {
 
 test.describe('Authentication', () => {
   test.describe('Signup & Login', () => {
-    test('Verify that the new user is able to Sign Up, Log In, and Navigate to the Home Page Successfully', { tag: '@chromium' }, async () => {
+    test('Verify that the new user is able to Sign Up, Log In, and Navigate to the Home Page Successfully ', {
+      tag: '@chromium',
+      annotation: [
+        { type: 'testdino:priority', description: 'p0' },
+        { type: 'testdino:feature', description: 'Authentication' },
+        { type: 'testdino:link', description: 'https://jira.example.com/AUTH-001' },
+        { type: 'testdino:owner', description: 'qa-team' },
+        { type: 'testdino:notify-slack', description: '#auth-alerts' },
+        { type: 'testdino:context', description: 'Critical authentication flow for new user registration and login' }
+      ]
+    }, async () => {
       const email = `test+${Date.now()}@test.com`;
       const firstName = 'Test';
       const lastName = 'User';
@@ -170,7 +210,17 @@ test.describe('Authentication', () => {
 
 test.describe('User Profile', () => {
   test.describe('Personal Information', () => {
-    test('Verify that user can update personal information', { tag: '@firefox' }, async () => {
+    test('Verify that user can update personal information ', {
+      tag: '@firefox',
+      annotation: [
+        { type: 'testdino:priority', description: 'p2' },
+        { type: 'testdino:feature', description: 'User Profile' },
+        { type: 'testdino:link', description: 'https://jira.example.com/PROFILE-001' },
+        { type: 'testdino:owner', description: 'qa-team' },
+        { type: 'testdino:notify-slack', description: '#profile-alerts' },
+        { type: 'testdino:context', description: 'User profile information update functionality' }
+      ]
+    }, async () => {
       await allPages.userPage.clickOnUserProfileIcon();
       // await allPages.userPage.updatePersonalInfo();
       // await allPages.userPage.verifyPersonalInfoUpdated();

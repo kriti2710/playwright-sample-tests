@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect } from '@testdino/playwright';
+import { expect, test } from '@playwright/test';
 import AllPages from '../pages/AllPages.js';
 
 let allPages;
@@ -11,7 +11,17 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Navigation Module', () => {
   test.describe('Navbar Validation', () => {
-    test('Verify that all the navbar are working properly', { tag: '@firefox' }, async () => {
+    test('Verify that all the navbar are working properly ', {
+      tag: '@firefox',
+      annotation: [
+        { type: 'testdino:priority', description: 'p1' },
+        { type: 'testdino:feature', description: 'Navigation' },
+        { type: 'testdino:link', description: 'https://jira.example.com/NAV-001' },
+        { type: 'testdino:owner', description: 'qa-team' },
+        { type: 'testdino:notify-slack', description: '#nav-alerts' },
+        { type: 'testdino:context', description: 'Navigation bar functionality across all pages' }
+      ]
+    }, async () => {
       await allPages.homePage.clickBackToHomeButton();
       // await allPages.homePage.assertHomePage();
       await allPages.homePage.clickAllProductsNav();
@@ -27,7 +37,17 @@ test.describe('Navigation Module', () => {
 
 test.describe('Contact Us Module', () => {
   test.describe('Contact Form Submission', () => {
-    test('Verify that user is able to fill Contact Us page successfully',{ tag: '@firefox' }, async () => {
+    test('Verify that user is able to fill Contact Us page successfully ', {
+      tag: '@firefox',
+      annotation: [
+        { type: 'testdino:priority', description: 'p2' },
+        { type: 'testdino:feature', description: 'Contact Us' },
+        { type: 'testdino:link', description: 'https://jira.example.com/CONTACT-001' },
+        { type: 'testdino:owner', description: 'qa-team' },
+        { type: 'testdino:notify-slack', description: '#contact-alerts' },
+        { type: 'testdino:context', description: 'Contact form submission and validation' }
+      ]
+    }, async () => {
       await allPages.homePage.clickOnContactUsLink();
       await allPages.contactUsPage.assertContactUsTitle();
       await allPages.contactUsPage.fillContactUsForm();
@@ -38,9 +58,20 @@ test.describe('Contact Us Module', () => {
 
 test.describe('User Settings', () => {
   test.describe('Change Password Flow', () => {
-    test('Verify that user can change password successfully', { tag: '@ios' }, async () => {
+    test('Verify that user can change password successfully ', {
+      tag: '@ios',
+      annotation: [
+        { type: 'testdino:priority', description: 'p1' },
+        { type: 'testdino:feature', description: 'User Settings' },
+        { type: 'testdino:link', description: 'https://jira.example.com/SETTINGS-001' },
+        { type: 'testdino:owner', description: '@Kriti Verma' },
+        { type: 'testdino:notify-slack', description: '@Kriti Verma' },
+        { type: 'testdino:context', description: 'Password change functionality with revert capability' },
+        { type: 'testdino:flaky-reason', description: 'Password update may take time depending on server response' }
+      ]
+    }, async () => {
 
-      await test.step('Change password and verify notification ', async () => {
+      await test.step('Change password and verify notification', async () => {
         await allPages.userPage.clickOnUserProfileIcon();
         await allPages.userPage.clickOnSecurityButton();
         await allPages.userPage.enterNewPassword();

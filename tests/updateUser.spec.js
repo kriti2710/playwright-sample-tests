@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect } from '@testdino/playwright';
+import { expect, test } from '@playwright/test';
 
 // Base API URL - adjust this to match your actual API endpoint
 const API_BASE_URL = process.env.API_BASE_URL || 'https://dummyjson.com';
@@ -8,14 +8,25 @@ const AUTH_ENDPOINT = '/auth/login';
 
 test.describe('PUT / PATCH Update User API', () => {
   
-  test('Update user details', { tag: '@api' }, async ({ request }) => {
+  test('Update user details ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p1' },
+      { type: 'testdino:feature', description: 'PUT / PATCH Update User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-023' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Complete user profile update functionality' }
+    ]
+  }, async ({ request }) => {
     const userId = 1;
     const updateData = {
       firstName: 'John',
       lastName: 'Doe',
-      age: 30 
+      age: 30
     };
     
+    // Try PUT first, fallback to PATCH if needed
     const response = await request.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`, {
       data: updateData
     });
@@ -27,7 +38,17 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toHaveProperty('lastName', updateData.lastName);
   });
 
-  test('Update user with empty payload', { tag: '@api' }, async ({ request }) => {
+  test('Update user with empty payload ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p2' },
+      { type: 'testdino:feature', description: 'PUT / PATCH Update User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-024' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Edge case handling for empty update payloads' }
+    ]
+  }, async ({ request }) => {
     const userId = 2;
     const response = await request.put(`${API_BASE_URL}${USERS_ENDPOINT}/${userId}`, {
       data: {}
@@ -39,7 +60,17 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toHaveProperty('id', userId);
   });
 
-  test('Update only one field', { tag: '@api' }, async ({ request }) => {
+  test('Update only one field ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p1' },
+      { type: 'testdino:feature', description: 'PUT / PATCH Update User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-025' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Partial update functionality using PATCH method' }
+    ]
+  }, async ({ request }) => {
     const userId = 3;
     const updateData = {
       firstName: 'UpdatedFirstName'
@@ -56,7 +87,17 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toHaveProperty('firstName', updateData.firstName);
   });
 
-  test('Validate returned name field', { tag: '@api' }, async ({ request }) => {
+  test('Validate returned name field ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p1' },
+      { type: 'testdino:feature', description: 'PUT / PATCH Update User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-026' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Response validation for updated name fields' }
+    ]
+  }, async ({ request }) => {
     const userId = 4;
     const updateData = {
       firstName: 'Jane',
@@ -77,7 +118,17 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body.lastName).toBe(updateData.lastName);
   });
 
-  test('Update and validate response contains updatedAt simulation', { tag: '@api' }, async ({ request }) => {
+  test('Update and validate response contains updatedAt simulation ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p2' },
+      { type: 'testdino:feature', description: 'PUT / PATCH Update User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-027' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Timestamp validation for update operations' }
+    ]
+  }, async ({ request }) => {
     const userId = 5;
     const updateData = {
       firstName: 'Updated',
@@ -101,7 +152,17 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toHaveProperty('id', userId);
   });
 
-  test('Login failure (invalid creds)', { tag: '@api' }, async ({ request }) => {
+  test('Login failure (invalid creds) ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p1' },
+      { type: 'testdino:feature', description: 'PUT / PATCH Update User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-028' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Authentication failure handling with invalid credentials' }
+    ]
+  }, async ({ request }) => {
     const loginData = {
       username: 'invaliduser',
       password: 'wrongpassword'
@@ -117,7 +178,18 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toBeInstanceOf(Object);
   });
 
-  test('Login missing fields returns 400', { tag: '@api' },  async ({ request }) => {
+  test('Login missing fields returns 400 ', {
+    tag: '@api',
+    annotation: [
+      { type: 'testdino:priority', description: 'p1' },
+      { type: 'testdino:feature', description: 'PUT / PATCH Update User API' },
+      { type: 'testdino:link', description: 'https://jira.example.com/API-029' },
+      { type: 'testdino:owner', description: 'api-team' },
+      { type: 'testdino:notify-slack', description: '#api-alerts' },
+      { type: 'testdino:context', description: 'Authentication validation for missing required fields' }
+    ]
+  }, async ({ request }) => {
+    // Missing password field
     const loginData = {
       username: 'kminchelle'
     };

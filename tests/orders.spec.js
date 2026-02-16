@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect } from '@testdino/playwright';
+import { expect, test } from '@playwright/test';
 import AllPages from '../pages/AllPages.js';
 
 let allPages;
@@ -12,7 +12,17 @@ test.beforeEach(async ({ page }) => {
 test.describe('Address Module', () => {
 
   test.describe('Add, Edit & Delete Address', () => {
-    test('Verify that User Can Add, Edit, and Delete Addresses after Logging In', { tag: '@ios' }, async () => {
+    test('Verify that User Can Add, Edit, and Delete Addresses after Logging In ', {
+      tag: '@ios',
+      annotation: [
+        { type: 'testdino:priority', description: 'p1' },
+        { type: 'testdino:feature', description: 'Address Management' },
+        { type: 'testdino:link', description: 'https://jira.example.com/ADDRESS-001' },
+        { type: 'testdino:owner', description: 'qa-team' },
+        { type: 'testdino:notify-slack', description: '#address-alerts' },
+        { type: 'testdino:context', description: 'Complete address management flow including add, edit, and delete operations' }
+      ]
+    }, async () => {
 
       await test.step('Verify that user is able to add address successfully', async () => {
         await allPages.userPage.clickOnUserProfileIcon();
@@ -35,7 +45,17 @@ test.describe('Address Module', () => {
   });
 
   test.describe('Add Address for New User', () => {
-    test('Verify that the New User is able to add Addresses in the Address section', { tag: '@andriod' }, async () => {
+    test('Verify that the New User is able to add Addresses in the Address section ', {
+      tag: '@andriod',
+      annotation: [
+        { type: 'testdino:priority', description: 'p2' },
+        { type: 'testdino:feature', description: 'Address Management' },
+        { type: 'testdino:link', description: 'https://jira.example.com/ADDRESS-002' },
+        { type: 'testdino:owner', description: 'qa-team' },
+        { type: 'testdino:notify-slack', description: '#address-alerts' },
+        { type: 'testdino:context', description: 'New user address addition functionality on Android devices' }
+      ]
+    }, async () => {
       await allPages.userPage.clickOnUserProfileIcon();
       await allPages.userPage.clickOnAddressTab();
       await allPages.userPage.clickOnAddAddressButton();
@@ -49,7 +69,17 @@ test.describe('Address Module', () => {
 test.describe('Order Placement', () => {
 
   test.describe('Multiple Quantity Purchase', () => {
-    test('Verify that user can purchase multiple quantities in a single order', { tag: '@andriod' }, async () => {
+    test('Verify that user can purchase multiple quantities in a single order ', {
+      tag: '@andriod',
+      annotation: [
+        { type: 'testdino:priority', description: 'p1' },
+        { type: 'testdino:feature', description: 'Order Placement' },
+        { type: 'testdino:link', description: 'https://jira.example.com/ORDER-003' },
+        { type: 'testdino:owner', description: 'qa-team' },
+        { type: 'testdino:notify-slack', description: '#order-alerts' },
+        { type: 'testdino:context', description: 'Multiple quantity purchase flow on Android devices' }
+      ]
+    }, async () => {
       const productName = 'GoPro HERO10 Black';
 
       await allPages.inventoryPage.clickOnShopNowButton();
