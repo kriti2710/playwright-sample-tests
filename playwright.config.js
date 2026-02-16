@@ -24,12 +24,6 @@ export default defineConfig({
       token: process.env.TESTDINO_TOKEN,
       debug: true,
       serverUrl: 'https://staging-api.testdino.com',
-      coverage: {
-        enabled: true,
-        projects: ['chromium'],
-        localReport: true,
-        localReportDir: './coverage-report',
-      },
     }],
   ],
 

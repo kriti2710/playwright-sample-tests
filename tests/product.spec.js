@@ -276,7 +276,6 @@ test.describe('New User Journey', () => {
         { type: 'testdino:context', description: 'Complete new user journey from registration to single order placement' }
       ]
     }, async () => {
-      // 🔹 Original logic unchanged (steps kept exactly as provided)
       // Only wrapped for reporting structure
     });
   });
