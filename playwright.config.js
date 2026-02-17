@@ -7,11 +7,9 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 0 : 0,
+  retries: isCI ? 0 : 2,
   workers: isCI ? 5 : 5,
-
   timeout: 60 * 1000,
-
 
   reporter: [
     ['html', {
@@ -21,13 +19,11 @@ export default defineConfig({
     ['blob', { outputDir: 'blob-report' }], 
     ['json', { outputFile: './playwright-report/report.json' }],
     ['@testdino/playwright', {
-      // token: "trx_staging_11de4fe3ed0f6e3b6486b861c7acbc08d501620b0bcfae856add6aa1df9f3983",
-      // serverUrl: "https://staging-api.testdino.com",
-      token: "trx_development_0d4ec381bc99e452d093409a1e523868f7878fc9b3b7f836b59b48a7c659faa4",
-      serverUrl: "http://localhost:3001",
+      token: 'trx_development_50d877833cf3db2139533be785d194b58c443875239dfe5800bc9aa4077fc8bb',
+      serverUrl: 'http://localhost:3001',
       debug: false,
       artifacts: false
-    }]
+    }],
   ],
 
   use: {
