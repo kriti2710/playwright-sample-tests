@@ -135,7 +135,6 @@ test.describe('User Journey', () => {
         // await allPages.productDetailsPage.clickOnReviewsTab();
         // await allPages.productDetailsPage.assertReviewsTab();
         // await allPages.productDetailsPage.clickOnAdditionalInfoTab();
-        // await allPages.productDetailsPage.assertAdditionalInfoTab();
       });
 
       await test.step('Place first order', async () => {
