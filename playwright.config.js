@@ -19,8 +19,8 @@ export default defineConfig({
     ['blob', { outputDir: 'blob-report' }], 
     ['json', { outputFile: './playwright-report/report.json' }],
     ['@testdino/playwright', {
-      token: 'trx_development_50d877833cf3db2139533be785d194b58c443875239dfe5800bc9aa4077fc8bb',
-      serverUrl: 'http://localhost:3001',
+      token: 'trx_staging_aa1799fcea170c56bc3ff82c53941c11939edb91cbab4493ea060e36424efd7f',
+      serverUrl: 'https://staging-api.testdino.com',
       debug: false,
       artifacts: false
     }],
