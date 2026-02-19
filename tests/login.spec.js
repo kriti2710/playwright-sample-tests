@@ -60,7 +60,6 @@ test.describe('Authentication', () => {
         // await allPages.loginPage.validateSignInPage();
         // await allPages.loginPage.clickOnSignupLink();
         // await allPages.signupPage.assertSignupPage();
-        // await allPages.signupPage.signup(firstName, lastName, email, process.env.PASSWORD);
         // await allPages.signupPage.verifySuccessSignUp();
       });
 
