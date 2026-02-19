@@ -134,7 +134,6 @@ test.describe('User Journey', () => {
         // await allPages.allProductsPage.clickNthProduct(1);
         // await allPages.productDetailsPage.clickOnReviewsTab();
         // await allPages.productDetailsPage.assertReviewsTab();
-        // await allPages.productDetailsPage.clickOnAdditionalInfoTab();
         // await allPages.productDetailsPage.assertAdditionalInfoTab();
       });
 
