@@ -22,7 +22,15 @@ async function logout() {
 
 test.describe('Login', () => {
   test.describe('Authentication', () => {
-    test('Verify that user can login and logout successfully ', {tag: '@chromium'}, async () => {
+    test('Verify that user can login and logout successfully ', {
+      tag: ['@chromium', '@smoke', '@auth'],
+      annotation: [
+        { type: 'testdino:priority', description: 'P0' },
+        { type: 'testdino:owner', description: 'team-auth' },
+        { type: 'testdino:feature', description: 'auth' },
+        { type: 'testdino:context', description: 'Core login/logout flow. Validates authentication against storedemo. Failure blocks all authenticated tests.' },
+      ],
+    }, async () => {
       const loginStart = Date.now();
       await login();
       const loginTime = Date.now() - loginStart;

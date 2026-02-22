@@ -11,7 +11,15 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Visual', () => {
   test.describe('Screenshot Tests', () => {
-    test('test', {tag: '@chromium'}, async ({ page }) => {
+    test('test', {
+      tag: ['@chromium', '@regression', '@visual'],
+      annotation: [
+        { type: 'testdino:priority', description: 'P3' },
+        { type: 'testdino:owner', description: 'team-frontend' },
+        { type: 'testdino:feature', description: 'visual' },
+        { type: 'testdino:context', description: 'Visual regression test against GitHub login page. Captures initial and filled-state screenshots for comparison.' },
+      ],
+    }, async ({ page }) => {
       const startTime = Date.now();
       await page.goto('https://github.com/login');
       await expect(page).toHaveScreenshot('github-login-initial.png');

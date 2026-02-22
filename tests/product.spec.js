@@ -28,7 +28,15 @@ test.describe('Application E2E Tests', () => {
   ============================================= */
   test.describe('Product Reviews', () => {
 
-    test('User can submit a product review', {tag: '@firefox'}, async () => {
+    test('User can submit a product review', {
+      tag: ['@firefox', '@regression', '@reviews'],
+      annotation: [
+        { type: 'testdino:priority', description: 'P2' },
+        { type: 'testdino:owner', description: 'team-product' },
+        { type: 'testdino:feature', description: 'reviews' },
+        { type: 'testdino:context', description: 'Tests review submission flow on product detail page. Requires authenticated user.' },
+      ],
+    }, async () => {
       const startTime = Date.now();
 
       await test.step('Login and open product', async () => {
@@ -72,7 +80,15 @@ test.describe('Application E2E Tests', () => {
       );
     });
 
-    test('User can edit and delete a product review', {tag: '@firefox'}, async () => {
+    test('User can edit and delete a product review', {
+      tag: ['@firefox', '@regression', '@reviews'],
+      annotation: [
+        { type: 'testdino:priority', description: 'P2' },
+        { type: 'testdino:owner', description: 'team-product' },
+        { type: 'testdino:feature', description: 'reviews' },
+        { type: 'testdino:context', description: 'Full CRUD cycle for reviews — submit, edit, then delete. Depends on review creation succeeding first.' },
+      ],
+    }, async () => {
       const startTime = Date.now();
       let editTime;
 
@@ -130,7 +146,15 @@ test.describe('Application E2E Tests', () => {
   test.describe('Product Filtering', () => {
 
     /* ------------ Test ------------ */
-    test('User can filter products by price range', {tag: '@webkit'}, async () => {
+    test('User can filter products by price range', {
+      tag: ['@webkit', '@regression', '@search'],
+      annotation: [
+        { type: 'testdino:priority', description: 'P1' },
+        { type: 'testdino:owner', description: 'team-product' },
+        { type: 'testdino:feature', description: 'search' },
+        { type: 'testdino:context', description: 'Validates price-range slider filter. Uses range 10000-20000.' },
+      ],
+    }, async () => {
       const startTime = Date.now();
       await login();
       await allPages.homePage.clickOnShopNowButton();
@@ -166,7 +190,15 @@ test.describe('Application E2E Tests', () => {
   test.describe('Wishlist to Checkout', () => {
 
     /* ------------ Test ------------ */
-    test('User can wishlist product and checkout', {tag: '@webkit'}, async () => {
+    test('User can wishlist product and checkout', {
+      tag: ['@webkit', '@smoke', '@checkout'],
+      annotation: [
+        { type: 'testdino:priority', description: 'P0' },
+        { type: 'testdino:owner', description: 'team-commerce' },
+        { type: 'testdino:feature', description: 'checkout' },
+        { type: 'testdino:context', description: 'End-to-end wishlist-to-purchase flow. Covers wishlist add, cart transfer, and Cash on Delivery checkout.' },
+      ],
+    }, async () => {
       const startTime = Date.now();
       let wishlistTime, checkoutTime;
 
@@ -238,7 +270,15 @@ test.describe('Application E2E Tests', () => {
   test.describe('Order Journey', () => {
 
     /* ------------ Test ------------ */
-    test('User can place and cancel order', {tag: '@webkit'}, async () => {
+    test('User can place and cancel order', {
+      tag: ['@webkit', '@regression', '@orders'],
+      annotation: [
+        { type: 'testdino:priority', description: 'P0' },
+        { type: 'testdino:owner', description: 'team-commerce' },
+        { type: 'testdino:feature', description: 'orders' },
+        { type: 'testdino:context', description: 'Order placement via product search then immediate cancellation. Validates full order lifecycle.' },
+      ],
+    }, async () => {
       const productName = 'GoPro HERO10 Black';
       const startTime = Date.now();
       let orderPlacementTime, cancellationTime;
@@ -297,7 +337,15 @@ test.describe('Application E2E Tests', () => {
   test.describe('Registration to Order', () => {
 
     /* ------------ Test ------------ */
-    test('New user can register and place order', {tag: '@chromium'}, async () => {
+    test('New user can register and place order', {
+      tag: ['@chromium', '@smoke', '@e2e'],
+      annotation: [
+        { type: 'testdino:priority', description: 'P0' },
+        { type: 'testdino:owner', description: 'team-commerce' },
+        { type: 'testdino:feature', description: 'onboarding' },
+        { type: 'testdino:context', description: 'Full new-user journey: registration → login → browse → add to cart → checkout. Critical conversion funnel test.' },
+      ],
+    }, async () => {
 
       const email = `test+${Date.now()}@test.com`;
       const startTime = Date.now();

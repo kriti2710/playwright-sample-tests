@@ -44,7 +44,15 @@ test.describe('Orders', () => {
     test.describe('Existing User Address CRUD', () => {
 
       test(
-        'Verify that user can add, edit, and delete addresses after login', {tag: '@ios'}, async () => {
+        'Verify that user can add, edit, and delete addresses after login', {
+          tag: ['@ios', '@regression', '@address'],
+          annotation: [
+            { type: 'testdino:priority', description: 'P1' },
+            { type: 'testdino:owner', description: 'team-commerce' },
+            { type: 'testdino:feature', description: 'address' },
+            { type: 'testdino:context', description: 'Full address CRUD cycle — add, edit, delete. Tests address management for existing authenticated users.' },
+          ],
+        }, async () => {
           const startTime = Date.now();
           let addTime, editTime, deleteTime;
 
@@ -125,7 +133,15 @@ test.describe('Orders', () => {
     test.describe('New User Address Creation', () => {
 
       test(
-        'Verify that new user can add address from Address section', {tag: '@android'}, async () => {
+        'Verify that new user can add address from Address section', {
+          tag: ['@android', '@regression', '@address'],
+          annotation: [
+            { type: 'testdino:priority', description: 'P2' },
+            { type: 'testdino:owner', description: 'team-commerce' },
+            { type: 'testdino:feature', description: 'address' },
+            { type: 'testdino:context', description: 'New user address creation from the Address section. Validates the add-new-address menu and form.' },
+          ],
+        }, async () => {
           const startTime = Date.now();
           await login();
 
@@ -166,7 +182,15 @@ test.describe('Orders', () => {
     test.describe('Multiple Quantity Purchase', () => {
 
       test(
-        'Verify that user can purchase multiple quantities in a single order', {tag: '@android'}, async () => {
+        'Verify that user can purchase multiple quantities in a single order', {
+          tag: ['@android', '@smoke', '@orders'],
+          annotation: [
+            { type: 'testdino:priority', description: 'P0' },
+            { type: 'testdino:owner', description: 'team-commerce' },
+            { type: 'testdino:feature', description: 'orders' },
+            { type: 'testdino:context', description: 'Multi-quantity order placement. Searches product, increases cart quantity to 3, completes Cash on Delivery checkout.' },
+          ],
+        }, async () => {
           const productName = 'GoPro HERO10 Black';
           const startTime = Date.now();
           const quantity = 3;

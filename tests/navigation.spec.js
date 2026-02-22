@@ -43,7 +43,15 @@ test.describe('Navigation', () => {
     ========================================= */
     test.describe('Verify Navbar Links', () => {
 
-      test('Verify that all the navbar links work correctly', {tag: '@firefox'}, async () => {
+      test('Verify that all the navbar links work correctly', {
+        tag: ['@firefox', '@smoke', '@navigation'],
+        annotation: [
+          { type: 'testdino:priority', description: 'P1' },
+          { type: 'testdino:owner', description: 'team-frontend' },
+          { type: 'testdino:feature', description: 'navigation' },
+          { type: 'testdino:context', description: 'Validates all top-level navbar links — Home, All Products, Contact Us, About Us. Core navigation smoke test.' },
+        ],
+      }, async () => {
         const startTime = Date.now();
         let navigationCount = 0;
 
@@ -107,7 +115,15 @@ test.describe('Navigation', () => {
     ========================================= */
     test.describe('Submit Contact Us Form', () => {
 
-      test('Verify that user can submit Contact Us form successfully', {tag: '@firefox'}, async () => {
+      test('Verify that user can submit Contact Us form successfully', {
+        tag: ['@firefox', '@regression', '@contact'],
+        annotation: [
+          { type: 'testdino:priority', description: 'P2' },
+          { type: 'testdino:owner', description: 'team-frontend' },
+          { type: 'testdino:feature', description: 'contact' },
+          { type: 'testdino:context', description: 'Contact Us form submission with authenticated user. Validates form fill and success message.' },
+        ],
+      }, async () => {
         const startTime = Date.now();
         await login();
 
