@@ -77,7 +77,6 @@ export default defineConfig({
     }],
     ['blob', { outputDir: 'blob-report' }], // Blob reporter for merging
     ['json', { outputFile: './playwright-report/report.json' }],
-    ['@testdino/playwright', { token: process.env.TESTDINO_TOKEN }],
   ],
 
   use: {

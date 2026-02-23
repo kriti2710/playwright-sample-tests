@@ -216,7 +216,7 @@ jobs:
           merge-multiple: true
 
       - name: Merge HTML & JSON reports
-        run: npx playwright merge-reports --config=playwright.config.js ./all-blob-reports
+        run: npx playwright merge-reports --reporter=html --reporter=json ./all-blob-reports
 
       - name: Upload combined report
         uses: actions/upload-artifact@v4
@@ -226,8 +226,16 @@ jobs:
           retention-days: 14
 
       - name: Send TestDino report
+        if: always()
+        continue-on-error: true
+        env:
+          TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
         run: |
-         npx --yes tdpw ./playwright-report \
-           --token="${{ secrets.TESTDINO_TOKEN }}" \
-           --upload-html \
-           --verbose
+          if [ -f "./playwright-report/index.html" ]; then
+            npx --yes tdpw ./playwright-report \
+              --token="${TESTDINO_TOKEN}" \
+              --upload-html \
+              --verbose || echo "TestDino upload failed, continuing..."
+          else
+            echo "No report found to upload"
+          fi
