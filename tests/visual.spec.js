@@ -11,12 +11,56 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Visual', () => {
   test.describe('Screenshot Tests', () => {
-    test('test @chromium', async ({ page }) => {
+    test('test', {
+      tag: ['@chromium', '@regression', '@visual'],
+      annotation: [
+        { type: 'testdino:priority', description: 'P3' },
+        { type: 'testdino:owner', description: 'team-frontend' },
+        { type: 'testdino:feature', description: 'visual' },
+        { type: 'testdino:context', description: 'Visual regression test against GitHub login page. Captures initial and filled-state screenshots for comparison.' },
+      ],
+    }, async ({ page }) => {
+      const startTime = Date.now();
       await page.goto('https://github.com/login');
       await expect(page).toHaveScreenshot('github-login-initial.png');
+      
+      const interactionStart = Date.now();
       await page.getByRole('textbox', { name: 'Username or email address' }).click();
       await page.getByRole('textbox', { name: 'Username or email address' }).fill('test');
       await expect(page).toHaveScreenshot('github-login-filled.png');
+      const interactionTime = Date.now() - interactionStart;
+
+      const totalVisualTestTime = Date.now() - startTime;
+
+      test.info().annotations.push(
+        {
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'page-load-time',
+            value: totalVisualTestTime,
+            threshold: 5000,
+            unit: 'ms'
+          })
+        },
+        {
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'visual-regression-time',
+            value: interactionTime,
+            threshold: 3000,
+            unit: 'ms'
+          })
+        },
+        {
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'screenshot-count',
+            value: 2,
+            threshold: 10,
+            unit: 'count'
+          })
+        }
+      );
     });
   });
 });

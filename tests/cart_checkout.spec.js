@@ -36,8 +36,17 @@ test.describe('Application E2E Tests', () => {
     ========================================= */
     test.describe('Delete Product from Cart', () => {
 
-      test('User can delete selected product from cart @ios', async () => {
+      test('User can delete selected product from cart', {
+        tag: ['@ios', '@regression', '@cart'],
+        annotation: [
+          { type: 'testdino:priority', description: 'P1' },
+          { type: 'testdino:owner', description: 'team-commerce' },
+          { type: 'testdino:feature', description: 'cart' },
+          { type: 'testdino:context', description: 'Cart item removal flow — search product, add to cart, then delete. Verifies empty cart state.' },
+        ],
+      }, async () => {
         const productName = 'GoPro HERO10 Black';
+        const startTime = Date.now();
 
         await login();
         await allPages.inventoryPage.clickOnShopNowButton();
@@ -49,6 +58,17 @@ test.describe('Application E2E Tests', () => {
         await allPages.cartPage.verifyCartItemVisible(productName);
         await allPages.cartPage.clickOnDeleteProductIcon();
         await allPages.cartPage.verifyEmptyCartMessage();
+
+        const cartOperationTime = Date.now() - startTime;
+        test.info().annotations.push({
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'cart-operation-time',
+            value: cartOperationTime,
+            threshold: 5000,
+            unit: 'ms'
+          })
+        });
       });
 
     });
@@ -65,10 +85,21 @@ test.describe('Application E2E Tests', () => {
     ========================================= */
     test.describe('Single Order and Cancellation', () => {
 
-      test('New user can place and cancel order @chromium', async () => {
+      test('New user can place and cancel order', {
+        tag: ['@chromium', '@smoke', '@e2e'],
+        annotation: [
+          { type: 'testdino:priority', description: 'P0' },
+          { type: 'testdino:owner', description: 'team-commerce' },
+          { type: 'testdino:feature', description: 'checkout' },
+          { type: 'testdino:context', description: 'Full E2E: register → login → browse → add to cart → checkout → place order → cancel. Critical path for new user conversion.' },
+        ],
+      }, async () => {
         const email = `test+${Date.now()}@test.com`;
+        const startTime = Date.now();
+        let registrationTime, checkoutTime;
 
         await test.step('Register user', async () => {
+          const regStart = Date.now();
           await allPages.loginPage.clickOnUserProfileIcon();
           await allPages.loginPage.clickOnSignupLink();
           await allPages.signupPage.signup(
@@ -77,9 +108,11 @@ test.describe('Application E2E Tests', () => {
             email,
             process.env.PASSWORD
           );
+          registrationTime = Date.now() - regStart;
         });
 
         await test.step('Login and place order', async () => {
+          const checkoutStart = Date.now();
           await allPages.loginPage.login(email, process.env.PASSWORD);
           await expect(allPages.homePage.getHomeNav()).toBeVisible();
 
@@ -89,6 +122,7 @@ test.describe('Application E2E Tests', () => {
           await allPages.cartPage.clickOnCheckoutButton();
           await allPages.checkoutPage.selectCashOnDelivery();
           await allPages.checkoutPage.clickOnPlaceOrder();
+          checkoutTime = Date.now() - checkoutStart;
         });
 
         await test.step('Cancel order', async () => {
@@ -96,6 +130,47 @@ test.describe('Application E2E Tests', () => {
           await allPages.orderPage.clickCancelOrderButton();
           await allPages.orderPage.confirmCancellation();
         });
+
+        const totalFlowTime = Date.now() - startTime;
+        
+        test.info().annotations.push(
+          {
+            type: 'metric',
+            description: JSON.stringify({
+              name: 'registration-time',
+              value: registrationTime,
+              threshold: 3000,
+              unit: 'ms'
+            })
+          },
+          {
+            type: 'metric',
+            description: JSON.stringify({
+              name: 'checkout-time',
+              value: checkoutTime,
+              threshold: 5000,
+              unit: 'ms'
+            })
+          },
+          {
+            type: 'metric',
+            description: JSON.stringify({
+              name: 'order-cancellation-rate',
+              value: 100,
+              threshold: 20,
+              unit: '%'
+            })
+          },
+          {
+            type: 'metric',
+            description: JSON.stringify({
+              name: 'end-to-end-flow-time',
+              value: totalFlowTime,
+              threshold: 15000,
+              unit: 'ms'
+            })
+          }
+        );
       });
 
     });
@@ -112,11 +187,31 @@ test.describe('Application E2E Tests', () => {
     ========================================= */
     test.describe('Update Personal Information', () => {
 
-      test('User can update personal info @firefox', async () => {
+      test('User can update personal info', {
+        tag: ['@firefox', '@regression', '@profile'],
+        annotation: [
+          { type: 'testdino:priority', description: 'P2' },
+          { type: 'testdino:owner', description: 'team-frontend' },
+          { type: 'testdino:feature', description: 'profile' },
+          { type: 'testdino:context', description: 'User profile update flow. Verifies personal info can be modified after login.' },
+        ],
+      }, async () => {
+        const startTime = Date.now();
         await login();
         await allPages.userPage.clickOnUserProfileIcon();
         await allPages.userPage.updatePersonalInfo();
         await allPages.userPage.verifyPersonalInfoUpdated();
+        const profileUpdateTime = Date.now() - startTime;
+
+        test.info().annotations.push({
+          type: 'metric',
+          description: JSON.stringify({
+            name: 'profile-update-time',
+            value: profileUpdateTime,
+            threshold: 4000,
+            unit: 'ms'
+          })
+        });
       });
 
     });

@@ -1,3 +1,4 @@
+[![Test Health](https://staging-api.testdino.com/api/badge/project_6994031bf797fc2987c032d8.svg)](https://staging.testdino.com/org_698309c81aa085a66fc43343/projects/project_6994031bf797fc2987c032d8) [![Flaky](https://staging-api.testdino.com/api/badge/project_6994031bf797fc2987c032d8.svg?type=flaky)](https://staging.testdino.com/org_698309c81aa085a66fc43343/projects/project_6994031bf797fc2987c032d8) [![Tests](https://staging-api.testdino.com/api/badge/project_6994031bf797fc2987c032d8.svg?type=tests)](https://staging.testdino.com/org_698309c81aa085a66fc43343/projects/project_6994031bf797fc2987c032d8)
 # Ecommerce demo store - Playwright (javascript) tests
 
 Automated end-to-end tests for Ecommerce demo store using [Playwright](https://playwright.dev/).
