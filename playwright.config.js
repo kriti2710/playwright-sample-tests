@@ -23,7 +23,7 @@ export default defineConfig({
     ['json', { outputFile: './playwright-report/report.json' }],
 
     ['@testdino/playwright', {
-      token: "trx_staging_054ab38862279cac3c7a027b851328798aa92bbad3c98a08a5907ed372c7ad03",
+      token: "trx_staging_98d2409fbe2209d66cc8c11d1f032a155c359aad4040f63af4f5f90ea00c21c8",
       serverUrl: 'https://staging-api.testdino.com',
       // token: "trx_development_ceb65e2394faabbd238d1be3a7637334dc8414799cde63e7d68c7a1860f814bf",
       // serverUrl: 'http://localhost:3001',
