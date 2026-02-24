@@ -371,7 +371,6 @@ jobs:
             --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} \
             --grep="@chromium|@firefox|@webkit|@android|@ios|@api" \
             
-      # ✅ Upload blob report (needed for merge)
       - name: Upload blob report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
