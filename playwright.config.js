@@ -23,7 +23,7 @@ export default defineConfig({
     ['json', { outputFile: './playwright-report/report.json' }],
     ['list'],
     ['@testdino/playwright', {
-      token: "trx_staging_8494aa9424c2b968b44e3a99508ca5b07f035a49951dbd97ccaa7de5c850f14b",
+      token: process.env.TESTDINO_TOKEN,
       serverUrl: 'https://staging-api.testdino.com',
       debug: false,
       ciRunId: `ci-run-${process.env.GITHUB_RUN_ID}` || 'local-run-id',
