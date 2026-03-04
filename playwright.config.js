@@ -19,7 +19,7 @@
 //     ['blob', { outputDir: 'blob-report' }], 
 //     ['json', { outputFile: './playwright-report/report.json' }],
 //     ['@testdino/playwright', {
-//       token: 'trx_staging_aa1799fcea170c56bc3ff82c53941c11939edb91cbab4493ea060e36424efd7f',
+//       token: process.env.TESTDINO_TOKEN,
 //       serverUrl: 'https://staging-api.testdino.com',
 //       debug: false,
 //       artifacts: false
