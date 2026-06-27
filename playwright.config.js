@@ -11,7 +11,7 @@ const isCI = !!process.env.CI;
 // and fall back to a date-based id for local runs.
 const ciRunId = isCI
   ? `ci-run-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT || 1}`
-  : `local-run-${new Date().toISOString().replace(/[:.]/g, '-')}`;
+  : `local-run-${new Date().toISOString().split('T')[0]}`;
 
 export default defineConfig({
   testDir: './tests',
