@@ -30,7 +30,7 @@ async function logout() {
 }
 
 
-test.only('Verify that user can login and logout successfully @chromium', async () => {
+test('Verify that user can login and logout successfully @chromium', async () => {
   await login();
   await logout();
 });
