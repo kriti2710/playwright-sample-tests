@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "@currents/mcp": "^2.1.1",
+    "@testdino/playwright": "file:testdino-playwright-1.1.0.tgz",
     "dotenv": "^17.2.1",
-    "playwright": "^1.55.0"
+    "playwright": "^1.55.0",
+    "tdpw": "^1.0.38"
   }
 }
