@@ -7,6 +7,12 @@ dotenv.config();
 
 const isCI = !!process.env.CI;
 
+// Use the GitHub Actions run identifier in CI so all shards share one run,
+// and fall back to a date-based id for local runs.
+const ciRunId = isCI
+  ? `ci-run-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT || 1}`
+  : `local-run-${new Date().toISOString().replace(/[:.]/g, '-')}`;
+
 export default defineConfig({
   testDir: './tests',
   snapshotDir: './__screenshots__',  // ✅ Baseline image storage
@@ -24,8 +30,7 @@ export default defineConfig({
     ['@testdino/playwright', {
       serverUrl: 'https://stg-analytics.testdino.com',
       token: 'td_api_174f4f2217d7960e0375d3b6c68afbc3399c67b15d4854589fb548ce06c335db',
-      // ciRunId: `ci-run-${Math.floor(Date.now() / 10000)}`,
-      ciRunId: `ci-run-23`,
+      ciRunId,
       debug: false,
       artifacts: false
     }]
