@@ -178,7 +178,7 @@ export default defineConfig({
   reporter: [
     ['@testdino/playwright', {
       serverUrl: 'https://stg-analytics.testdino.com',
-      token: 'td_api_70296d2896b7fea08045e7ce8a08b409ffa010b415b4bad4d196daa0d93d697a',
+      token: 'td_api_57b9a51546f5b6207b47a469716d5bec8910c0830e3649cdb120887fb415baf7',
       // ciRunId,
       debug: false,
       artifacts: false
@@ -200,27 +200,27 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    //   grep: /@webkit/, // only run tests tagged @webkit
-    // },
-    {
-      name: 'android',
-      use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'ios',
-      use: { ...devices['iPhone 12'] },
-    },
+//     {
+//       name: 'firefox',
+//       use: { ...devices['Desktop Firefox'] },
+//     },
+//     // {
+//     //   name: 'webkit',
+//     //   use: { ...devices['Desktop Safari'] },
+//     //   grep: /@webkit/, // only run tests tagged @webkit
+//     // },
+//     {
+//       name: 'android',
+//       use: { ...devices['Pixel 5'] },
+//     },
+//     {
+//       name: 'ios',
+//       use: { ...devices['iPhone 12'] },
+//     },
 
-    {
-      name: 'api',
-      use: { ...devices['API'] },
-    },
+//     {
+//       name: 'api',
+//       use: { ...devices['API'] },
+//     },
   ],
 });
