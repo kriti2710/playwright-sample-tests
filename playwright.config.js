@@ -1,53 +1,3 @@
-// // @ts-check
-// import { defineConfig, devices } from '@playwright/test';
-
-// const isCI = !!process.env.CI;
-
-// export default defineConfig({
-//   testDir: './tests',
-//   fullyParallel: true,
-//   forbidOnly: isCI,
-//   retries: isCI ? 0 : 2,
-//   workers: isCI ? 5 : 5,
-//   timeout: 60 * 1000,
-
-//   reporter: [
-//     ['html', {
-//       outputFolder: 'playwright-report',
-//       open: 'never'
-//     }],
-//     ['blob', { outputDir: 'blob-report' }], 
-//     ['json', { outputFile: './playwright-report/report.json' }],
-//     ['@testdino/playwright', {
-//       token: process.env.TESTDINO_TOKEN,
-//       serverUrl: 'https://staging-api.testdino.com',
-//       debug: false,
-//       artifacts: false
-//     }],
-//   ],
-
-//   use: {
-//     baseURL: 'https://storedemo.testdino.com/',
-//     headless: true,
-//     trace: 'on',
-//     screenshot: 'only-on-failure',
-//     video: 'retain-on-failure',
-//   },
-
-//   projects: [
-//     {
-//       name: 'chromium',
-//       use: { ...devices['Desktop Chrome'] },
-//     },
-//     {
-//       name: 'api',
-//       use: { ...devices['API'] },
-//       grep: /@api/, // only run tests tagged @api
-//     },
-//   ],
-// });
-
-
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
@@ -62,10 +12,10 @@ export default defineConfig({
   snapshotDir: './__screenshots__',  // ✅ Baseline image storage
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 1 : 1, // Enable retries for flaky test behavior
+  retries: isCI ? 0 : 2, // Enable retries for flaky test behavior
   workers: isCI ? 5 : 5,
 
-  timeout: 60 * 1000,
+  timeout: 1000,
   expect: {
     timeout: 10 * 1000,
   },
@@ -77,6 +27,14 @@ export default defineConfig({
     }],
     ['blob', { outputDir: 'blob-report' }], // Blob reporter for merging
     ['json', { outputFile: './playwright-report/report.json' }],
+    ['@testdino/playwright', {
+      serverUrl: 'https://stg-analytics.testdino.com',
+      token: 'td_api_174f4f2217d7960e0375d3b6c68afbc3399c67b15d4854589fb548ce06c335db',
+      // ciRunId: `ci-run-${Math.floor(Date.now() / 10000)}`,
+      ciRunId: `ci-run-23`,
+      debug: false,
+      artifacts: false
+    }]
   ],
 
   use: {

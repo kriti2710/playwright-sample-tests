@@ -13,10 +13,10 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.57.0",
-    "@testdino/playwright": "^1.0.10",
     "@types/node": "^24.1.0"
   },
   "dependencies": {
+    "@testdino/playwright": "file:testdino-playwright-1.1.0.tgz",
     "dotenv": "^17.2.1",
     "playwright": "^1.55.0"
   }
