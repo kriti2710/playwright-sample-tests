@@ -24,7 +24,8 @@ This is a **sample Playwright test framework** whose primary job is to exercise 
 | `baseURL` | `https://storedemo.testdino.com/products` | UI tests navigate relative to this |
 | `reporter` | `@testdino/playwright` only | No HTML/JSON reporter; results stream to TestDino |
 | `token` | hardcoded in config | TestDino API token |
-| `serverUrl` | `http://localhost:3005` | Point to staging (`https://stg-analytics.testdino.com`) when not running TestDino locally |
+| `serverUrl` | `https://stg-analytics.testdino.com` in CI, `http://localhost:3005` locally | TestDino analytics endpoint |
+| `artifacts` | `true` in CI, `false` locally | Upload reporter artifacts only for CI runs |
 
 ## Project / tag system
 

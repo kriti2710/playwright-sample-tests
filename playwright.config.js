@@ -9,6 +9,12 @@ const ciRunId = isCI
   ? `ci-run-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT || 1}`
   : `local-run-${new Date().toISOString().split('T')[0]}`;
 
+const serverUrl = isCI
+  ? 'https://stg-analytics.testdino.com'
+  : 'http://localhost:3005';
+
+const artifacts = isCI;
+
 export default defineConfig({
   testDir: './tests',
   snapshotDir: './__screenshots__',  // ✅ Baseline image storage
@@ -24,12 +30,11 @@ export default defineConfig({
   
   reporter: [
     ['@testdino/playwright', {
-      // serverUrl: 'https://stg-analytics.testdino.com',
-      serverUrl: 'http://localhost:3005',
+      serverUrl,
       token: 'td_api_f68c603b6d167d72f31ab579c27064364542a86c501cf3b3d3399aad9ace402d',
       ciRunId,
       debug: false,
-      artifacts: false
+      artifacts
     }]
   ],
 

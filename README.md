@@ -107,10 +107,10 @@ Results are sent directly to TestDino via the built-in reporter in `playwright.c
 ```js
 reporter: [
   ['@testdino/playwright', {
-    serverUrl: 'http://localhost:3005',  // or https://stg-analytics.testdino.com
+    serverUrl,  // staging in CI, localhost locally
     token: 'td_api_...',  // hardcoded in playwright.config.js
     ciRunId,
-    artifacts: false,
+    artifacts,  // enabled in CI, disabled locally
   }]
 ]
 ```
