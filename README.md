@@ -83,14 +83,14 @@ Each Playwright project runs only tests tagged for that browser. Tag tests when 
 test('my test', { tag: '@chromium' }, async ({ page }) => { ... });
 ```
 
-| Project   | Tag        | Tests |
-|-----------|------------|-------|
-| chromium  | `@chromium`| E2E, visual, flaky demos |
-| firefox   | `@firefox` | Navigation, product reviews, profile |
-| webkit    | `@webkit`  | Filters, wishlist, orders |
-| ios       | `@ios`     | Cart, settings, addresses |
-| android   | `@android` | *(no tests yet)* |
-| api       | `@api`     | REST API tests against dummyjson.com |
+| Project  | Tag         | Tests                                |
+| -------- | ----------- | ------------------------------------ |
+| chromium | `@chromium` | E2E, visual, flaky demos             |
+| firefox  | `@firefox`  | Navigation, product reviews, profile |
+| webkit   | `@webkit`   | Filters, wishlist, orders            |
+| ios      | `@ios`      | Cart, settings, addresses            |
+| android  | `@android`  | _(no tests yet)_                     |
+| api      | `@api`      | REST API tests against dummyjson.com |
 
 Apply a tag to an entire `describe` block:
 
@@ -106,13 +106,16 @@ Results are sent directly to TestDino via the built-in reporter in `playwright.c
 
 ```js
 reporter: [
-  ['@testdino/playwright', {
-    serverUrl,  // staging in CI, localhost locally
-    token: 'td_api_...',  // hardcoded in playwright.config.js
-    ciRunId,
-    artifacts,  // enabled in CI, disabled locally
-  }]
-]
+  [
+    '@testdino/playwright',
+    {
+      serverUrl, // staging in CI, localhost locally
+      token: 'td_api_...', // hardcoded in playwright.config.js
+      ciRunId,
+      artifacts, // enabled in CI, disabled locally
+    },
+  ],
+];
 ```
 
 ### Test metadata annotations
@@ -128,7 +131,7 @@ annotation: [
   { type: 'testdino:notify-slack', description: '#e2e-alerts' },
   { type: 'testdino:context', description: 'What this test validates' },
   { type: 'testdino:flaky-reason', description: 'Why this test may be flaky' },
-]
+];
 ```
 
 ### CI run grouping
@@ -149,11 +152,11 @@ GitHub Actions runs tests on push, pull request, weekdays at 03:30 UTC, and manu
 
 Required GitHub secrets:
 
-| Secret | Purpose |
-|--------|---------|
-| `USERNAME` | Store demo login |
-| `PASSWORD` | Store demo login |
-| `NEW_PASSWORD` | Password change tests |
+| Secret                                                              | Purpose                |
+| ------------------------------------------------------------------- | ---------------------- |
+| `USERNAME`                                                          | Store demo login       |
+| `PASSWORD`                                                          | Store demo login       |
+| `NEW_PASSWORD`                                                      | Password change tests  |
 | `FIRST_NAME`, `STREET_NAME`, `CITY`, `STATE`, `COUNTRY`, `ZIP_CODE` | Checkout/address tests |
 
 ---
@@ -168,33 +171,33 @@ npx playwright test tests/passed-tests.spec.js tests/failed-tests.spec.js tests/
 
 Expected result: **10 passed · 10 failed · 10 flaky · 10 skipped**
 
-| File | Status | Count |
-|------|--------|-------|
-| `passed-tests.spec.js` | Passed | 10 |
-| `failed-tests.spec.js` | Failed | 10 |
-| `flaky-tests.spec.js` | Flaky | 10 |
-| `skipped-tests.spec.js` | Skipped | 10 |
+| File                    | Status  | Count |
+| ----------------------- | ------- | ----- |
+| `passed-tests.spec.js`  | Passed  | 10    |
+| `failed-tests.spec.js`  | Failed  | 10    |
+| `flaky-tests.spec.js`   | Flaky   | 10    |
+| `skipped-tests.spec.js` | Skipped | 10    |
 
 ---
 
 ## Test suites
 
-| File | Description |
-|------|-------------|
-| `login.spec.js` | Authentication (login/logout) |
-| `cart_checkout.spec.js` | Cart operations |
-| `product.spec.js` | Reviews, filters, wishlist, orders |
-| `navigation.spec.js` | Navbar, contact form, password change |
-| `orders.spec.js` | Address management |
-| `visual.spec.js` | Visual regression (GitHub login) |
-| `passed-tests.spec.js` | 10 intentional passing tests for dashboard demos |
-| `failed-tests.spec.js` | 10 intentional failing tests for dashboard demos |
-| `flaky-tests.spec.js` | 10 intentional flaky patterns for dashboard demos |
-| `skipped-tests.spec.js` | 10 intentional skipped tests for dashboard demos |
-| `get-users.spec.js` | GET user API tests |
-| `post-api.spec.js` | POST user API tests |
-| `updateUser.spec.js` | PUT/PATCH user API tests |
-| `delete-api.spec.js` | DELETE user API tests |
+| File                    | Description                                       |
+| ----------------------- | ------------------------------------------------- |
+| `login.spec.js`         | Authentication (login/logout)                     |
+| `cart_checkout.spec.js` | Cart operations                                   |
+| `product.spec.js`       | Reviews, filters, wishlist, orders                |
+| `navigation.spec.js`    | Navbar, contact form, password change             |
+| `orders.spec.js`        | Address management                                |
+| `visual.spec.js`        | Visual regression (GitHub login)                  |
+| `passed-tests.spec.js`  | 10 intentional passing tests for dashboard demos  |
+| `failed-tests.spec.js`  | 10 intentional failing tests for dashboard demos  |
+| `flaky-tests.spec.js`   | 10 intentional flaky patterns for dashboard demos |
+| `skipped-tests.spec.js` | 10 intentional skipped tests for dashboard demos  |
+| `get-users.spec.js`     | GET user API tests                                |
+| `post-api.spec.js`      | POST user API tests                               |
+| `updateUser.spec.js`    | PUT/PATCH user API tests                          |
+| `delete-api.spec.js`    | DELETE user API tests                             |
 
 ---
 

@@ -1,8 +1,8 @@
 name: Run Playwright tests
 
 on:
-  push:          # runs on every push
-  pull_request:  # runs on new PRs or PR updates
+  push: # runs on every push
+  pull_request: # runs on new PRs or PR updates
   schedule:
     - cron: '30 3 * * 1-5'
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: [1,2,3,4,5]
+        shardIndex: [1, 2, 3, 4, 5]
         shardTotal: [5]
 
     steps:

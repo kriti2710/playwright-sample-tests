@@ -5,7 +5,9 @@
     "build": "vite build",
     "build:test": "NODE_ENV=test vite build",
     "start": "vite",
-    "start:test": "NODE_ENV=test vite"
+    "start:test": "NODE_ENV=test vite",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "",
@@ -13,7 +15,8 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.57.0",
-    "@types/node": "^24.1.0"
+    "@types/node": "^24.1.0",
+    "prettier": "3.9.1"
   },
   "dependencies": {
     "@testdino/playwright": "file:testdino-playwright-1.1.0.tgz",

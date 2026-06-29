@@ -14,18 +14,18 @@ This is a **sample Playwright test framework** whose primary job is to exercise 
 
 ## Key config (`playwright.config.js`)
 
-| Setting | Value | Notes |
-|---------|-------|-------|
-| `testDir` | `./tests` | |
-| `snapshotDir` | `./__screenshots__` | Visual baselines live here |
-| `timeout` | `30_000` | Do not lower below 30s; page objects use multi-second waits |
-| `retries` | `2` in CI and locally | Required for flaky-test demos to register as flaky |
-| `workers` | `5` | |
-| `baseURL` | `https://storedemo.testdino.com/products` | UI tests navigate relative to this |
-| `reporter` | `@testdino/playwright` only | No HTML/JSON reporter; results stream to TestDino |
-| `token` | hardcoded in config | TestDino API token |
-| `serverUrl` | `https://stg-analytics.testdino.com` in CI, `http://localhost:3005` locally | TestDino analytics endpoint |
-| `artifacts` | `true` in CI, `false` locally | Upload reporter artifacts only for CI runs |
+| Setting       | Value                                                                       | Notes                                                       |
+| ------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `testDir`     | `./tests`                                                                   |                                                             |
+| `snapshotDir` | `./__screenshots__`                                                         | Visual baselines live here                                  |
+| `timeout`     | `30_000`                                                                    | Do not lower below 30s; page objects use multi-second waits |
+| `retries`     | `2` in CI and locally                                                       | Required for flaky-test demos to register as flaky          |
+| `workers`     | `5`                                                                         |                                                             |
+| `baseURL`     | `https://storedemo.testdino.com/products`                                   | UI tests navigate relative to this                          |
+| `reporter`    | `@testdino/playwright` only                                                 | No HTML/JSON reporter; results stream to TestDino           |
+| `token`       | hardcoded in config                                                         | TestDino API token                                          |
+| `serverUrl`   | `https://stg-analytics.testdino.com` in CI, `http://localhost:3005` locally | TestDino analytics endpoint                                 |
+| `artifacts`   | `true` in CI, `false` locally                                               | Upload reporter artifacts only for CI runs                  |
 
 ## Project / tag system
 
@@ -101,13 +101,13 @@ Intentionally skipped tests for dashboard demos. Exactly 10 cases, tagged `@chro
 
 ## Environment variables
 
-| Variable | Required | Used by |
-|----------|----------|---------|
-| `USERNAME`, `PASSWORD` | UI login tests | `login.spec.js`, `navigation.spec.js`, etc. |
-| `NEW_PASSWORD` | Password change test | `navigation.spec.js` |
-| `FIRST_NAME`, `STREET_NAME`, `CITY`, `STATE`, `COUNTRY`, `ZIP_CODE` | Checkout tests | page objects / checkout flows |
-| `API_BASE_URL` | Optional (default: `https://dummyjson.com`) | API specs |
-| `CI`, `GITHUB_RUN_ID`, `GITHUB_RUN_ATTEMPT` | Auto in CI | `ciRunId` grouping |
+| Variable                                                            | Required                                    | Used by                                     |
+| ------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| `USERNAME`, `PASSWORD`                                              | UI login tests                              | `login.spec.js`, `navigation.spec.js`, etc. |
+| `NEW_PASSWORD`                                                      | Password change test                        | `navigation.spec.js`                        |
+| `FIRST_NAME`, `STREET_NAME`, `CITY`, `STATE`, `COUNTRY`, `ZIP_CODE` | Checkout tests                              | page objects / checkout flows               |
+| `API_BASE_URL`                                                      | Optional (default: `https://dummyjson.com`) | API specs                                   |
+| `CI`, `GITHUB_RUN_ID`, `GITHUB_RUN_ATTEMPT`                         | Auto in CI                                  | `ciRunId` grouping                          |
 
 ## Common commands
 

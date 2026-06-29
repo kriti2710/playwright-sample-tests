@@ -9,15 +9,19 @@ const ciRunId = isCI
   ? `ci-run-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT || 1}`
   : `local-run-${new Date().toISOString().split('T')[0]}`;
 
-const serverUrl = isCI
-  ? 'https://stg-analytics.testdino.com'
-  : 'http://localhost:3005';
+const serverUrl = isCI ? 'https://stg-analytics.testdino.com' : 'http://localhost:3005';
 
 const artifacts = isCI;
 
+const token = isCI
+  ? // Microservices - staging - ayush user
+    'td_api_55863cafc784a92a8f2ae8a59be44c8970af9236978c9e484efc04fc2b27490b'
+  : // Local  - Sample Project - savan user
+    'td_api_6bf30dd538364a66caa4ba3aa7e4f8676c57f0d988621cec35cfe0edfec762c3';
+
 export default defineConfig({
   testDir: './tests',
-  snapshotDir: './__screenshots__',  // ✅ Baseline image storage
+  snapshotDir: './__screenshots__', // ✅ Baseline image storage
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 1, // Enable retries for flaky test behavior
@@ -27,15 +31,18 @@ export default defineConfig({
   expect: {
     timeout: 10 * 1000,
   },
-  
+
   reporter: [
-    ['@testdino/playwright', {
-      serverUrl,
-      token: 'td_api_55863cafc784a92a8f2ae8a59be44c8970af9236978c9e484efc04fc2b27490b',
-      ciRunId,
-      debug: false,
-      artifacts
-    }]
+    [
+      '@testdino/playwright',
+      {
+        serverUrl,
+        token,
+        ciRunId: 'sample-run-1',
+        debug: false,
+        artifacts,
+      },
+    ],
   ],
 
   use: {
