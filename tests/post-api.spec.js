@@ -8,7 +8,7 @@ const ADD_ENDPOINT = '/users/add';
 
 test.describe('POST Create User API', () => {
 
-  test('Bad endpoint returns 404 ', {
+  test('POST /users/invalid-endpoint returns 404', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -31,7 +31,7 @@ test.describe('POST Create User API', () => {
     expect(response.status()).toBe(404);
   });
 
-  test('Invalid JSON payload handling ', {
+  test('POST /users/add rejects invalid JSON payload', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -53,7 +53,7 @@ test.describe('POST Create User API', () => {
     expect([400, 422]).toContain(response.status());
   });
 
-  test('Too large ID param should return 404 ', {
+  test('GET /users/999999999 returns 404 for oversized ID', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -70,7 +70,7 @@ test.describe('POST Create User API', () => {
     expect(response.status()).toBe(404);
   });
 
-  test('Deleting invalid id returns 200/response but not crash ', {
+  test('DELETE /users/999999 returns 200 or 404 without server error', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -90,7 +90,7 @@ test.describe('POST Create User API', () => {
     expect(body).toBeInstanceOf(Object);
   });
 
-  test('PUT: Invalid method usage returns appropriate response (no 500) ', {
+  test('PUT /users/1/invalid returns client error without 500', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -116,7 +116,7 @@ test.describe('POST Create User API', () => {
     expect(response.status()).not.toBe(500);
   });
 
-  test('user schema contains expected keys ', {
+  test('GET /users/1 contains expected schema keys', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -139,7 +139,7 @@ test.describe('POST Create User API', () => {
     });
   });
 
-  test('users list contains objects with id and email ', {
+  test('GET /users list items contain id and email', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },

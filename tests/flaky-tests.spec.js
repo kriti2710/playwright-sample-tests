@@ -16,9 +16,9 @@ const { test, expect } = require('@playwright/test');
  * 6. Animation/transition timing
  */
 
-test.describe('Flaky Test Suite', () => {
+test.describe('Flaky Test Suite', { tag: '@chromium' }, () => {
 
-    test('Flaky test - timing issue (race condition)', async ({ page }) => {
+    test('Flaky: race condition on link click', async ({ page }) => {
         await test.step('Navigate to Playwright homepage', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -40,7 +40,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - network instability simulation', async ({ page }) => {
+    test('Flaky: network instability simulation', async ({ page }) => {
         await test.step('Simulate slow network', async () => {
             // Randomly decide if network will be slow
             const isNetworkSlow = Math.random() < 0.5;
@@ -65,7 +65,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - element visibility race', async ({ page }) => {
+    test('Flaky: element visibility race', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -88,7 +88,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - async operation timing', async ({ page }) => {
+    test('Flaky: async operation timing', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://example.com');
         });
@@ -116,7 +116,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - animation/transition timing', async ({ page }) => {
+    test('Flaky: animation/transition timing', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -140,7 +140,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - DOM mutation race', async ({ page }) => {
+    test('Flaky: DOM mutation race', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -166,7 +166,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - resource loading race', async ({ page }) => {
+    test('Flaky: resource loading race', async ({ page }) => {
         await test.step('Navigate and check resource loading', async () => {
             // Start navigation
             const navigationPromise = page.goto('https://playwright.dev/');
@@ -188,7 +188,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - state-dependent behavior', async ({ page }) => {
+    test('Flaky: state-dependent behavior', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://example.com');
         });
@@ -208,7 +208,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - scroll position race', async ({ page }) => {
+    test('Flaky: scroll position race', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -232,7 +232,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - multiple async operations', async ({ page }) => {
+    test('Flaky: multiple async operations', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -271,7 +271,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - browser cache dependency', async ({ page }) => {
+    test('Flaky: browser cache dependency', async ({ page }) => {
         await test.step('Navigate with cache dependency', async () => {
             // This test might behave differently based on cache state
             const randomCacheBust = Math.random() > 0.5 ? `?v=${Date.now()}` : '';
@@ -297,7 +297,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - hover state race', async ({ page }) => {
+    test('Flaky: hover state race', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -322,7 +322,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - focus state race', async ({ page }) => {
+    test('Flaky: focus state race', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -352,7 +352,7 @@ test.describe('Flaky Test Suite', () => {
         });
     });
 
-    test('Flaky test - third-party script loading', async ({ page }) => {
+    test('Flaky: third-party script loading', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -384,9 +384,9 @@ test.describe('Flaky Test Suite', () => {
  * 
  * More complex flaky test patterns
  */
-test.describe('Advanced Flaky Test Scenarios', () => {
+test.describe('Advanced Flaky Test Scenarios', { tag: '@chromium' }, () => {
 
-    test('Flaky test - WebSocket connection timing', async ({ page }) => {
+    test('Flaky: WebSocket connection timing', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://example.com');
         });
@@ -407,7 +407,7 @@ test.describe('Advanced Flaky Test Scenarios', () => {
         });
     });
 
-    test('Flaky test - localStorage race condition', async ({ page }) => {
+    test('Flaky: localStorage race condition', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://example.com');
         });
@@ -434,7 +434,7 @@ test.describe('Advanced Flaky Test Scenarios', () => {
         });
     });
 
-    test('Flaky test - API response timing', async ({ page }) => {
+    test('Flaky: API response timing', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -462,7 +462,7 @@ test.describe('Advanced Flaky Test Scenarios', () => {
         });
     });
 
-    test('Flaky test - concurrent user actions', async ({ page }) => {
+    test('Flaky: concurrent user actions', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });
@@ -495,7 +495,7 @@ test.describe('Advanced Flaky Test Scenarios', () => {
         });
     });
 
-    test('Flaky test - memory/performance dependent', async ({ page }) => {
+    test('Flaky: memory/performance dependent', async ({ page }) => {
         await test.step('Navigate to page', async () => {
             await page.goto('https://playwright.dev/');
         });

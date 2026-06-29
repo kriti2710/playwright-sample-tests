@@ -6,7 +6,7 @@ const USERS_ENDPOINT = '/users';
 
 test.describe('GET Users API', () => {
   
-  test('Fetch all users ', {
+  test('GET /users returns all users', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p0' },
@@ -25,7 +25,7 @@ test.describe('GET Users API', () => {
     expect(Array.isArray(body.users)).toBe(true);
   });
 
-  test('Fetch user by ID = 1 ', {
+  test('GET /users/1 returns user by ID', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p0' },
@@ -45,7 +45,7 @@ test.describe('GET Users API', () => {
     expect(body).toHaveProperty('lastName');
   });
 
-  test('Validate total users > 0 ', {
+  test('GET /users returns total count greater than zero', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -64,7 +64,7 @@ test.describe('GET Users API', () => {
     expect(body.total).toBeGreaterThan(0);
   });
 
-  test('Validate user image exists ', {
+  test('GET /users includes image URL for each user', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -84,7 +84,7 @@ test.describe('GET Users API', () => {
     expect(typeof body.image).toBe('string');
   });
 
-  test('Validate user 1 has firstName field ', {
+  test('GET /users/1 includes firstName field', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -104,7 +104,7 @@ test.describe('GET Users API', () => {
     expect(body.firstName.length).toBeGreaterThan(0);
   });
 
-  test('Invalid user ID returns 404 ', {
+  test('GET /users/99999 returns 404 for invalid ID', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -120,7 +120,7 @@ test.describe('GET Users API', () => {
     expect(response.status()).toBe(404);
   });
 
-  test('default users (no query) returns data object/array ', {
+  test('GET /users without query params returns users array', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -140,7 +140,7 @@ test.describe('GET Users API', () => {
     expect(body.users || Array.isArray(body)).toBeTruthy();
   });
 
-  test('limit param returns limited results ', {
+  test('GET /users?limit=N returns limited results', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -161,7 +161,7 @@ test.describe('GET Users API', () => {
     expect(usersArray.length).toBeLessThanOrEqual(limit);
   });
 
-  test('skip param shifts results ', {
+  test('GET /users?skip=N shifts result set', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -196,7 +196,7 @@ test.describe('GET Users API', () => {
     }
   });
 
-  test('sorting / search query (if supported) returns filtered results ', {
+  test('GET /users with search query returns filtered results', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -221,7 +221,7 @@ test.describe('GET Users API', () => {
     }
   });
 
-  test('delayed response (3s) should return 200 ', {
+  test('GET /users?delay=3 returns 200 within timeout', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -258,7 +258,7 @@ test.describe('GET Users API', () => {
     expect(body).toBeInstanceOf(Object);
   });
 
-  test('enforce timeout (expect to fail if too slow) — set short timeout ', {
+  test('GET /users with delay exceeds short timeout', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },

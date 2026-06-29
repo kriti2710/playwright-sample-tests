@@ -6,7 +6,7 @@ const USERS_ENDPOINT = '/users';
 
 test.describe('DELETE User API', () => {
   
-  test('Remove user 1 ', {
+  test('DELETE /users/1 removes user', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -26,7 +26,7 @@ test.describe('DELETE User API', () => {
     expect(body).toHaveProperty('isDeleted', true);
   });
 
-  test('Remove user twice ', {
+  test('DELETE /users/2 is idempotent on repeat request', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -50,7 +50,7 @@ test.describe('DELETE User API', () => {
     expect(body2).toHaveProperty('id', userId);
   });
 
-  test('Validate body is returned ', {
+  test('DELETE /users/3 returns response body', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },

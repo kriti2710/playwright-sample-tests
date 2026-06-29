@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Navigation Module', () => {
   test.describe('Navbar Validation', () => {
-    test('Verify that all the navbar are working properly ', {
+    test('All navbar links navigate correctly', {
       tag: '@firefox',
       annotation: [
         { type: 'testdino:priority', description: 'p1' },
@@ -23,7 +23,6 @@ test.describe('Navigation Module', () => {
       ]
     }, async () => {
       await allPages.homePage.clickBackToHomeButton();
-      // await allPages.homePage.assertHomePage();
       await allPages.homePage.clickAllProductsNav();
       await allPages.allProductsPage.assertAllProductsTitle();
       await allPages.homePage.clickOnContactUsLink();
@@ -37,7 +36,7 @@ test.describe('Navigation Module', () => {
 
 test.describe('Contact Us Module', () => {
   test.describe('Contact Form Submission', () => {
-    test('Verify that user is able to fill Contact Us page successfully ', {
+    test('User can submit the contact form', {
       tag: '@firefox',
       annotation: [
         { type: 'testdino:priority', description: 'p2' },
@@ -58,7 +57,7 @@ test.describe('Contact Us Module', () => {
 
 test.describe('User Settings', () => {
   test.describe('Change Password Flow', () => {
-    test('Verify that user can change password successfully ', {
+    test('User can change password successfully', {
       tag: '@ios',
       annotation: [
         { type: 'testdino:priority', description: 'p1' },

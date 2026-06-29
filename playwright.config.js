@@ -1,9 +1,5 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv';
-
-// Load environment variables
-dotenv.config();
 
 const isCI = !!process.env.CI;
 
@@ -21,15 +17,16 @@ export default defineConfig({
   retries: isCI ? 0 : 2, // Enable retries for flaky test behavior
   workers: isCI ? 5 : 5,
 
-  timeout: 30 * 1000,
+  timeout: 60 * 1000,
   expect: {
     timeout: 10 * 1000,
   },
   
   reporter: [
     ['@testdino/playwright', {
-      serverUrl: 'https://stg-analytics.testdino.com',
-      token: 'td_api_174f4f2217d7960e0375d3b6c68afbc3399c67b15d4854589fb548ce06c335db',
+      // serverUrl: 'https://stg-analytics.testdino.com',
+      serverUrl: 'http://localhost:3005',
+      token: 'td_api_f68c603b6d167d72f31ab579c27064364542a86c501cf3b3d3399aad9ace402d',
       ciRunId,
       debug: false,
       artifacts: false

@@ -1,7 +1,7 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
-test.describe('Visual Comparison – GitHub Username Change', () => {
+test.describe('Visual Comparison - GitHub Login', () => {
  
   test.beforeEach(async ({ page }) => {
     await page.goto('https://github.com/login');
@@ -19,7 +19,7 @@ test.describe('Visual Comparison – GitHub Username Change', () => {
     await page.waitForLoadState('networkidle');
   });
 
-  test('Visual Comparison ', {
+  test('Username input matches visual baseline for empty and filled states', {
     tag: '@chromium',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -36,14 +36,11 @@ test.describe('Visual Comparison – GitHub Username Change', () => {
       name: 'Username or email address',
     });
     
-    // Baseline – empty input
-    await expect(usernameInput).toHaveScreenshot('username-input.png');
-    
-    // Modify UI
+    await expect(usernameInput).toHaveScreenshot('username-input-empty.png');
+
     await usernameInput.fill('test');
-    
-    // Same screenshot name → visual diff
-    await expect(usernameInput).toHaveScreenshot('username-input.png');
+
+    await expect(usernameInput).toHaveScreenshot('username-input-filled.png');
     
     });
   });

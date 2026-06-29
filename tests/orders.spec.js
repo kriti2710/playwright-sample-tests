@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('Address Module', () => {
 
   test.describe('Add, Edit & Delete Address', () => {
-    test('Verify that User Can Add, Edit, and Delete Addresses after Logging In ', {
+    test('Logged-in user can add, edit, and delete addresses', {
       tag: '@ios',
       annotation: [
         { type: 'testdino:priority', description: 'p1' },
@@ -45,8 +45,8 @@ test.describe('Address Module', () => {
   });
 
   test.describe('Add Address for New User', () => {
-    test('Verify that the New User is able to add Addresses in the Address section ', {
-      tag: '@andriod',
+    test('New user can add an address', {
+      tag: '@android',
       annotation: [
         { type: 'testdino:priority', description: 'p2' },
         { type: 'testdino:feature', description: 'Address Management' },
@@ -69,8 +69,8 @@ test.describe('Address Module', () => {
 test.describe('Order Placement', () => {
 
   test.describe('Multiple Quantity Purchase', () => {
-    test('Verify that user can purchase multiple quantities in a single order ', {
-      tag: '@andriod',
+    test('User can purchase multiple quantities in a single order', {
+      tag: '@android',
       annotation: [
         { type: 'testdino:priority', description: 'p1' },
         { type: 'testdino:feature', description: 'Order Placement' },

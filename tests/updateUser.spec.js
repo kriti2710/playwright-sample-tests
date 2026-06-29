@@ -8,7 +8,7 @@ const AUTH_ENDPOINT = '/auth/login';
 
 test.describe('PUT / PATCH Update User API', () => {
   
-  test('Update user details ', {
+  test('PUT /users/1 updates user details', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -38,7 +38,7 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toHaveProperty('lastName', updateData.lastName);
   });
 
-  test('Update user with empty payload ', {
+  test('PUT /users/2 accepts empty payload', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -60,7 +60,7 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toHaveProperty('id', userId);
   });
 
-  test('Update only one field ', {
+  test('PATCH /users/3 updates a single field', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -87,7 +87,7 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toHaveProperty('firstName', updateData.firstName);
   });
 
-  test('Validate returned name field ', {
+  test('PUT /users/4 returns updated name fields', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -118,7 +118,7 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body.lastName).toBe(updateData.lastName);
   });
 
-  test('Update and validate response contains updatedAt simulation ', {
+  test('PUT /users/5 returns valid update response', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p2' },
@@ -152,7 +152,7 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toHaveProperty('id', userId);
   });
 
-  test('Login failure (invalid creds) ', {
+  test('POST /auth/login fails with invalid credentials', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },
@@ -178,7 +178,7 @@ test.describe('PUT / PATCH Update User API', () => {
     expect(body).toBeInstanceOf(Object);
   });
 
-  test('Login missing fields returns 400 ', {
+  test('POST /auth/login returns 400 when password is missing', {
     tag: '@api',
     annotation: [
       { type: 'testdino:priority', description: 'p1' },

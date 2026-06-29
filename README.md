@@ -1,106 +1,178 @@
-# Ecommerce demo store - Playwright (javascript) tests
+# Playwright Sample Tests
 
-Automated end-to-end tests for Ecommerce demo store using [Playwright](https://playwright.dev/).
+Sample end-to-end and API test suite for the [TestDino](https://testdino.com/) Playwright reporting dashboard. Tests run against the [Store Demo](https://storedemo.testdino.com/products) app and external APIs, with results streamed in real time via the `@testdino/playwright` reporter.
 
 ---
 
-## Project Structure
+## Project structure
 
-- `pages/` — Page Object Models
-- `tests/` — Test specifications
-- `playwright.config.js` — Playwright configuration
-- `playwright-report/` — HTML test reports
-- `.github/workflows/test.yml` — CI/CD pipeline
+```
+playwright-sample-tests/
+├── pages/                  # Page Object Models
+├── tests/                  # Test specs (E2E, API, visual, flaky demos)
+├── __screenshots__/        # Visual regression baselines
+├── playwright.config.js    # Playwright + TestDino reporter config
+├── testdino-playwright-1.1.0.tgz
+└── .github/workflows/      # CI with 5-way sharding
+```
 
 ---
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) v16+
-- [npm](https://www.npmjs.com/)
+- Node.js 20+
+- npm
 
 ---
 
-## Installation
+## Setup
 
 ```sh
 npm install
+npx playwright install
 ```
+
+For UI login tests, export credentials in your shell before running:
+
+```sh
+export USERNAME=your_store_demo_username
+export PASSWORD=your_store_demo_password
+```
+
+Optional exports for password-change and checkout tests: `NEW_PASSWORD`, `FIRST_NAME`, `STREET_NAME`, `CITY`, `STATE`, `COUNTRY`, `ZIP_CODE`.
 
 ---
 
-## Local Test Execution
+## Running tests
 
-Run all tests:
+Run the full suite (62 tests across 11 files):
+
 ```sh
 npx playwright test
 ```
 
-View the HTML report:
+Run a specific browser project:
+
 ```sh
-npx playwright show-report
+npx playwright test --project=chromium
+npx playwright test --project=firefox
+npx playwright test --project=webkit
+npx playwright test --project=ios
+npx playwright test --project=api
+```
+
+Run a single file:
+
+```sh
+npx playwright test tests/login.spec.js
+```
+
+Update visual regression baselines:
+
+```sh
+npx playwright test tests/visual.spec.js --project=chromium --update-snapshots
 ```
 
 ---
 
-## Testdino Integration
+## Browser projects and tags
 
-[Testdino](https://testdino.com/) enables cloud-based Playwright reporting.
+Each Playwright project runs only tests tagged for that browser. Tag tests when defining them:
 
-> **Important:**  
-> Make sure your `playwright.config.js` includes both the HTML and JSON reporters.  
-> The HTML report and JSON report must be available for Testdino to process your test results.
+```js
+test('my test', { tag: '@chromium' }, async ({ page }) => { ... });
+```
 
-Example configuration:
+| Project   | Tag        | Tests |
+|-----------|------------|-------|
+| chromium  | `@chromium`| E2E, visual, flaky demos |
+| firefox   | `@firefox` | Navigation, product reviews, profile |
+| webkit    | `@webkit`  | Filters, wishlist, orders |
+| ios       | `@ios`     | Cart, settings, addresses |
+| android   | `@android` | *(no tests yet)* |
+| api       | `@api`     | REST API tests against dummyjson.com |
+
+Apply a tag to an entire `describe` block:
+
+```js
+test.describe('Flaky Test Suite', { tag: '@chromium' }, () => { ... });
+```
+
+---
+
+## TestDino reporter
+
+Results are sent directly to TestDino via the built-in reporter in `playwright.config.js`:
+
 ```js
 reporter: [
-  ['html', { outputFolder: 'playwright-report', open: 'never' }],
-  ['json', { outputFile: './playwright-report/report.json' }],
+  ['@testdino/playwright', {
+    serverUrl: 'http://localhost:3005',  // or https://stg-analytics.testdino.com
+    token: 'td_api_...',  // hardcoded in playwright.config.js
+    ciRunId,
+    artifacts: false,
+  }]
 ]
 ```
 
-### Local Execution
+### Test metadata annotations
 
-After your tests complete and the report is generated in `playwright-report`, upload it to Testdino:
+Enrich dashboard reporting with TestDino annotations:
 
-```sh
-npx --yes tdpw ./playwright-report --token="YOUR_TESTDINO_API_KEY" --upload-html
+```js
+annotation: [
+  { type: 'testdino:priority', description: 'p0' },
+  { type: 'testdino:feature', description: 'Authentication' },
+  { type: 'testdino:owner', description: 'qa-team' },
+  { type: 'testdino:link', description: 'https://jira.example.com/AUTH-002' },
+  { type: 'testdino:notify-slack', description: '#e2e-alerts' },
+  { type: 'testdino:context', description: 'What this test validates' },
+  { type: 'testdino:flaky-reason', description: 'Why this test may be flaky' },
+]
 ```
 
-Replace the token above with your own Testdino API key.
+### CI run grouping
 
-See all available commands:
-```sh
-npx tdpw --help
+In CI, all shards share one dashboard run via `ciRunId`:
+
 ```
+ci-run-{GITHUB_RUN_ID}-{GITHUB_RUN_ATTEMPT}
+```
+
+Locally, runs are grouped by date: `local-run-YYYY-MM-DD`.
 
 ---
 
-## CI/CD Pipeline Integration
+## CI/CD
 
-### GitHub Actions
+GitHub Actions runs tests on push, pull request, weekdays at 03:30 UTC, and manual dispatch. The workflow uses 5 parallel shards.
 
-Add the following step to your workflow after tests and report generation:
+Required GitHub secrets:
 
-```yaml
-- name: Send Testdino report
-  run: |
-    npx --yes tdpw ./playwright-report --token="YOUR_TESTDINO_API_KEY" --upload-html
-```
-
-Ensure your API key is correctly placed in the command.
-
----
-
-## Continuous Integration
-
-Automated test runs and report merging are configured in `.github/workflows/test.yml`.
+| Secret | Purpose |
+|--------|---------|
+| `USERNAME` | Store demo login |
+| `PASSWORD` | Store demo login |
+| `NEW_PASSWORD` | Password change tests |
+| `FIRST_NAME`, `STREET_NAME`, `CITY`, `STATE`, `COUNTRY`, `ZIP_CODE` | Checkout/address tests |
 
 ---
 
-## Contributing
+## Test suites
 
-Pull requests and issues are welcome!
+| File | Description |
+|------|-------------|
+| `login.spec.js` | Authentication (login/logout) |
+| `cart_checkout.spec.js` | Cart operations |
+| `product.spec.js` | Reviews, filters, wishlist, orders |
+| `navigation.spec.js` | Navbar, contact form, password change |
+| `orders.spec.js` | Address management |
+| `visual.spec.js` | Visual regression (GitHub login) |
+| `flaky-tests.spec.js` | Intentional flaky patterns for dashboard demos |
+| `get-users.spec.js` | GET user API tests |
+| `post-api.spec.js` | POST user API tests |
+| `updateUser.spec.js` | PUT/PATCH user API tests |
+| `delete-api.spec.js` | DELETE user API tests |
 
 ---
 

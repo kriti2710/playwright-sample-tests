@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('Product Reviews', () => {
 
   test.describe('Submit Review', () => {
-    test('Verify that user is able to submit a product review ', {
+    test('User can submit a product review', {
       tag: '@firefox',
       annotation: [
         { type: 'testdino:priority', description: 'p2' },
@@ -47,7 +47,7 @@ test.describe('Product Reviews', () => {
   });
 
   test.describe('Edit & Delete Review', () => {
-    test('Verify that user can edit and delete a product review ', {
+    test('User can edit and delete a product review', {
       tag: '@firefox',
       annotation: [
         { type: 'testdino:priority', description: 'p2' },
@@ -99,7 +99,7 @@ test.describe('Product Reviews', () => {
 test.describe('Product Filters', () => {
 
   test.describe('Price Range Filter', () => {
-    test('Verify that user can filter products by price range ', {
+    test('User can filter products by price range', {
       tag: '@webkit',
       annotation: [
         { type: 'testdino:priority', description: 'p2' },
@@ -122,7 +122,7 @@ test.describe('Product Filters', () => {
 test.describe('Wishlist Flow', () => {
 
   test.describe('Wishlist to Cart Checkout', () => {
-    test('Verify if user can add product to wishlist, moves it to card and then checks out ', {
+    test('User can add wishlist item to cart and checkout', {
       tag: '@webkit',
       annotation: [
         { type: 'testdino:priority', description: 'p1' },
@@ -161,7 +161,7 @@ test.describe('Wishlist Flow', () => {
 test.describe('Order Placement', () => {
 
   test.describe('Login to Order Completion', () => {
-    test('Verify that User Can Complete the Journey from Login to Order Placement ', {
+    test('User can complete order from login to placement', {
       tag: '@webkit',
       annotation: [
         { type: 'testdino:priority', description: 'p0' },
@@ -193,7 +193,7 @@ test.describe('Order Placement', () => {
   });
 
   test.describe('Place and Cancel Order', () => {
-    test('Verify user can place and cancel an order ', {
+    test('User can place and cancel an order', {
       tag: '@webkit',
       annotation: [
         { type: 'testdino:priority', description: 'p0' },
@@ -262,32 +262,10 @@ test.describe('Order Placement', () => {
 
 });
 
-test.describe('New User Journey', () => {
-
-  test.describe('Registration to Order Placement', () => {
-    test('Verify that a New User Can Successfully Complete the Journey from Registration to a Single Order Placement ', {
-      tag: '@chromium',
-      annotation: [
-        { type: 'testdino:priority', description: 'p0' },
-        { type: 'testdino:feature', description: 'New User Journey' },
-        { type: 'testdino:link', description: 'https://jira.example.com/JOURNEY-002' },
-        { type: 'testdino:owner', description: 'qa-team' },
-        { type: 'testdino:notify-slack', description: '#e2e-alerts' },
-        { type: 'testdino:context', description: 'Complete new user journey from registration to single order placement' }
-      ]
-    }, async () => {
-      // 🔹 Original logic unchanged (steps kept exactly as provided)
-      // Full flow retained
-      // Only wrapped for reporting structure
-    });
-  });
-
-});
-
 test.describe('Guest to Login Checkout', () => {
 
   test.describe('Add to Cart before Login', () => {
-    test('Verify that user add product to cart before logging in and then complete order after logging in ', {
+    test('Guest can add to cart before login and checkout after login', {
       tag: '@webkit',
       annotation: [
         { type: 'testdino:priority', description: 'p1' },
