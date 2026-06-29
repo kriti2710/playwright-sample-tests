@@ -20,7 +20,7 @@ export default defineConfig({
   snapshotDir: './__screenshots__',  // ✅ Baseline image storage
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 0 : 2, // Enable retries for flaky test behavior
+  retries: isCI ? 2 : 1, // Enable retries for flaky test behavior
   workers: isCI ? 5 : 5,
 
   timeout: 30 * 1000,

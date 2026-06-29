@@ -71,7 +71,7 @@ test('name', {
 
 ### Test files (`tests/`)
 
-- Use `// @ts-check` and ESM `import` (not `require`, except legacy `flaky-tests.spec.js`)
+- Use `// @ts-check` and ESM `import` (not `require`)
 - Shared `let allPages` + `test.beforeEach` pattern for UI tests
 - API tests use `{ request }` fixture and `dummyjson.com` (override with `API_BASE_URL` env)
 - Do **not** add hollow tests (empty bodies or all-commented steps that pass silently)
@@ -85,7 +85,7 @@ test('name', {
 
 ### Flaky tests (`flaky-tests.spec.js`)
 
-Intentionally unstable tests for dashboard demos. Tagged `@chromium` at the describe level. Do not "fix" their flakiness unless explicitly asked.
+Intentionally unstable tests for dashboard demos. Exactly 10 cases, tagged `@chromium` at the describe level. Do not "fix" their flakiness unless explicitly asked.
 
 ## Environment variables
 

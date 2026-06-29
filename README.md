@@ -45,7 +45,7 @@ Optional exports for password-change and checkout tests: `NEW_PASSWORD`, `FIRST_
 
 ## Running tests
 
-Run the full suite (62 tests across 11 files):
+Run the full suite (53 tests across 11 files):
 
 ```sh
 npx playwright test
@@ -168,7 +168,7 @@ Required GitHub secrets:
 | `navigation.spec.js` | Navbar, contact form, password change |
 | `orders.spec.js` | Address management |
 | `visual.spec.js` | Visual regression (GitHub login) |
-| `flaky-tests.spec.js` | Intentional flaky patterns for dashboard demos |
+| `flaky-tests.spec.js` | 10 intentional flaky patterns for dashboard demos |
 | `get-users.spec.js` | GET user API tests |
 | `post-api.spec.js` | POST user API tests |
 | `updateUser.spec.js` | PUT/PATCH user API tests |
