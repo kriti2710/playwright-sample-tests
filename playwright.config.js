@@ -23,7 +23,7 @@ export default defineConfig({
   retries: isCI ? 0 : 2, // Enable retries for flaky test behavior
   workers: isCI ? 5 : 5,
 
-  timeout: 60 * 1000,
+  timeout: 30 * 1000,
   expect: {
     timeout: 10 * 1000,
   },
@@ -31,7 +31,7 @@ export default defineConfig({
   reporter: [
     ['@testdino/playwright', {
       serverUrl,
-      token: 'td_api_f68c603b6d167d72f31ab579c27064364542a86c501cf3b3d3399aad9ace402d',
+      token: 'td_api_55863cafc784a92a8f2ae8a59be44c8970af9236978c9e484efc04fc2b27490b',
       ciRunId,
       debug: false,
       artifacts

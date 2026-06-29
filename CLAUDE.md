@@ -18,7 +18,7 @@ This is a **sample Playwright test framework** whose primary job is to exercise 
 |---------|-------|-------|
 | `testDir` | `./tests` | |
 | `snapshotDir` | `./__screenshots__` | Visual baselines live here |
-| `timeout` | `60_000` | Do not lower this; page objects use multi-second waits |
+| `timeout` | `30_000` | Do not lower below 30s; page objects use multi-second waits |
 | `retries` | `0` in CI, `2` locally | Supports flaky-test demos locally |
 | `workers` | `5` | |
 | `baseURL` | `https://storedemo.testdino.com/products` | UI tests navigate relative to this |
