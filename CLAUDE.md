@@ -19,7 +19,7 @@ This is a **sample Playwright test framework** whose primary job is to exercise 
 | `testDir` | `./tests` | |
 | `snapshotDir` | `./__screenshots__` | Visual baselines live here |
 | `timeout` | `30_000` | Do not lower below 30s; page objects use multi-second waits |
-| `retries` | `0` in CI, `2` locally | Supports flaky-test demos locally |
+| `retries` | `2` in CI and locally | Required for flaky-test demos to register as flaky |
 | `workers` | `5` | |
 | `baseURL` | `https://storedemo.testdino.com/products` | UI tests navigate relative to this |
 | `reporter` | `@testdino/playwright` only | No HTML/JSON reporter; results stream to TestDino |
@@ -85,7 +85,19 @@ test('name', {
 
 ### Flaky tests (`flaky-tests.spec.js`)
 
-Intentionally unstable tests for dashboard demos. Exactly 10 cases, tagged `@chromium` at the describe level. Do not "fix" their flakiness unless explicitly asked.
+Intentionally unstable tests for dashboard demos. Exactly 10 cases, tagged `@chromium` at the describe level. Each fails on attempt 0 and passes on retry. Do not "fix" their flakiness unless explicitly asked.
+
+### Failed tests (`failed-tests.spec.js`)
+
+Intentionally failing tests for dashboard demos. Exactly 10 cases, tagged `@chromium`. Always fail, even on retry. Do not "fix" unless explicitly asked.
+
+### Passed tests (`passed-tests.spec.js`)
+
+Intentionally passing tests for dashboard demos. Exactly 10 cases, tagged `@chromium`. Always pass on the first attempt.
+
+### Skipped tests (`skipped-tests.spec.js`)
+
+Intentionally skipped tests for dashboard demos. Exactly 10 cases, tagged `@chromium`. Uses `test.skip()` — do not un-skip unless explicitly asked.
 
 ## Environment variables
 
@@ -139,7 +151,10 @@ tests/
   navigation.spec.js   # @firefox, @ios
   orders.spec.js       # @ios addresses
   visual.spec.js       # @chromium visual regression
-  flaky-tests.spec.js  # @chromium intentional flake demos
+  flaky-tests.spec.js  # @chromium intentional flake demos (10)
+  failed-tests.spec.js # @chromium intentional failure demos (10)
+  passed-tests.spec.js # @chromium intentional pass demos (10)
+  skipped-tests.spec.js # @chromium intentional skip demos (10)
   get-users.spec.js    # @api
   post-api.spec.js     # @api
   updateUser.spec.js   # @api

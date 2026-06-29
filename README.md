@@ -45,7 +45,7 @@ Optional exports for password-change and checkout tests: `NEW_PASSWORD`, `FIRST_
 
 ## Running tests
 
-Run the full suite (53 tests across 11 files):
+Run the full suite (83 tests across 14 files):
 
 ```sh
 npx playwright test
@@ -158,6 +158,25 @@ Required GitHub secrets:
 
 ---
 
+### Dashboard status demo (all 4 outcomes)
+
+Run these four files together to populate pass, fail, flaky, and skipped on the dashboard:
+
+```sh
+npx playwright test tests/passed-tests.spec.js tests/failed-tests.spec.js tests/flaky-tests.spec.js tests/skipped-tests.spec.js --project=chromium
+```
+
+Expected result: **10 passed · 10 failed · 10 flaky · 10 skipped**
+
+| File | Status | Count |
+|------|--------|-------|
+| `passed-tests.spec.js` | Passed | 10 |
+| `failed-tests.spec.js` | Failed | 10 |
+| `flaky-tests.spec.js` | Flaky | 10 |
+| `skipped-tests.spec.js` | Skipped | 10 |
+
+---
+
 ## Test suites
 
 | File | Description |
@@ -168,7 +187,10 @@ Required GitHub secrets:
 | `navigation.spec.js` | Navbar, contact form, password change |
 | `orders.spec.js` | Address management |
 | `visual.spec.js` | Visual regression (GitHub login) |
+| `passed-tests.spec.js` | 10 intentional passing tests for dashboard demos |
+| `failed-tests.spec.js` | 10 intentional failing tests for dashboard demos |
 | `flaky-tests.spec.js` | 10 intentional flaky patterns for dashboard demos |
+| `skipped-tests.spec.js` | 10 intentional skipped tests for dashboard demos |
 | `get-users.spec.js` | GET user API tests |
 | `post-api.spec.js` | POST user API tests |
 | `updateUser.spec.js` | PUT/PATCH user API tests |

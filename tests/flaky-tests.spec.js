@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
  * Playwright reports a test as "flaky" only when it FAILS on the first
  * attempt and PASSES on a retry. To make that deterministic for the
  * dashboard, each test fails on attempt 0 and passes on subsequent
- * retries (requires retries > 0; configured to 2 locally).
+ * retries (requires retries >= 1; configured in playwright.config.js).
  */
 test.describe('Flaky Test Suite', { tag: '@chromium' }, () => {
 
