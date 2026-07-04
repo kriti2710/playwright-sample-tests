@@ -9,7 +9,7 @@ const ciRunId = isCI
   ? `ci-run-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT || 1}`
   : `local-run-${new Date().toISOString().split('T')[0]}`;
 
-const serverUrl = isCI ? 'https://21d6-2401-4900-1f3e-14a3-b055-2112-84f4-4057.ngrok-free.app' : 'http://localhost:3005';
+const serverUrl = isCI ? 'https://stg-analytics.testdino.com' : 'http://localhost:3005';
 
 const artifacts = isCI;
 
@@ -17,7 +17,7 @@ const token = isCI
   ? // Microservices - staging - ayush user
     'td_api_3df9699a53690a05241359b97bf982af90b71e05365bcf56d36ff053ee99a34b'
   : // Local  - Sample Project - savan user
-    'td_api_60e7122f8c5a8dcd403fc690ce391ecba818e5c2ce81971db37de9a0efc9d191';
+    'td_api_f4c6888e4b937229ca7bedf71d28689c622d06bd03229d348e956da32172f358';
 
 export default defineConfig({
   testDir: './tests',
