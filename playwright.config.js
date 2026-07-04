@@ -9,15 +9,15 @@ const ciRunId = isCI
   ? `ci-run-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT || 1}`
   : `local-run-${new Date().toISOString().split('T')[0]}`;
 
-const serverUrl = isCI ? 'https://stg-analytics.testdino.com' : 'http://localhost:3005';
+const serverUrl = isCI ? 'https://21d6-2401-4900-1f3e-14a3-b055-2112-84f4-4057.ngrok-free.app' : 'http://localhost:3005';
 
 const artifacts = isCI;
 
 const token = isCI
   ? // Microservices - staging - ayush user
-    'td_api_55863cafc784a92a8f2ae8a59be44c8970af9236978c9e484efc04fc2b27490b'
+    'td_api_3df9699a53690a05241359b97bf982af90b71e05365bcf56d36ff053ee99a34b'
   : // Local  - Sample Project - savan user
-    'td_api_6bf30dd538364a66caa4ba3aa7e4f8676c57f0d988621cec35cfe0edfec762c3';
+    'td_api_60e7122f8c5a8dcd403fc690ce391ecba818e5c2ce81971db37de9a0efc9d191';
 
 export default defineConfig({
   testDir: './tests',
@@ -27,7 +27,7 @@ export default defineConfig({
   retries: isCI ? 2 : 1, // Enable retries for flaky test behavior
   workers: isCI ? 5 : 5,
 
-  timeout: 30 * 1000,
+  timeout: 10 * 1000,
   expect: {
     timeout: 10 * 1000,
   },
