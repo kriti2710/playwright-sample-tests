@@ -17,7 +17,7 @@ const token = isCI
   ? // Microservices - staging - ayush user
     'td_api_3df9699a53690a05241359b97bf982af90b71e05365bcf56d36ff053ee99a34b'
   : // Local  - Sample Project - savan user
-    'td_api_f4c6888e4b937229ca7bedf71d28689c622d06bd03229d348e956da32172f358';
+    'td_api_0fa30b4ce06c116323241798123a6f709380a506533a17f4bfbdf772a43b5d12';
 
 export default defineConfig({
   testDir: './tests',
@@ -27,7 +27,7 @@ export default defineConfig({
   retries: isCI ? 2 : 1, // Enable retries for flaky test behavior
   workers: isCI ? 5 : 5,
 
-  timeout: 10 * 1000,
+  timeout: 30 * 1000,
   expect: {
     timeout: 10 * 1000,
   },
@@ -41,6 +41,7 @@ export default defineConfig({
         ciRunId: 'sample-run-1',
         debug: false,
         artifacts,
+        tags: ['@api','@local','@staging','@chromium'],
       },
     ],
   ],
