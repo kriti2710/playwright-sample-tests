@@ -198,7 +198,7 @@ jobs:
           # First run (full shard)
           # Ensure playwright-report directory exists
           mkdir -p ./playwright-report
-          npx playwright test \
+          npx tdpw test -t ${{ secrets.TESTDINO_TOKEN }} \
             --grep="@chromium|@firefox|@webkit|@android|@ios" \
             --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report
