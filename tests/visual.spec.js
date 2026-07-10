@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect } from '@playwright/test';
+import { test, expect } from './support/test.js';
 
 test.describe('Visual Comparison - GitHub Login', () => {
   test.beforeEach(async ({ page }) => {

@@ -1,5 +1,5 @@
 // @ts-check
-import { expect, test } from '@playwright/test';
+import { expect, test } from './support/test.js';
 
 const API_BASE_URL = process.env.API_BASE_URL || 'https://dummyjson.com';
 const USERS_ENDPOINT = '/users';

@@ -12,12 +12,13 @@ const ciRunId = isCI
 const serverUrl = isCI ? 'https://stg-analytics.testdino.com' : 'http://localhost:3005';
 
 const artifacts = isCI;
+const coverageEnabled = process.env.COVERAGE === 'true';
 
 const token = isCI
   ? // Microservices - staging - ayush user
-    'td_api_3df9699a53690a05241359b97bf982af90b71e05365bcf56d36ff053ee99a34b'
+    'td_api_0a10fa7ba16adad870651fb3626d1fc2fe0f378f508337406e0000cb09f2eaf2'
   : // Local  - Sample Project - savan user
-    'td_api_0fa30b4ce06c116323241798123a6f709380a506533a17f4bfbdf772a43b5d12';
+    'td_api_cea68f6ff2c23187243beac8a20068571bf0ccc5ca8b5b687f05ea258098ffeb';
 
 export default defineConfig({
   testDir: './tests',
@@ -38,18 +39,40 @@ export default defineConfig({
       {
         serverUrl,
         token,
-        ciRunId: 'sample-run-1',
+        ciRunId: 'sample-run-2',
         debug: false,
-        artifacts,
-        tags: ['@api','@local','@staging','@chromium'],
+        artifacts: true,
+        tags: ['@api', '@local', '@staging', '@chromium'],
+        ...(coverageEnabled && {
+          coverage: {
+            enabled: true,
+            include: ['**/src/**'],
+            exclude: ['**/node_modules/**', 'tests/**', 'pages/**'],
+            thresholds: {
+              lines: 40,
+              branches: 25,
+              functions: 30,
+              statements: 40,
+            },
+          },
+        }),
       },
     ],
   ],
 
+  webServer: coverageEnabled
+    ? {
+        command: 'npm run start:test',
+        url: 'http://127.0.0.1:5173',
+        reuseExistingServer: !isCI,
+        timeout: 120_000,
+      }
+    : undefined,
+
   use: {
     baseURL: 'https://storedemo.testdino.com/products',
     headless: true,
-    trace: 'retain-on-failure',
+    trace: 'on',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     actionTimeout: 15 * 1000,
@@ -86,6 +109,14 @@ export default defineConfig({
       name: 'api',
       use: { ...devices['API'] },
       grep: /@api/, // only run tests tagged @api
+    },
+    {
+      name: 'coverage',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://127.0.0.1:5173',
+      },
+      grep: /@coverage/,
     },
   ],
 });

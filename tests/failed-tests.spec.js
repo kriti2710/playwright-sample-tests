@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect } from '@playwright/test';
+import { test, expect } from './support/test.js';
 
 /**
  * Intentionally failing tests for TestDino dashboard demos (10 cases).

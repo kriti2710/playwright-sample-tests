@@ -1,5 +1,5 @@
 // @ts-check
-import { test } from '@playwright/test';
+import { test } from './support/test.js';
 import AllPages from '../pages/AllPages.js';
 
 let allPages;
