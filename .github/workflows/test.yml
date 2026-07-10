@@ -122,7 +122,6 @@
 name: Run Playwright tests
 
 on:
-  push:
   pull_request:
   schedule:
     - cron: '30 3 * * 1-5' # 11:00 AM IST
@@ -176,6 +175,8 @@ jobs:
           TESTDINO_TOKEN: ${{ secrets.TESTDINO_TOKEN }}
           SHARD_INDEX: ${{ matrix.shardIndex }}
           SHARD_TOTAL: ${{ matrix.shardTotal }}
+          TESTDINO_SERVER_URL: https://stg-analytics.testdino.com
+          TESTDINO_CI_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           echo "GitHub run attempt: ${{ github.run_attempt }}"
           if [[ "${{ github.run_attempt }}" -gt 1 ]]; then
@@ -198,7 +199,7 @@ jobs:
           # First run (full shard)
           # Ensure playwright-report directory exists
           mkdir -p ./playwright-report
-          npx playwright test \
+          npx tdpw test -t $TESTDINO_TOKEN --server-url $TESTDINO_SERVER_URL --ci-run-id $TESTDINO_CI_RUN_ID \
             --grep="@chromium|@firefox|@webkit|@android|@ios" \
             --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report
