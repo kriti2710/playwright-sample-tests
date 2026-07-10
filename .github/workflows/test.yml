@@ -122,11 +122,9 @@
 name: Run Playwright tests
 
 on:
-  push:
   pull_request:
   schedule:
     - cron: '30 3 * * 1-5' # 11:00 AM IST
-  workflow_dispatch:
 
 jobs:
   run-tests:
@@ -198,7 +196,7 @@ jobs:
           # First run (full shard)
           # Ensure playwright-report directory exists
           mkdir -p ./playwright-report
-          npx tdpw test -t ${{ secrets.TESTDINO_TOKEN }} \
+          npx tdpw test -t td_api_8bc45cf4a5982e20a592a028fa08f538bc21d48020858f9157b14e4fe8104282 \
             --grep="@chromium|@firefox|@webkit|@android|@ios" \
             --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report
