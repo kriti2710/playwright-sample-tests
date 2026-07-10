@@ -125,6 +125,7 @@ on:
   pull_request:
   schedule:
     - cron: '30 3 * * 1-5' # 11:00 AM IST
+  workflow_dispatch:
 
 jobs:
   run-tests:

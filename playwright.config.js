@@ -20,20 +20,20 @@ export default defineConfig({
   expect: {
     timeout: 10 * 1000,
   },
-  
+
   reporter: [
-  [
-    '@testdino/playwright',
-    {
-      serverUrl: 'https://stg-analytics.testdino.com',
-      token: 'td_api_8bc45cf4a5982e20a592a028fa08f538bc21d48020858f9157b14e4fe8104282',
-      debug: true,
-      artifacts: true,
-    },
+    [
+      '@testdino/playwright',
+      {
+        serverUrl: 'https://stg-analytics.testdino.com',
+        token: 'td_api_8bc45cf4a5982e20a592a028fa08f538bc21d48020858f9157b14e4fe8104282',
+        debug: true,
+        artifacts: true,
+      },
+    ],
+    ['html', { outputFolder: './playwright-report', open: 'never' }],
+    ['json', { outputFile: 'report.json' }],
   ],
-  ['html', { outputFolder: './playwright-report', open: 'never' }],
-  ['json', { outputFile: 'report.json' }],
-],
 
   use: {
     baseURL: 'https://storedemo.testdino.com/products',
