@@ -3,11 +3,14 @@ import { defineConfig, devices } from '@playwright/test';
 
 const isCI = !!process.env.CI;
 
-// Use the GitHub Actions run identifier in CI so all shards share one run,
-// and fall back to a date-based id for local runs.
-const ciRunId = isCI
-  ? `ci-run-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT || 1}`
-  : `local-run-${new Date().toISOString().split('T')[0]}`;
+// Use the GitHub Actions run identifier in CI so all shards share one run.
+// Locally use a unique id per Playwright process so duration trends can build
+// across repeated invocations (required for degrading-test detection).
+const ciRunId =
+  process.env.TESTDINO_CI_RUN_ID ||
+  (isCI
+    ? `ci-run-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT || 1}`
+    : `local-run-${Date.now()}`);
 
 const serverUrl = isCI ? 'https://stg-analytics.testdino.com' : 'http://localhost:3005';
 
@@ -39,9 +42,9 @@ export default defineConfig({
       {
         serverUrl,
         token,
-        ciRunId: 'sample-run-2',
+        ciRunId,
         debug: false,
-        artifacts: true,
+        artifacts: false,
         tags: ['@api', '@local', '@staging', '@chromium'],
         ...(coverageEnabled && {
           coverage: {
