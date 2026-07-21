@@ -26,7 +26,7 @@
     "vite-plugin-istanbul": "^7.0.12"
   },
   "dependencies": {
-    "@testdino/playwright": "file:testdino-playwright-2.0.0.tgz",
+    "@testdino/playwright": "^2.0.0",
     "playwright": "^1.55.0"
   }
 }

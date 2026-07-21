@@ -20,8 +20,8 @@ const coverageEnabled = process.env.COVERAGE === 'true';
 const token = isCI
   ? // Microservices - staging - ayush user
     'td_api_0a10fa7ba16adad870651fb3626d1fc2fe0f378f508337406e0000cb09f2eaf2'
-  : // Local  - Sample Project - savan user
-    'td_api_cea68f6ff2c23187243beac8a20068571bf0ccc5ca8b5b687f05ea258098ffeb';
+  : // Local  - Savan Team - Savan user
+    'td_api_6da627f3d1ba734784060a4a2ca2a6bad91e00b8fc644337d6e298648103fcc2';
 
 export default defineConfig({
   testDir: './tests',
