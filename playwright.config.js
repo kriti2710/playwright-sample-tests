@@ -19,7 +19,7 @@ const coverageEnabled = process.env.COVERAGE === 'true';
 
 const token = isCI
   ? // Microservices - staging - ayush user
-    'td_api_0a10fa7ba16adad870651fb3626d1fc2fe0f378f508337406e0000cb09f2eaf2'
+    'td_api_5f604cce442aebc4f3f599fb0b5604d4e10aaabab04c1feed5505952162056bf'
   : // Local  - Savan Team - Savan user
     'td_api_6da627f3d1ba734784060a4a2ca2a6bad91e00b8fc644337d6e298648103fcc2';
 
