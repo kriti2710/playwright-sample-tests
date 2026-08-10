@@ -18,9 +18,8 @@ const artifacts = isCI;
 const coverageEnabled = process.env.COVERAGE === 'true';
 
 const token = isCI
-  ? // Microservices - staging - ayush user
-    'td_api_5f604cce442aebc4f3f599fb0b5604d4e10aaabab04c1feed5505952162056bf'
-  : // Local  - Savan Team - Savan user
+  ? 'td_api_24831a8db96509cbe0ee22033dc98de46246f1f76e6a2a63a101e7d88ae65ad0'
+  : // Local  - Savan Team
     'td_api_6da627f3d1ba734784060a4a2ca2a6bad91e00b8fc644337d6e298648103fcc2';
 
 export default defineConfig({
@@ -28,7 +27,7 @@ export default defineConfig({
   snapshotDir: './__screenshots__', // ✅ Baseline image storage
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 2 : 1, // Enable retries for flaky test behavior
+  retries: isCI ? 1 : 1, // Enable retries for flaky test behavior
   workers: isCI ? 5 : 5,
 
   timeout: 30 * 1000,
@@ -123,3 +122,7 @@ export default defineConfig({
     },
   ],
 });
+
+
+// td_api_0f3173d12c7a90cdc78c7405c6f4fe8c2c42af160a33f3611ba4af15646a83e1 // testdino api token PROD - ayush@testdino.com - Savan Test Org
+// td_api_24831a8db96509cbe0ee22033dc98de46246f1f76e6a2a63a101e7d88ae65ad0 // testdino api token STAGE - krupa.alphabin+1@gmail.com - Savan Test
