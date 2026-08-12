@@ -13,6 +13,7 @@
     "test:coverage:all-profiles": "npm run test:coverage:low && npm run test:coverage:mid && npm run test:coverage:high",
     "test:split": "./scripts/split-local.sh",
     "test:split:overlap": "SPLIT_OVERLAP=1 ./scripts/split-local.sh",
+    "test:quota-burn": "./scripts/quota-burn.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test:matrix": "./scripts/matrix-local.sh"

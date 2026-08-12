@@ -161,6 +161,26 @@ Required GitHub secrets:
 
 ---
 
+### Quota burn (billing limits / usage alerts)
+
+Instant-pass tests that each consume **one billable execution**. Opt-in via env so normal CI does not burn quota (unset → one skipped placeholder).
+
+`npm run test:quota-burn` chunks large totals (default 200 cases/run). A single Playwright process with thousands of instant cases overflows Kafka max message size; HTTP fallback then fails locally with `ENOTFOUND ingestion-service` (Docker DNS from the host).
+
+Prefer a staging project with a **low** `executions` limit (e.g. 40), then step toward alert thresholds (50 / 75 / 90 / 100):
+
+```sh
+QUOTA_BURN_COUNT=20 npm run test:quota-burn   # e.g. 20/40 → 50%
+QUOTA_BURN_COUNT=10 npm run test:quota-burn   # → 75%
+QUOTA_BURN_COUNT=6  npm run test:quota-burn   # → 90%
+QUOTA_BURN_COUNT=4  npm run test:quota-burn   # → 100%
+
+# Large burns (chunked automatically; optional QUOTA_BURN_CHUNK=150):
+QUOTA_BURN_COUNT=5000 npm run test:quota-burn
+```
+
+Retries are disabled for this project. Skipped / interrupted tests do not bill — do not use `skipped-tests.spec.js` to move the meter.
+
 ### Dashboard status demo (all 4 outcomes)
 
 Run these four files together to populate pass, fail, flaky, and skipped on the dashboard:
@@ -194,6 +214,7 @@ Expected result: **10 passed · 10 failed · 10 flaky · 10 skipped**
 | `failed-tests.spec.js`  | 10 intentional failing tests for dashboard demos  |
 | `flaky-tests.spec.js`   | 10 intentional flaky patterns for dashboard demos |
 | `skipped-tests.spec.js` | 10 intentional skipped tests for dashboard demos  |
+| `quota-burn.spec.js`    | Opt-in instant passes to burn execution quota     |
 | `get-users.spec.js`     | GET user API tests                                |
 | `post-api.spec.js`      | POST user API tests                               |
 | `updateUser.spec.js`    | PUT/PATCH user API tests                          |

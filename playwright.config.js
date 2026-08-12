@@ -120,8 +120,22 @@ export default defineConfig({
       },
       grep: /@coverage/,
     },
+    {
+      // Opt-in via QUOTA_BURN_COUNT — without it the suite is one skipped (free) case.
+      // No browser / traces: instant passes only; each still bills one execution.
+      // workers:2 — keep reporter flush rate under Kafka max message size.
+      name: 'quota-burn',
+      use: {
+        trace: 'off',
+        screenshot: 'off',
+        video: 'off',
+      },
+      workers: 2,
+      grep: /@quota-burn/,
+    },
   ],
 });
+
 
 
 // td_api_0f3173d12c7a90cdc78c7405c6f4fe8c2c42af160a33f3611ba4af15646a83e1 // testdino api token PROD - ayush@testdino.com - Savan Test Org

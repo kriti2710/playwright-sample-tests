@@ -31,7 +31,7 @@ This is a **sample Playwright test framework** whose primary job is to exercise 
 
 Six Playwright projects each filter tests by tag via `grep`:
 
-- `@chromium`, `@firefox`, `@webkit`, `@ios`, `@android`, `@api`
+- `@chromium`, `@firefox`, `@webkit`, `@ios`, `@android`, `@api`, `@coverage`, `@quota-burn`
 
 **Every test must have a tag** or it will not run in any project. Use describe-level tags for suites:
 
@@ -99,6 +99,22 @@ Intentionally passing tests for dashboard demos. Exactly 10 cases, tagged `@chro
 
 Intentionally skipped tests for dashboard demos. Exactly 10 cases, tagged `@chromium`. Uses `test.skip()` — do not un-skip unless explicitly asked.
 
+### Quota burn (`quota-burn.spec.js`)
+
+Instant-pass cases that burn **one billable execution each** (`passed`) for billing limit / usage-alert testing. Tagged `@quota-burn`; project `quota-burn`.
+
+- **Opt-in:** unset `QUOTA_BURN_COUNT` → one skipped placeholder (not billable). Never enable this env in weekday CI.
+- **Always use** `npm run test:quota-burn` (`scripts/quota-burn.sh`). It chunks totals into ≤250-case runs (default chunk 200). One process with ~1.5k+ instant cases overflows Kafka max message size; HTTP fallback then fails with `ENOTFOUND ingestion-service` on the host.
+- Per-run clamp: 250. Total clamp (script): 5000. Retries forced to 0. Project `workers: 2`.
+- Import from `@playwright/test` (not `support/test.js`) so the auto coverage `page` fixture does not launch a browser.
+- Prefer lowering the project's `executions` limit (e.g. 40) over burning free-tier 5k.
+
+```sh
+QUOTA_BURN_COUNT=20 npm run test:quota-burn
+QUOTA_BURN_COUNT=5000 npm run test:quota-burn
+QUOTA_BURN_COUNT=5000 QUOTA_BURN_CHUNK=150 npm run test:quota-burn
+```
+
 ## Environment variables
 
 | Variable                                                            | Required                                    | Used by                                     |
@@ -107,6 +123,8 @@ Intentionally skipped tests for dashboard demos. Exactly 10 cases, tagged `@chro
 | `NEW_PASSWORD`                                                      | Password change test                        | `navigation.spec.js`                        |
 | `FIRST_NAME`, `STREET_NAME`, `CITY`, `STATE`, `COUNTRY`, `ZIP_CODE` | Checkout tests                              | page objects / checkout flows               |
 | `API_BASE_URL`                                                      | Optional (default: `https://dummyjson.com`) | API specs                                   |
+| `QUOTA_BURN_COUNT`                                                  | Required for `npm run test:quota-burn`      | Total billable passes (script chunks; max 5k) |
+| `QUOTA_BURN_CHUNK`                                                  | Optional (default 200, max 250)             | Cases per Playwright process                  |
 | `CI`, `GITHUB_RUN_ID`, `GITHUB_RUN_ATTEMPT`                         | Auto in CI                                  | `ciRunId` grouping                          |
 
 ## Common commands
@@ -119,6 +137,7 @@ npx playwright test --project=chromium     # one browser
 npx playwright test tests/login.spec.js      # one file
 npx playwright test --list                   # dry run
 npx playwright test --update-snapshots       # refresh visual baselines
+QUOTA_BURN_COUNT=20 npm run test:quota-burn  # burn N executions (opt-in)
 ```
 
 ## CI (`.github/workflows/test.yml`)
@@ -155,6 +174,7 @@ tests/
   failed-tests.spec.js # @chromium intentional failure demos (10)
   passed-tests.spec.js # @chromium intentional pass demos (10)
   skipped-tests.spec.js # @chromium intentional skip demos (10)
+  quota-burn.spec.js   # @quota-burn opt-in execution burner (QUOTA_BURN_COUNT)
   get-users.spec.js    # @api
   post-api.spec.js     # @api
   updateUser.spec.js   # @api
